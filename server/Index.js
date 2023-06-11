@@ -19,6 +19,6 @@ app.use('/topup',topupRoute)
 db.sequelize.sync({ alter: true }).then(() => {
 let port = process.env.APP_PORT;
 app.listen(port, () => {
-console.log(`⚡ Sever running on http://localhost:${port}`);
+console.log(`⚡ Sever running on http://localhost:${port}!`);
 });
 });
