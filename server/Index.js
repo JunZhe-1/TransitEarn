@@ -9,12 +9,11 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-    res.send("This is bank");
+    res.send("This is web");
 });
 
 const topupRoute = require("./routes/topupinfo")
 app.use('/topup',topupRoute)
-
 const userRoute = require('./routes/user');
 app.use("/user", userRoute);
 

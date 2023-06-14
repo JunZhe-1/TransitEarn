@@ -36,7 +36,7 @@ function App() {
                 Learning
               </Typography>
             </Link>
-            <Link to="/tutorials" ><Typography>Tutorials</Typography></Link>
+            <Link to="/login" ><Typography>Login</Typography></Link>
             <Box sx={{ flexGrow: 1 }}></Box>
             {user && (
               <>
