@@ -15,6 +15,8 @@ app.get("/", (req, res) => {
 const topupRoute = require("./routes/topupinfo")
 app.use('/topup',topupRoute)
 
+const userRoute = require('./routes/user');
+app.use("/user", userRoute);
 
 db.sequelize.sync({ alter: true }).then(() => {
 let port = process.env.APP_PORT;
