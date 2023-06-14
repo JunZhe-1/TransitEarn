@@ -41,7 +41,7 @@ function App() {
             {user && (
               <>
                 <Typography>{user.name}</Typography>
-                <Button onClick={logout}>Logout</Button>
+                <Button onClick={logout} sx={{color: 'white'}}>Logout</Button>
               </>
             )
             }
