@@ -15,7 +15,10 @@ function Register() {
             name: "",
             email: "",
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
+            point: 10,
+            phone: ""
+
         },
         validationSchema: yup.object().shape({
             name: yup.string().trim()
@@ -33,12 +36,19 @@ function Register() {
                 .required('Password is required'),
             confirmPassword: yup.string().trim()
                 .required('Confirm password is required')
-                .oneOf([yup.ref('password'), null], 'Passwords must match')
+                .oneOf([yup.ref('password'), null], 'Passwords must match'),
+            phone: yup.number()
+                .required()
+                .integer()
+                .test('len', 'Phone number must be exactly 8 digits', (val) => val && val.toString().length == 8),
+
         }),
         onSubmit: (data) => {
             data.name = data.name.trim();
             data.email = data.email.trim().toLowerCase();
             data.password = data.password.trim();
+            data.point = parseInt(data.point, 10);
+            data.phone = parseInt(data.phone);
             http.post("/user/register", data)
                 .then((res) => {
                     console.log(res.data);
@@ -97,6 +107,15 @@ function Register() {
                     onChange={formik.handleChange}
                     error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
                     helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                />
+                <TextField
+                    fullWidth margin="normal" autoComplete="off"
+                    label="Phone Number"
+                    name="phone"
+                    value={formik.values.phone}
+                    onChange={formik.handleChange}
+                    error={formik.touched.phone && Boolean(formik.errors.phone)}
+                    helperText={formik.touched.phone && formik.errors.phone}
                 />
                 <Button fullWidth variant="contained" sx={{ mt: 2 }}
                     type="submit">

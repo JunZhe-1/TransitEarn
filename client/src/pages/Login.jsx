@@ -34,7 +34,7 @@ function Login() {
                 .then((res) => {
                     localStorage.setItem("accessToken", res.data.accessToken);
                     setUser(res.data.user);
-                    navigate("/");;
+                    navigate("/PointTransfer");;
                 })
                 .catch(function (err) {
                     toast.error(`${err.response.data.message}`);
@@ -55,7 +55,7 @@ function Login() {
             <Box component="form" sx={{ maxWidth: '500px' }}
                 onSubmit={formik.handleSubmit}>
                 <TextField
-                    fullWidth margin="normal" autoComplete="off"
+                    fullWidth margin="normal" autoComplete="on"
                     label="Email"
                     name="email"
                     value={formik.values.email}
@@ -64,7 +64,7 @@ function Login() {
                     helperText={formik.touched.email && formik.errors.email}
                 />
                 <TextField
-                    fullWidth margin="normal" autoComplete="off"
+                    fullWidth margin="normal" autoComplete="on"
                     label="Password"
                     name="password" type="password"
                     value={formik.values.password}

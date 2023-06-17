@@ -4,6 +4,7 @@ import { Container, AppBar, Toolbar, Typography, Box, Button } from '@mui/materi
 import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import PointTransfer from './pages/PointTransfer';
 import http from './http';
 import UserContext from '../contexts/UserContext';
 
@@ -41,6 +42,9 @@ function App() {
             {user && (
               <>
                 <Typography>{user.name}</Typography>
+                <Typography>{user.point}</Typography>
+                <Link to="/point" ><Typography>pooint</Typography></Link>
+
                 <Button onClick={logout} sx={{color: 'white'}}>Logout</Button>
               </>
             )
@@ -60,6 +64,7 @@ function App() {
           <Route path={"/"} element={<Login />} />
           <Route path={"/register"} element={<Register />} />
           <Route path={"/login"} element={<Login />} />
+          <Route path={"/point"} element={<PointTransfer />} />
         </Routes>
       </Container>
     </Router>
