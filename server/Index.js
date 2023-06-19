@@ -18,8 +18,8 @@ const userRoute = require('./routes/user');
 app.use("/user", userRoute);
 const pointRoute = require('./routes/pointrecord');
 app.use("/point", pointRoute);
-// const Product = require('./routes/pointrecord');
-// app.use("/point", pointRoute);
+const Product = require('./product/');
+app.use("/point", pointRoute);
 
 
 
