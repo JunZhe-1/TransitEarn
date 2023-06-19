@@ -16,6 +16,12 @@ const topupRoute = require("./routes/topupinfo")
 app.use('/topup',topupRoute)
 const userRoute = require('./routes/user');
 app.use("/user", userRoute);
+const pointRoute = require('./routes/pointrecord');
+app.use("/point", pointRoute);
+// const Product = require('./routes/pointrecord');
+// app.use("/point", pointRoute);
+
+
 
 db.sequelize.sync({ alter: true }).then(() => {
 let port = process.env.APP_PORT;

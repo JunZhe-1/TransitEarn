@@ -20,7 +20,16 @@ module.exports = (sequelize, DataTypes) => {
         transferpoint: {
             type: DataTypes.INTEGER,
             allowNull: false
+        },
+        transferpointdate: {
+            type: DataTypes.DATE,
+            allowNull: false
+          },
+          Status: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
+
 
         
     });

@@ -6,6 +6,9 @@ const yup = require("yup");
 const { sign } = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/auth');
 require('dotenv').config();
+const dayjs = require('dayjs');
+
+
 
 router.post("/register", async (req, res) => {
     let data = req.body;
@@ -202,19 +205,20 @@ router.put("/transfer/:phones", async (req, res) => {
                 checking.point = checking.point - parseInt(data.point);
                 let num2 = await User.update({ point: checking.point }, {
                     where: { id: checking.id }
+                
                 });
+                await update( checking, receiver, data.point);
                 if (num1 == 1 && num2 == 1) {
                     res.json({
                         message: "Tutorial was updated successfully."
                     });
-                    update(checking, receiver, data.point);
-                    return;
-
+                   
+            
 
                 }
                 else {
                     res.status(400).json({ message: "Undefined" });
-                    return;
+                    
                 }
             }
             else {
@@ -233,16 +237,18 @@ router.put("/transfer/:phones", async (req, res) => {
 
 });
 
-async function update(checking, receiver, point) {
+async function update( checking, receiver, point) {
 
     // get the name and phone but rename it to prevent crash.
     let { name: sender_name, phone: sender_phone } = checking;
 
     let { name: receiver_name, phone: receiver_phone } = receiver;
     
-    console.log("enter here");
-    console.log(sender_name, sender_phone);
-    console.log(receiver_name, receiver_phone);
+    // console.log("enter here");
+    const transfer_date = dayjs().format('D MMM YYYY HH:mm');
+
+    // console.log(sender_name, sender_phone);
+    // console.log(receiver_name, receiver_phone);
     
     try {
         let result = await PointRecord.create({
@@ -250,10 +256,13 @@ async function update(checking, receiver, point) {
             sender: sender_phone,
             recipientName: receiver_name,
             recipient: receiver_phone,
-            transferpoint: point
+            transferpoint: point,
+            transferpointdate: transfer_date,
+            Status: "yes",
+            userId: checking.id
         });
-        res.json(result);
-        console.log('complete');
+      
+    
         return result;
     }
     catch (error) {
