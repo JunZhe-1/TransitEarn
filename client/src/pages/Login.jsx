@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import http from '../http';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import UserContext from '../../contexts/UserContext';
+import UserContext from '../contexts/UserContext';
 
 function Login() {
     const navigate = useNavigate();
@@ -34,7 +34,7 @@ function Login() {
                 .then((res) => {
                     localStorage.setItem("accessToken", res.data.accessToken);
                     setUser(res.data.user);
-                    navigate("/");;
+                    navigate("/Ezlink");
                 })
                 .catch(function (err) {
                     toast.error(`${err.response.data.message}`);

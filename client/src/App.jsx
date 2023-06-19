@@ -4,8 +4,10 @@ import { Container, AppBar, Toolbar, Typography, Box, Button } from '@mui/materi
 import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import Ezlink from './pages/Ezlink';
+import AddEzlink from './pages/AddEzlink';
 import http from './http';
-import UserContext from '../contexts/UserContext';
+import UserContext from './contexts/UserContext';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -36,12 +38,12 @@ function App() {
                 Learning
               </Typography>
             </Link>
-            <Link to="/login" ><Typography>Login</Typography></Link>
             <Box sx={{ flexGrow: 1 }}></Box>
             {user && (
-              <>
+              <><Link to="/ezlink" ><Typography>Ezlink</Typography></Link>
                 <Typography>{user.name}</Typography>
-                <Button onClick={logout}>Logout</Button>
+                <Typography>
+                <Button onClick={logout}>Logout</Button></Typography>
               </>
             )
             }
@@ -57,9 +59,11 @@ function App() {
 
       <Container>
         <Routes>
-          <Route path={"/"} element={<Login />} />
+          <Route path={"/"} element={<Ezlink />} />
           <Route path={"/register"} element={<Register />} />
           <Route path={"/login"} element={<Login />} />
+          <Route path={"/ezlink"} element={<Ezlink />} />
+          <Route path={"/addezlink"} element={<AddEzlink />} />
         </Routes>
       </Container>
     </Router>

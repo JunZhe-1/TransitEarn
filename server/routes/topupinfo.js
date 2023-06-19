@@ -7,8 +7,13 @@ const yup = require("yup");
 router.post("/", async (req, res) => {
     let data = req.body;
     let validationSchema = yup.object().shape({
-        cardNo: yup.string().trim().min(16).max(16).required().matches(/^\S*$/, 'Whitespace is not allowed'),
-        balance: yup.number().positive().required()
+        cardNo: yup.string().trim().min(16).max(16).required().matches(/^\S*$/, 'Whitespace is not allowed')
+        .test('unique-cardNo', 'This card already exists', async function (num) {
+            const cardExists = await Topupinfo.findOne({ where: { cardNo: num } });
+            return !cardExists; 
+          }),
+        balance: yup.number().positive().required(),
+        cvv: yup.string().required().min(3).max(3).matches(/^\d+$/, 'Integers only')
     });
 
     try {
@@ -22,6 +27,7 @@ router.post("/", async (req, res) => {
     }
     data.cardNo = data.cardNo.trim();
     data.balance = data.balance;
+    data.cvv = data.cvv.trim();
     let result = await Topupinfo.create(data);
 
     res.json(result);
@@ -43,9 +49,9 @@ router.get("/", async (req, res) => {
 });
 
 
-router.get("/:id", async (req, res) => {
-    let id = req.params.id;
-    let topup = await Topupinfo.findByPk(id);
+router.get("/:cardNo", async (req, res) => {
+    let cardNo = req.params.cardNo;
+    let topup = await Topupinfo.findByPk(cardNo);
     if (!topup) {
         res.sendStatus(404);
         return;}

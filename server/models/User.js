@@ -14,6 +14,12 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
 
+    User.associate = (models) => {
+        User.hasMany(models.Ezlink, {
+            foreignKey: "userId",
+            onDelete: "cascade"
+        });
+    };
 
     return User;
 }

@@ -42,7 +42,7 @@ function Register() {
             http.post("/user/register", data)
                 .then((res) => {
                     console.log(res.data);
-                    navigate("/login");
+                    navigate("/Login");
                 })
                 .catch(function (err) {
                     toast.error(`${err.response.data.message}`);
