@@ -8,7 +8,7 @@ const { validateToken } = require('../middlewares/auth');
 require('dotenv').config();
 
 
-
+//testing
 router.post("/register", async (req, res) => {
     let data = req.body;
     // Validate request body
