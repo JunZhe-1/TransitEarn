@@ -18,8 +18,8 @@ const userRoute = require('./routes/user');
 app.use("/user", userRoute);
 const pointRoute = require('./routes/pointrecord');
 app.use("/point", pointRoute);
-const product = require('./routes/product');
-app.use("/product", product);
+const productroute = require('./routes/product');
+app.use("/product", productroute);
 
 
 db.sequelize.sync({ alter: true }).then(() => {

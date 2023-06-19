@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { User, Product } = require('../models');
+const { User, PointRecord, Sequelize,Product } = require('../models');
 const yup = require("yup");
 const { sign } = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/auth');
 require('dotenv').config();
-const dayjs = require('dayjs');
 
 
 
@@ -40,6 +39,8 @@ router.post("/register", async (req, res) => {
 
 
     // Create user
-    let result = await User.create(data);
+    let result = await Product.create(data);
     res.json(result);
 });
+
+module.exports = router;
