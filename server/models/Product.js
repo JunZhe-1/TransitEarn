@@ -1,43 +1,35 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define("User", {
-        email: {
+    const Product = sequelize.define("Product", {
+        productName: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        password: {
+        image: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        name: {
+        category: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        phone: {
+        quantity: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        point: {
+        prizePoint: {
             type: DataTypes.INTEGER,
             allowNull: false
         }
 
     });
 
-    User.associate = (models) => {
-        User.hasMany(models.PointRecord, {
+    Product.associate = (models) => {
+        Product.belongsTo(models.User, {
             foreignKey: "userId",
-            onDelete: "cascade"
-        });
-    };
-
-    User.associate = (models) => {
-        User.hasMany(models.Product, {
-            foreignKey: "userId",
-            onDelete: "cascade"
+            as: 'user'
         });
     };
 
 
-
-    return User;
+    return Product;
 }
