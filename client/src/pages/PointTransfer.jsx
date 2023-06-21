@@ -8,24 +8,19 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserContext from '../../contexts/UserContext';
 
-// import { user } from '../../../server/routes/user';
-
 function PointTransfer() {
   const imageUrl = '../../image/bus-image.png';
-  const { id } = useParams();
+  // const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
- 
- 
-
 
 
 
   const formik = useFormik({
     initialValues: {
-    phone: "",
-    point: ""
-  },
+      phone: "",
+      point: ""
+    },
 
 
     validationSchema: yup.object().shape({
@@ -37,20 +32,20 @@ function PointTransfer() {
         .min(1, 'Points must start from 1')
         .required('points cannot be empty')
     }),
-  onSubmit: (data) => {
-    
-        data.point = parseInt(data.point);
-        data.phone = parseInt(data.phone);
-        http.put(`/user/transfer/${user.phone}`, data)
-          .then((res) => {
-            console.log(res.data);
-            navigate("/");
-            
-          })
-          .catch(function (err) {
-            toast.error(`${err.response.data.message}`);
+    onSubmit: (data) => {
+
+      data.point = parseInt(data.point);
+      data.phone = parseInt(data.phone);
+      http.put(`/user/transfer/${user.phone}`, data)
+        .then((res) => {
+          console.log(res.data);
+          navigate("/");
+
+        })
+        .catch(function (err) {
+          toast.error(`${err.response.data.message}`);
         });
-      
+
     }
   });
 
@@ -64,12 +59,13 @@ function PointTransfer() {
   //   setOpen(false);
   // };
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '50% 50%', width: '100%',  backgroundColor: '#f0f0f0' }}>
-      <div style={{ backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'left',  height: '90vh', width: '90%',
-       borderRadius: '20px',
-   }}></div>
+    <div style={{ display: 'grid', gridTemplateColumns: '50% 50%', width: '100%', backgroundColor: '#f0f0f0' }}>
+      <div style={{
+        backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'left', height: '90vh', width: '90%',
+        borderRadius: '20px',
+      }}></div>
 
-      <div style={{ color: 'black', textAlign: 'center'}}>
+      <div style={{ color: 'black', textAlign: 'center' }}>
         <h1>Points Transfer</h1>
         <Box component="form"
           onSubmit={formik.handleSubmit}>

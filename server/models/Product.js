@@ -22,14 +22,13 @@ module.exports = (sequelize, DataTypes) => {
         }
 
     });
-//product
-    Product.associate = (models) => {
-        Product.belongsTo(models.User, {
-            foreignKey: "userId",
-            as: 'user'
-        });
-    };
-
+// //product
+//     Product.associate = (models) => {
+//         Product.belongsTo(models.User, {
+//             foreignKey: "userId",
+//             as: 'user'
+//         });
+//     };
 
     return Product;
 }

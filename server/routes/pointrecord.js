@@ -24,13 +24,18 @@ router.get("/get", async (req, res) => {
     router.get("/search", async (req, res) => {
         let condition = {};
         let search = req.query.search;
+        let userId = req.query.userId;
         if (search) {
             condition[Sequelize.Op.or] = [
-                { senderName: { [Sequelize.Op.like]: `%${search}%` } },
-                { sender: { [Sequelize.Op.like]: `%${search}%` } }
+                { recipient: { [Sequelize.Op.like]: `%${search}%` } },
+                { recipientName: { [Sequelize.Op.like]: `%${search}%` } }
 
             ];
         }
+        if (userId) {
+            condition.userId = userId;
+          }
+          
         let list = await PointRecord.findAll({
             where: condition,
             order: [['createdAt', 'DESC']]
@@ -42,18 +47,19 @@ router.get("/get", async (req, res) => {
 
 router.get("/get/:id", async (req, res) => {
     let id = req.params.id;
-    console.log(id);
-        let pointrecord = await PointRecord.findOne({
+        let pointrecord = await PointRecord.findAll({
             where: { userId: id },
             include: { model: User, as: 'user', attributes: ['name'] }
           });
     if (!pointrecord) {
-        res.sendStatus(404);
+        res.json([]); 
         return;
     }
     res.json(pointrecord);
+    // [], to ensure it is a array even it is a single
 
 });
+
 
 
 router.put("/refund/:id", async (req, res) => {

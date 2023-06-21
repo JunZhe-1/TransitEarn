@@ -29,12 +29,12 @@
               onDelete: "cascade"
             });
           };
-          User.associate = (models) => {
-            User.hasMany(models.Product, {
-              foreignKey: "userId",
-              onDelete: "cascade"
-            });
-          };
+          // User.associate = (models) => {
+          //   User.hasMany(models.Product, {
+          //     foreignKey: "userId",
+          //     onDelete: "cascade"
+          //   });
+          // };
         
 
         return User;

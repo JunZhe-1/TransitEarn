@@ -160,7 +160,6 @@ router.put("/transfer/:phones", async (req, res) => {
 
     // check phone not found
     let checking = await User.findOne({ where: { phone: phones } });
-
     if (!checking) {
         res.sendStatus(403);
         return;

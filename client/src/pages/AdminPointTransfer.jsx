@@ -9,8 +9,6 @@ import { AccountCircle, AccessTime, Search, Clear, Edit } from '@mui/icons-mater
 import http from '../http';
 import dayjs from 'dayjs';
 import global from '../global';
-import UserContext from '../contexts/UserContext';
-
 
 function AdminPoint() {
 
@@ -55,9 +53,13 @@ const onClickClear = () => {
   };
 
   const searchsender = () => {
-    http.get(`/point/search?search=${search}`).then((res) => {
-      setpointrecord(res.data);
-    });
+    if (search.trim() !== '') {
+
+      http.get(`/point/search?search=${search}`).then((res) => {
+        setpointrecord(res.data);
+      });
+  }
+    
 
 };
 

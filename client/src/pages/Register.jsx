@@ -122,7 +122,6 @@ function Register() {
                     Register
                 </Button>
             </Box>
-
             <ToastContainer />
         </Box>
     );

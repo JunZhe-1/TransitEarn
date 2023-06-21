@@ -6,11 +6,12 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import PointTransfer from './pages/PointTransfer';
 import AdminPoint from './pages/AdminPointTransfer';
-import PointEdit from './pages/EditPoint';
+import EditProduct from './pages/EditProduct';
 import Userpoint from './pages/UserPoint';
 import http from './http';
 import UserContext from '../contexts/UserContext';
-
+import AddProduct from './pages/AddProduct'
+import ListProduct from './pages/ListProduct';
 function App() {
   const [user, setUser] = useState(null);
 
@@ -24,6 +25,7 @@ function App() {
 
     }
   }, []);
+
 
   const logout = () => {
     localStorage.clear();
@@ -43,6 +45,9 @@ function App() {
               </Link>
               <Link to="/login" ><Typography>Login</Typography></Link>
               <Link to="/adminpoint" ><Typography>Admin Point</Typography></Link>
+              <Link to="/addproduct" ><Typography>Add product</Typography></Link>
+              <Link to="/listproduct" ><Typography>list product</Typography></Link>
+
               <Box sx={{ flexGrow: 1 }}></Box>
               {user && (
                 <>
@@ -73,8 +78,9 @@ function App() {
             <Route path={"/point"} element={<PointTransfer />} />
             <Route path={"/adminpoint"} element={<AdminPoint />} />
             <Route path={"/userpoint"} element={<Userpoint/>} />
-
-            <Route path={"/pointedit/:id"} element={<PointEdit/>} />
+            <Route path={"/productedit/:id"} element={<EditProduct/>} />
+            <Route path={"/addproduct"} element={<AddProduct/>} />
+            <Route path={"/listproduct"} element={<ListProduct/>} />
           </Routes>
         </Container>
       </Router>

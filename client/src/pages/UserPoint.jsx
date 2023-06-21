@@ -13,12 +13,15 @@ import global from '../global';
 import UserContext from '../../contexts/UserContext';
 
 
+
 function UserPoint() {
 
-    const [tutorialList, setpointrecord] = useState([]);
+    const [pointrecordlist, setPointrecord] = useState([]);
     const [search, setSearch] = useState('');
     const { user } = useContext(UserContext);
-    console.log(user);
+console.log(user.name);
+
+
 
 
 
@@ -47,37 +50,23 @@ function UserPoint() {
         getpointrecord();
     };
 
-
     const getpointrecord = () => {
-        http.get('/point/get').then((res) => {
-            setpointrecord(res.data);
+        http.get(`/point/get/${user.id}`).then((res) => {
+            setPointrecord(res.data);
 
         })
             .catch(function (err) {
                 toast.error(`${err.response.data.message}`);
-            });;
+            });
     };
 
     const searchsender = () => {
-        http.get(`/point/search?search=${search}`).then((res) => {
-            setpointrecord(res.data);
+        if (search.trim() !== '') {
+        http.get(`/point/search?search=${search}&userId=${user.id}`).then((res) => {
+            setPointrecord(res.data);
         });
-
+    }
     };
-
-
-    const refund = (value) => {
-        http.put(`/point/refund/${value}`)
-            .then((res) => {
-                searchsender(res.data);
-            })
-            .catch(function (err) {
-                toast.error(`${err.response.data.message}`);
-            });
-
-    };
-
-
 
     return (
         <Box>
@@ -114,7 +103,7 @@ function UserPoint() {
                         </TableHead>
 
                         <TableBody>
-                            {tutorialList.map((data, index) => (
+                            {pointrecordlist.map((data, index) => (
                                 <TableRow key={index}>
                                     <TableCell>{data.senderName}</TableCell>
                                     <TableCell>{data.sender}</TableCell>
@@ -124,16 +113,10 @@ function UserPoint() {
                                     <TableCell>{dayjs(data.transferpointdate).format(global.datetimeFormat)}</TableCell>
                                     <TableCell>
                                         {data.Status === 'yes' ? (
-                                            <IconButton color="primary"
-                                                onClick={() => refund(data.id)}>
-                                                <Clear />
+                                            <IconButton color="primary">
+                                             -
                                             </IconButton>) : null}
-                                        {/* // <Link to={`/pointedit/${data.id}`} style={{ textDecoration: 'none' }}>
-                    //   <IconButton color="primary" sx={{ padding: '4px' }}>
-                    //     <Edit />
-                        
-                    //   </IconButton>
-                    // </Link>):null} */}
+                                      
                                     </TableCell>
                                 </TableRow>
                             ))}
