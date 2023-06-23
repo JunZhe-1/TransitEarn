@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
         prizePoint: {
             type: DataTypes.INTEGER,
             allowNull: false
+        },
+        status:{
+            type: DataTypes.STRING,
+            allowNull:false
         }
 
     });

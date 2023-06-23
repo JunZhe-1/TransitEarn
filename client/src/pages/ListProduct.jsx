@@ -2,9 +2,9 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Box, Typography, Grid, Card, CardContent, Input, IconButton, Button,
-  Paper, TableContainer, Table, TableHead, TableBody, TableRow, TableCell
+  Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Paper, TableContainer, Table, TableHead, TableBody, TableRow, TableCell
 } from '@mui/material';
-import { MonetizationOn, Settings, Search, Clear, Edit, ProductionQuantityLimits } from '@mui/icons-material';
+import { MonetizationOn, Settings, Delete, ToggleOn, ToggleOff, Search, Clear, Edit, ProductionQuantityLimits } from '@mui/icons-material';
 import http from '../http';
 import { ToastContainer, toast } from 'react-toastify';
 import dayjs from 'dayjs';
@@ -15,6 +15,12 @@ function ListProduct() {
   const [productList, setProduct] = useState([]);
   const [search, setSearch] = useState('');
   const imageUrl = '../../image/';
+
+  // const [toggle, setToggle] = useState(false);
+
+  // const handleToggle = () => {
+  //   setToggle(prevToggle => !prevToggle);
+  // };
 
 
   const onSearchChange = (e) => {
@@ -29,7 +35,7 @@ function ListProduct() {
 
   const searchTutorials = () => {
     http.get(`/product/search?search=${search}`).then((res) => {
-        setProduct(res.data);
+      setProduct(res.data);
     });
   };
 
@@ -51,7 +57,23 @@ function ListProduct() {
     setSearch('');
     getTutorials();
   };
+  const [open, setOpen] = useState(false);
 
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const deleteTutorial = () => {
+    // http.delete(`/tutorial/${id}`)
+    //     .then((res) => {
+    //         console.log(res.data);
+    //         navigate("/tutorials");
+    //     });
+  }
   return (
     <Box>
       <Typography variant="h5" sx={{ my: 2 }}>
@@ -69,8 +91,6 @@ function ListProduct() {
           <Clear />
         </IconButton>
       </Box>
-
-
 
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
@@ -90,28 +110,58 @@ function ListProduct() {
               {productList.map((data, index) => (
                 <TableRow key={index}>
                   <TableCell>{data.productName}</TableCell>
-                  <TableCell> 
-                    <div style={{ 
-                    backgroundImage: `url(${imageUrl+data.image})`, backgroundSize: 'cover',  height: '80px', width: '80px',
-                    borderRadius: '5px'}}></div>
+                  <TableCell>
+                    <div style={{
+                      backgroundImage: `url(${imageUrl + data.image})`, backgroundSize: 'cover', height: '80px', width: '80px',
+                      borderRadius: '5px'
+                    }}></div>
                   </TableCell>
                   <TableCell>{data.category}</TableCell>
                   <TableCell>{data.quantity}</TableCell>
                   <TableCell>{data.prizePoint}</TableCell>
 
                   <TableCell>
-                  <Link to={`/productedit/${data.id}`} style={{ textDecoration: 'none' }}>
-                    <IconButton color="primary">
-                      <Settings />
-                    </IconButton>
+                    <Link to={`/productedit/${data.id}`} style={{ textDecoration: 'none' }}>
+                      <IconButton color="primary">
+                        <Settings />
+                      </IconButton>
                     </Link>
+
+                    <IconButton color="primary" onClick={handleOpen}>
+                      <Delete  />
+                    </IconButton>
+
+                    {/* <IconButton color="primary" onClick={handleToggle}>
+  {toggle ? <ToggleOn /> : <ToggleOff />}
+</IconButton> */}
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-      </Paper><ToastContainer /> </Box>
+      </Paper>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>
+          Delete Tutorial
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this tutorial?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="inherit"
+            onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="error"
+            onClick={deleteTutorial}>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog><ToastContainer /> </Box>
+
 
   );
 }

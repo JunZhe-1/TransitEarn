@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import PointTransfer from './pages/PointTransfer';
 import AdminPoint from './pages/AdminPointTransfer';
 import EditProduct from './pages/EditProduct';
+import PointEdit from './pages/EditPoint';
 import Userpoint from './pages/UserPoint';
 import http from './http';
 import UserContext from '../contexts/UserContext';
@@ -78,6 +79,7 @@ function App() {
             <Route path={"/point"} element={<PointTransfer />} />
             <Route path={"/adminpoint"} element={<AdminPoint />} />
             <Route path={"/userpoint"} element={<Userpoint/>} />
+            <Route path={"/pointedit/:id"} element={<PointEdit/>} />
             <Route path={"/productedit/:id"} element={<EditProduct/>} />
             <Route path={"/addproduct"} element={<AddProduct/>} />
             <Route path={"/listproduct"} element={<ListProduct/>} />

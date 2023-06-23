@@ -134,20 +134,20 @@ router.get("/:id", async (req, res) => {
 
 })
 
-router.get("/getId/:getId", validateToken, async (req, res) => {
+router.get("/getId/:getId", async (req, res) => {
     try {
         let id = req.params.getId;
         let checking = await User.findOne({ where: { phone: id } });
         if (!checking) {
-            res.sendStatus(403);
+            res.status(400).json({ message: "Not user found" });
             return;
         }
-        let userId = checking.id;
-        console.log("User ID:", userId);
-        res.json(userId);
+    
+            res.json(checking);
+        
 
     } catch (error) {
-        console.error("Error occurred while fetching data:", error);
+        res.status(400).json({ message: "Undefined" });
     }
 
 
@@ -204,20 +204,20 @@ router.put("/transfer/:phones", async (req, res) => {
                 checking.point = checking.point - parseInt(data.point);
                 let num2 = await User.update({ point: checking.point }, {
                     where: { id: checking.id }
-                
+
                 });
-                await update( checking, receiver, data.point);
+                await update(checking, receiver, data.point);
                 if (num1 == 1 && num2 == 1) {
                     res.json({
                         message: "Tutorial was updated successfully."
                     });
-                   
-            
+
+
 
                 }
                 else {
                     res.status(400).json({ message: "Undefined" });
-                    
+
                 }
             }
             else {
@@ -236,19 +236,18 @@ router.put("/transfer/:phones", async (req, res) => {
 
 });
 
-async function update( checking, receiver, point) {
+async function update(checking, receiver, point) {
 
     // get the name and phone but rename it to prevent crash.
     let { name: sender_name, phone: sender_phone } = checking;
 
     let { name: receiver_name, phone: receiver_phone } = receiver;
-    
-    // console.log("enter here");
+
     const transfer_date = dayjs().format('D MMM YYYY HH:mm');
 
     // console.log(sender_name, sender_phone);
     // console.log(receiver_name, receiver_phone);
-    
+
     try {
         let result = await PointRecord.create({
             senderName: sender_name,
@@ -260,8 +259,8 @@ async function update( checking, receiver, point) {
             Status: "yes",
             userId: checking.id
         });
-      
-    
+
+
         return result;
     }
     catch (error) {
@@ -270,18 +269,7 @@ async function update( checking, receiver, point) {
     }
 
 }
-// router.post("/pointrecord", async (req, res) => {
-//     let data = req.body;
-//     try{
-//     let result = await PointRecord.create(data);
-//     res.json(result);
-//     return result;
-//     }
-//     catch (error) {
-//         console.error("Error code at 249");
-//         return error;
-//       }
-//     });
+
 
 
 module.exports = router;

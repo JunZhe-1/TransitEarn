@@ -19,7 +19,6 @@ function UserPoint() {
     const [pointrecordlist, setPointrecord] = useState([]);
     const [search, setSearch] = useState('');
     const { user } = useContext(UserContext);
-console.log(user.name);
 
 
 

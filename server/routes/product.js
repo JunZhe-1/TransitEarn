@@ -81,7 +81,7 @@ router.get("/search", async (req, res) => {
 });
 
 router.put("/updateProduct/:id", async (req, res) => {
-    let id = req.params.id; 
+    let id = req.params.id;
     let product = await Product.findByPk(id);
     let data = req.body;
     if (product) {
@@ -92,6 +92,7 @@ router.put("/updateProduct/:id", async (req, res) => {
             category: yup.string().trim().required(),
             quantity: yup.number().required().integer().min(1),
             prizePoint: yup.number().required().integer().min(1),
+            status: yup.string().required()
 
         })
         try {
@@ -112,11 +113,12 @@ router.put("/updateProduct/:id", async (req, res) => {
             data.quantity = parseInt(data.quantity);
             data.prizePoint = parseInt(data.prizePoint);
 
-            if (data.productName != product.productName || data.image!=product.image || data.prizePoint != product.prizePoint){
-            let result = await Product.update(data, {
-                where: { id: data.id } // Set the where condition using the primary key
-            });
-            res.json(result);}
+            if (data.productName != product.productName || data.image != product.image || data.prizePoint != product.prizePoint) {
+                let result = await Product.update(data, {
+                    where: { id: data.id } // Set the where condition using the primary key
+                });
+                res.json(result);
+            }
             else {
                 res.status(400).json({ message: "nothing change" });
 
@@ -143,6 +145,28 @@ router.get("/get/:id", async (req, res) => {
     res.json(tutorial);
 });
 
+
+// router.delete("delete/:id", validateToken, async (req, res) => {
+//     let pointrecordId = req.params.id;
+//     let pointrecord = await PointRecord.findByPk(pointrecordId);
+//     if (!pointrecord) {
+//         res.sendStatus(404);
+//         return;
+//     }
+
+//     let num = await PointRecord.destroy({ where: { id: pointrecordId } })
+//     if (num == 1) {
+//         res.json({
+//             message: "point record was deleted successfully."
+//         });
+//     }
+//     else {
+//         res.status(400).json({
+//             message: `Cannot delete point record with id ${pointrecordId}.`
+//         });
+//     }
+
+// });
 
 
 module.exports = router;
