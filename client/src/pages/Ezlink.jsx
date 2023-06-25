@@ -7,11 +7,21 @@ import dayjs from 'dayjs';
 import global from '../global';
 import UserContext from '../contexts/UserContext';
 
+
+
 function Ezlink() {
-  const { user } = useContext(UserContext);
+  const {user} = useContext(UserContext);
   const [ezlinkList, setEzlinkList] = useState([]);
   const [search, setSearch] = useState('');
-
+  var filteredEzlinkList = ezlinkList;
+  var userid = null;
+  if(user){
+    console.log(user.name);
+    console.log(user.id);
+    userid = user.id;
+    }
+  filteredEzlinkList = ezlinkList.filter((ezlink) => ezlink.userId === userid);
+  
   const onSearchChange = (e) => {
     setSearch(e.target.value);
   };
@@ -47,6 +57,13 @@ function Ezlink() {
     getEzlink();
   };
 
+  const accessToken = localStorage.getItem('accessToken');
+
+
+  let userName = null;
+  let userId = null;
+
+
   return (
     <Box>
       <Typography variant="h5" sx={{ my: 2 }}>
@@ -68,14 +85,15 @@ function Ezlink() {
       </Box>
 
       <Grid container spacing={2}>
-        {Array.isArray(ezlinkList) && ezlinkList.length > 0 ? (
-          ezlinkList.map((ezlink, i) => (
+        {Array.isArray(filteredEzlinkList) && filteredEzlinkList.length > 0 ? (
+          filteredEzlinkList.map((ezlink, i) => (
+            
             <Grid item xs={12} md={6} lg={4} key={ezlink.id}>
               <Card>
                 <CardContent>
                   <Box sx={{ display: 'flex', mb: 1 }}>
                     <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                      {ezlink.CAN}
+                      CAN: {ezlink.CAN}
                     </Typography>
                     <Link to={`/ezlink/${ezlink.id}`}>
                       <IconButton color="primary" sx={{ padding: '4px' }}>
@@ -85,13 +103,13 @@ function Ezlink() {
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }} color="text.secondary">
                     <AccountCircle sx={{ mr: 1 }} />
-                    <Typography></Typography>
+                    <Typography>{userName || 'No user'}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }} color="text.secondary">
                     <AccessTime sx={{ mr: 1 }} />
                     <Typography>{dayjs(ezlink.createdAt).format(global.datetimeFormat)}</Typography>
                   </Box>
-                  <Typography sx={{ whiteSpace: 'pre-wrap' }}>{ezlink.CAN}</Typography>
+                  <Typography sx={{ whiteSpace: 'pre-wrap' }}>Credit card No.: {ezlink.cardNo.slice(0, 4)}********{ezlink.cardNo.slice(12)}</Typography>
                 </CardContent>
               </Card>
             </Grid>
