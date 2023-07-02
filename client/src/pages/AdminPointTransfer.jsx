@@ -212,64 +212,47 @@ function AdminPoint() {
         </DialogActions>
       </Dialog>
 
-      <Dialog open={open1} onClose={handleClose1}>
-        <Box>
-          <DialogTitle style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '25px' }}>
+      
+     
+      <Dialog open={open1} onClose={handleClose1} >
+      <Box sx={{ backgroundColor:'#E3DFDF'}}>
+          <DialogTitle style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '25px' }} >
             Sender Information
           </DialogTitle>
-          <DialogContent sx={{ padding:'100px' }}>
+          <DialogContent sx={{ padding:'50px'}}>
 
-            <Table sx={{ border: '1px solid black',width: '100%', height: '500px'}}>
-            <TableBody>
-              <TableRow >
-                <TableCell rowSpan={3} sx={{borderBottom:'1px solid black'}}><AccountCircle sx={{ fontSize: '100px', paddingRight: '16px' }} /></TableCell>
-                <TableCell  sx={{borderBottom:'none'}}>Lucas</TableCell>
-               
+          
+                      
+              <Table sx={{height:'100px', width:'300px'}}>
+                <TableHead sx={{border:'2px solid black', borderRadius:'20px'}}>
+              <TableRow>
+                <TableCell  rowSpan={4}><AccountCircle sx={{ fontSize: '100px', margin:'0px', padding:'0px'}} /></TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell sx={{borderBottom:'none',fontSize:'25px', fontWeight:'bold'}}>{senderinfo.name}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell sx={{borderBottom:'none' }}>{senderinfo.email}</TableCell>
+              </TableRow>
+              <TableRow>
+              <TableCell></TableCell>
+                <TableCell sx={{borderBottom:'none' }}>{senderinfo.point} points</TableCell>
+              </TableRow></TableHead>
+
+              <TableBody sx={{}}>
+              <TableRow>
+                <TableCell colSpan={3} sx={{borderBottom:'none'}}><b>Phone:&nbsp; </b>{senderinfo.phone}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell colSpan={3} sx={{borderBottom:'none'  }}><b>Address:&nbsp; </b>yung an road, block 361 #12-107</TableCell>
+              </TableRow>
+              </TableBody>
               
-              </TableRow>
-              <TableRow>
-                <TableCell sx={{borderBottom:'none'}}>Lucas@gmail</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell sx={{borderBottom:'1px solid black'}}>100 point</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell >100 point</TableCell>
-              </TableRow>
-            </TableBody>
-                  
-
-              {/* <TableRow>
-                  <Box sx={{ borderBottom: '1px solid black', width: '100%', display: 'flex', alignItems: 'center' }}>
-                    <AccountCircle sx={{ fontSize: '100px', paddingRight: '16px' }} />
-                    <TableCell>
-                      <TableRow>
-                        <TableCell><Typography sx={{ fontSize: '20px', fontWeight: 'bold' }}>{senderinfo.name}</Typography></TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>{senderinfo.email}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>{senderinfo.point}</TableCell>
-                      </TableRow>
-                    </TableCell>
-                  </Box>
-                </TableRow>
-
-                <TableRow>
-                  <Box sx={{ width: '100%', display: 'flex', textAlign: 'center' }}>
-                    <TableCell>
-                      <TableRow >
-                        <TableCell >
-                          <b sx={{ fontWeight: 'bold' }}>Phone:</b>{senderinfo.phone}
-                        </TableCell>
-                      </TableRow >
-                      <TableRow >
-                        <TableCell ><b sx={{ fontWeight: 'bold' }}>Email:</b>{senderinfo.email}</TableCell>
-                      </TableRow>
-                    </TableCell>
-                  </Box>
-                </TableRow> */}
+             
+            
+         
             </Table>
 
           </DialogContent>
@@ -281,6 +264,7 @@ function AdminPoint() {
 
           </DialogActions></Box>
       </Dialog>
+
       <ToastContainer /> </Box>
 
   );

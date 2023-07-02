@@ -26,6 +26,23 @@ router.get("/search", async (req, res) => {
     let condition = {};
     let search = req.query.search;
     let userId = req.query.userId;
+    let userName = req.query.username;
+
+
+
+    let Sender = await PointRecord.findAll({
+        where: {
+            [Sequelize.Op.or]: [{ sender: userId }, { recipient: userId }],
+
+        },
+        include: { model: User, as: 'user', attributes: ['name'] }
+    });
+
+    if (!Sender) {
+        res.json([]);
+        return;
+    }
+
     if (search) {
         condition[Sequelize.Op.or] = [
             { recipient: { [Sequelize.Op.like]: `%${search}%` } },
@@ -33,15 +50,42 @@ router.get("/search", async (req, res) => {
 
         ];
     }
-    if (userId) {
-        condition.userId = userId;
-    }
 
-    let list = await PointRecord.findAll({
+    let point = await PointRecord.findAll({
         where: condition,
         order: [['createdAt', 'DESC']]
     });
-    res.json(list);
+
+    // point.forEach(record => {
+    //     if (userId !== record.recipient || userName !== record.recipientName) {
+    //         record.sender === userId;
+    //         console.log(record.senderName);
+    //     }
+    // });
+
+    point = point.filter(record=>
+        {
+            if (userId != record.recipient && userName != record.recipientName) {
+               
+                if(record.sender == userId)
+                {
+                    console.log(record.sender);
+                    point = record;
+                    return point;
+                    
+                }
+               
+            }
+            else if  (userId == record.recipient || userName == record.recipientName)
+            {
+                console.log(record.recipient);
+                point = record;
+                return point;
+            }
+        })
+
+
+    res.json(point);
 
 });
 
@@ -60,15 +104,35 @@ router.get("/adminget/:id", async (req, res) => {
 
 router.get("/get/:id", async (req, res) => {
     let id = req.params.id;
-    let pointrecord = await PointRecord.findAll({
-        where: { userId: id },
+    let Sender = await PointRecord.findAll({
+        where: {
+            [Sequelize.Op.or]: [{ sender: id }, { recipient: id }],
+
+        },
         include: { model: User, as: 'user', attributes: ['name'] }
     });
-    if (!pointrecord) {
+
+    if (!Sender) {
         res.json([]);
         return;
     }
-    res.json(pointrecord);
+
+    res.json(Sender);
+
+
+
+
+
+    // if (!pointrecord) {
+    //     // let pointrecord = await PointRecord.findAll({
+    //     //     where: { userId: id },
+    //     //     include: { model: User, as: 'user', attributes: ['name'] }
+    //     // });
+    // }
+
+
+
+
     // [], to ensure it is a array even it is a single
 
 });
