@@ -11,6 +11,7 @@ require('dotenv').config();
 //testing
 router.post("/register", async (req, res) => {
     let data = req.body;
+    console.log(data);
     // Validate request body
     let validationSchema = yup.object().shape({
         productName: yup.string().trim()

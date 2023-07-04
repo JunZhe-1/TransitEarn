@@ -9,7 +9,7 @@ import http from '../http';
 
 function AddProduct() {
     const navigate = useNavigate();
-    const [Selectimage, setimage] = useState('');
+    
 
     const [toggle, setToggle] = useState('');
 
@@ -18,7 +18,7 @@ function AddProduct() {
         console.log(toggle);
     };
 
-
+const [imageFile, setImageFile] = useState(null);
     const formik = useFormik({
         initialValues: {
             productName: "",
@@ -36,8 +36,7 @@ function AddProduct() {
                 .min(3, 'Product Name must be at least 3 characters')
                 .max(100, 'Product Name must be at most 100 characters')
                 .required('Product Name is required'),
-            image: yup.string().trim()
-                .required('image is required'),
+
             category: yup.string().trim()
                 .required('Product category is required'),
             quantity: yup.number().required('Product quantity is required').integer().min(1),
@@ -46,8 +45,11 @@ function AddProduct() {
 
         }),
         onSubmit: (data) => {
+            console.log(imageFile);
+            if (imageFile) {
+                data.image = imageFile;
+            }
             data.productName = data.productName.trim();
-            data.image = Selectimage;
             data.category = data.category.trim();
             data.quantity = parseInt(data.quantity);
             data.prizePoint = parseInt(data.prizePoint);
@@ -55,6 +57,7 @@ function AddProduct() {
             http.post("/product/register", data)
                 .then((res) => {
                     console.log(res.data);
+                    setImageFile(res.data.image);
                     navigate("/");
                 })
                 .catch(function (err) {
@@ -62,7 +65,29 @@ function AddProduct() {
                 });
         }
     });
-
+    const onFileChange = (e) => {
+        let file = e.target.files[0];
+        if (file) {
+            if (file.size > 10240 * 10240) {
+                toast.error('Maximum file size is 1MB');
+                return;
+            }
+            let formData = new FormData();
+            formData.append('file', file);
+            http.post('/file/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then((res) => {
+                    const testing = res.data.filename;
+                    setImageFile(testing);
+                    
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+        }};
     return (
         <Box sx={{
             marginTop: 8,
@@ -116,9 +141,9 @@ function AddProduct() {
                     onChange={formik.handleChange}
                     error={formik.touched.category && Boolean(formik.errors.category)}
                 >
-                    <MenuItem value="option1">Option 1</MenuItem>
-                    <MenuItem value="option2">Option 2</MenuItem>
-                    <MenuItem value="option3">Option 3</MenuItem>
+                    <MenuItem value="option1">Footwear</MenuItem>
+                    <MenuItem value="option2">Clothes</MenuItem>
+                    <MenuItem value="option3">Keychains</MenuItem>
                 </Select>
 
                 <TextField
@@ -128,13 +153,7 @@ function AddProduct() {
                     type="file"
                     label=""
                     name="image"
-                    onChange={(event) => {
-                        const file = event.target.files[0];
-                        formik.setFieldValue('image', file);
-                        setimage(file.name);
-                    }}
-                    error={formik.touched.image && Boolean(formik.errors.image)}
-                    helperText={formik.touched.image && formik.errors.image}
+                    onChange={onFileChange}
                 />
                
 

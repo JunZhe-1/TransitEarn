@@ -17,6 +17,7 @@ function ListProduct() {
   const [id, setid] = useState('');
   const imageUrl = '../../image/';
   const navigate = useNavigate();
+  const [imageFile, setImageFile] = useState(null);
 
 
   // const [toggle, setToggle] = useState(false);
@@ -119,8 +120,8 @@ function ListProduct() {
                   <TableCell>{data.productName}</TableCell>
                   <TableCell>
                     <div style={{
-                      backgroundImage: `url(${imageUrl + data.image})`, backgroundSize: 'cover', height: '80px', width: '80px',
-                      borderRadius: '5px'
+                      backgroundImage: `url(${import.meta.env.VITE_FILE_BASE_URL}${data.image})`, backgroundSize: 'cover', height: '80px', width: '80px',
+                      borderRadius: '10px'
                     }}></div>
                   </TableCell>
                   <TableCell>{data.category}</TableCell>

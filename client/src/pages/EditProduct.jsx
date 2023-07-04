@@ -11,7 +11,7 @@ import * as yup from 'yup';
 function EditProduct() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [Selectimage, setimage] = useState('');
+    const [imageFile, setImageFile] = useState(null);
     const [product, setProduct] = useState({
         productName: "",
         image: "",
@@ -23,7 +23,10 @@ function EditProduct() {
     useEffect(() => {
         http.get(`/product/get/${id}`).then((res) => {
             setProduct(res.data);
-            setimage(res.data.image);
+            console.log("hi");
+            console.log(res.data.image);
+            setImageFile(res.data.image);
+
 
         });
     }, []);
@@ -44,8 +47,11 @@ function EditProduct() {
 
         }),
         onSubmit: (data) => {
+            console.log(imageFile);
+            if (imageFile) {
+                data.image = imageFile;
+            }
             data.productName = data.productName.trim();
-            data.image = Selectimage;
             data.category = data.category.trim();
             data.quantity = parseInt(data.quantity);
             data.prizePoint = parseInt(data.prizePoint);
@@ -71,12 +77,36 @@ function EditProduct() {
     };
 
     const deleteTutorial = () => {
-        // http.delete(`/tutorial/${id}`)
-        //     .then((res) => {
-        //         console.log(res.data);
-        //         navigate("/");
-        //     });
+        http.delete(`/product/delete/${id}`)
+            .then((res) => {
+                console.log(res.data);
+                navigate("/listproduct");            });
     }
+
+    const onFileChange = (e) => {
+        let file = e.target.files[0];
+        if (file) {
+            if (file.size > 10240 * 10240) {
+                toast.error('Maximum file size is 1MB');
+                return;
+            }
+            let formData = new FormData();
+            formData.append('file', file);
+            http.post('/file/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then((res) => {
+                    const testing = res.data.filename;
+                    setImageFile(testing);
+
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+        }
+    };
 
     return (
         <Box sx={{
@@ -143,16 +173,13 @@ function EditProduct() {
                     type="file"
                     label=""
                     name="image"
-                    inputProps={{  }}
-                    onChange={(event) => {
-                        const file = event.target.files[0];
-                        formik.setFieldValue('image', file);
-                        setimage(file.name);
-                    }}
+                    inputProps={{}}
+                    onChange={onFileChange}
+
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
-                                {Selectimage && <Typography variant="body2">Previous image: {Selectimage}</Typography>}
+                                {imageFile && <Typography variant="body2">Previous image: {imageFile}</Typography>}
                             </InputAdornment>
                         ),
                     }}
@@ -191,10 +218,10 @@ function EditProduct() {
                     </Button>
                 </DialogActions>
             </Dialog>
-            
+
             <ToastContainer />
         </Box>
-        );
+    );
 }
 
 export default EditProduct;
