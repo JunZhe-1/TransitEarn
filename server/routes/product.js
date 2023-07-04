@@ -172,5 +172,36 @@ router.delete("/delete/:id", validateToken, async (req, res) => {
 
 });
 
+router.post("/redeem/:id", validateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findByPk(id);
+
+    // Check if the product exists
+    if (!product) {
+      res.status(404).json({ message: "Product not found" });
+      return;
+    }
+
+    // Check if the product is available
+    if (product.quantity === 0) {
+      res.status(400).json({ message: "Product is out of stock" });
+      return;
+    }
+
+    // Perform the redeem action
+    // Update the product quantity
+    await Product.update(
+      { quantity: Sequelize.literal(`quantity - 1`) },
+      { where: { id: product.id } }
+    );
+
+    res.json({ message: "Product redeemed successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred while redeeming the product" });
+  }
+});
+
 
 module.exports = router;
