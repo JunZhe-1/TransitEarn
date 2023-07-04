@@ -30,8 +30,6 @@ const [imageFile, setImageFile] = useState(null);
 
         },
         validationSchema: yup.object().shape({
-            // need to change the name
-            // KeeHern
             productName: yup.string().trim()
                 .min(3, 'Product Name must be at least 3 characters')
                 .max(100, 'Product Name must be at most 100 characters')
