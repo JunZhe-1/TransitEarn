@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import * as React from 'react';
 
 import { Container, AppBar, Toolbar, Typography, Box, Button, Fade, MenuItem, Menu } from '@mui/material';
+import { AccountCircle, Home } from '@mui/icons-material';
 import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Register from './pages/Register';
 import Login from './pages/Login';
@@ -15,6 +16,8 @@ import http from './http';
 import UserContext from '../contexts/UserContext';
 import AddProduct from './pages/AddProduct'
 import ListProduct from './pages/ListProduct';
+import HomePage from './pages/HomePage';
+
 function App() {
   const [user, setUser] = useState(null);
 
@@ -49,25 +52,33 @@ function App() {
   };
 
 
+  
+  const [anchorEl1, setAnchorEl1] = React.useState(null);
+  const open1 = Boolean(anchorEl1);
+  const handleClick1 = (event) => {
+    setAnchorEl1(event.currentTarget);
+  };
+  const handleClose1 = () => {
+    setAnchorEl1(null);
+  };
+
+
+
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <Router>
         <AppBar position="static" className="AppBar">
           <Container maxWidth="xl">
             <Toolbar disableGutters={true}>
-              <Link to="/">
+              <Link to="/homepage">
                 <Typography variant="h6" component="div">
-                  Learning
+                  NYP THE BEST
                 </Typography>
               </Link>
-              <Link to="/login" ><Typography>Login</Typography></Link>
-              <Link to="/adminpoint" ><Typography>Admin Point</Typography></Link>
-              <Link to="/addproduct" ><Typography>Add product</Typography></Link>
-              <Link to="/listproduct" ><Typography>list product</Typography></Link>
 
 
               <Box sx={{ flexGrow: 1 }}></Box>
-              {user && (
+              {user && user.name !== 'admin' ? (
                 <>
                   <div >
                     <Button
@@ -95,24 +106,123 @@ function App() {
                         },
                       }}
                     >
-                      <MenuItem onClick={handleClose} ><Link to="/point" ><Typography sx={{ color: 'white' }}>point</Typography></Link></MenuItem>
-                      <MenuItem onClick={handleClose}><Link to="/userpoint" ><Typography sx={{ color: 'white' }}>history</Typography></Link></MenuItem>
+                      <MenuItem onClick={handleClose} ><Link to="/point" ><Typography sx={{ color: 'white' }}>Point Transfer</Typography></Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link to="/userpoint" ><Typography sx={{ color: 'white' }}>Point History</Typography></Link></MenuItem>
 
                     </Menu>
                   </div>
-
-                  <Typography>{user.name.toUpperCase()}</Typography>
-
-
-
-                  <Button onClick={logout} sx={{ color: 'white' }}>Logout</Button>
+                  <div >
+                    <Button
+                      id="fade-button"
+                      aria-controls={open1 ? 'fade-menu' : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open1 ? 'true' : undefined}
+                      onClick={handleClick1}
+                      sx={{ color: 'white' }}
+                    >
+                      <AccountCircle sx={{ fontSize: 20 }} />
+                    </Button>
+                    <Menu
+                      id="fade-menu"
+                      MenuListProps={{
+                        'aria-labelledby': 'fade-button',
+                      }}
+                      anchorEl={anchorEl1}
+                      open={open1}
+                      onClose={handleClose1}
+                      TransitionComponent={Fade}
+                      PaperProps={{
+                        sx: {
+                          backgroundColor: '#0096FF	',
+                        },
+                      }}
+                    >
+                      <MenuItem onClick={handleClose1} ><Typography variant="body2" sx={{ marginTop: '8px', color: 'white' }}>{user.name.toUpperCase()}</Typography></MenuItem>
+                      <MenuItem onClick={handleClose1}><Typography variant="body2" sx={{ marginTop: '8px', color: 'white' }} onClick={logout} >LOGOUT</Typography></MenuItem>
+                    </Menu>
+                  </div>
                 </>
-              )
+              ) : null
               }
+
+              {user && user.name === 'admin' ? (
+                <>
+
+                  <div >
+                    <Button
+                      id="fade-button"
+                      aria-controls={open ? 'fade-menu' : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? 'true' : undefined}
+                      onClick={handleClick}
+                      sx={{ color: 'white' }}
+                    >
+                      MANAGEMENT
+                    </Button>
+                    <Menu
+                      id="fade-menu"
+                      MenuListProps={{
+                        'aria-labelledby': 'fade-button',
+                      }}
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      TransitionComponent={Fade}
+                      PaperProps={{
+                        sx: {
+                          backgroundColor: '#0096FF	',
+                        },
+                      }}
+                    >
+                      <MenuItem onClick={handleClose} ><Link to="/adminpoint" ><Typography sx={{ color: 'white' }} >Point Transaction</Typography></Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link to="/listproduct" ><Typography sx={{ color: 'white' }} >products</Typography></Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link to="/addproduct" ><Typography sx={{ color: 'white' }} >Add product</Typography></Link></MenuItem>
+
+                    </Menu>
+
+                  </div>
+
+                  <div >
+                    <Button
+                      id="fade-button"
+                      aria-controls={open1 ? 'fade-menu' : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open1 ? 'true' : undefined}
+                      onClick={handleClick1}
+                      sx={{ color: 'white' }}
+                    >
+                      <AccountCircle sx={{ fontSize: 20 }} />
+                    </Button>
+                    <Menu
+                      id="fade-menu"
+                      MenuListProps={{
+                        'aria-labelledby': 'fade-button',
+                      }}
+                      anchorEl={anchorEl1}
+                      open={open1}
+                      onClose={handleClose1}
+                      TransitionComponent={Fade}
+                      PaperProps={{
+                        sx: {
+                          backgroundColor: '#0096FF	',
+                        },
+                      }}
+                    >
+                      <MenuItem onClick={handleClose1} ><Typography variant="body2" sx={{ marginTop: '8px', color: 'white' }}>{user.name.toUpperCase()}</Typography></MenuItem>
+                      <MenuItem onClick={handleClose1}><Typography variant="body2" sx={{ marginTop: '8px', color: 'white' }} onClick={logout} >LOGOUT</Typography></MenuItem>
+                    </Menu>
+                  </div>
+
+
+
+
+
+
+                </>
+              ) : null}
               {!user && (
 
                 <>
-
                   <Link to="/register" ><Typography>Register</Typography></Link>
                   <Link to="/login" ><Typography>Login</Typography></Link>
                 </>
@@ -133,6 +243,8 @@ function App() {
             <Route path={"/productedit/:id"} element={<EditProduct />} />
             <Route path={"/addproduct"} element={<AddProduct />} />
             <Route path={"/listproduct"} element={<ListProduct />} />
+            <Route path={"/homepage"} element={<HomePage />} />
+
           </Routes>
         </Container>
       </Router>

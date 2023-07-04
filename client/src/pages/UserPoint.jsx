@@ -66,7 +66,7 @@ function UserPoint() {
 
     const searchsender = () => {
         if (search.trim() !== '') {
-            http.get(`/point/search?search=${search}&userId=${user.phone}`).then((res) => {
+            http.get(`/point/search?search=${search}&userId=${user.phone}&username=${user.name}`).then((res) => {
                 setPointrecord(res.data);
             });
         }
@@ -96,8 +96,8 @@ function UserPoint() {
 
     return (
         <Box>
-            <Typography variant="h5" sx={{ my: 2 }}>
-                Tutorials
+            <Typography variant="h5" sx={{ my: 2 , color:'black'}}>
+                User Point
             </Typography>
 
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>

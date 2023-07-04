@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate} from 'react-router-dom';
 import {
   Box, Typography, Grid, Card, CardContent, Input, IconButton, Button,
   Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Paper, TableContainer, Table, TableHead, TableBody, TableRow, TableCell
@@ -14,7 +14,10 @@ import UserContext from '../contexts/UserContext';
 function ListProduct() {
   const [productList, setProduct] = useState([]);
   const [search, setSearch] = useState('');
+  const [id, setid] = useState('');
   const imageUrl = '../../image/';
+  const navigate = useNavigate();
+
 
   // const [toggle, setToggle] = useState(false);
 
@@ -59,20 +62,24 @@ function ListProduct() {
   };
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
+  const handleOpen = (data) => {
+    setid(data)
     setOpen(true);
   };
 
   const handleClose = () => {
+    setid(null);
     setOpen(false);
   };
 
   const deleteTutorial = () => {
-    // http.delete(`/tutorial/${id}`)
-    //     .then((res) => {
-    //         console.log(res.data);
-    //         navigate("/tutorials");
-    //     });
+    http.delete(`/product/delete/${id}`)
+        .then((res) => {
+            console.log(res.data);
+            handleClose(false);
+            getTutorials();
+            navigate("/listproduct");
+        });
   }
   return (
     <Box>
@@ -127,7 +134,7 @@ function ListProduct() {
                       </IconButton>
                     </Link>
 
-                    <IconButton color="primary" onClick={handleOpen}>
+                    <IconButton color="primary" onClick={() => handleOpen(data.id)}>
                       <Delete  />
                     </IconButton>
 

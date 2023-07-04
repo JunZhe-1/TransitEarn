@@ -146,27 +146,30 @@ router.get("/get/:id", async (req, res) => {
 });
 
 
-// router.delete("delete/:id", validateToken, async (req, res) => {
-//     let pointrecordId = req.params.id;
-//     let pointrecord = await PointRecord.findByPk(pointrecordId);
-//     if (!pointrecord) {
-//         res.sendStatus(404);
-//         return;
-//     }
+router.delete("/delete/:id", validateToken, async (req, res) => {
+    let pointrecordId = req.params.id;
 
-//     let num = await PointRecord.destroy({ where: { id: pointrecordId } })
-//     if (num == 1) {
-//         res.json({
-//             message: "point record was deleted successfully."
-//         });
-//     }
-//     else {
-//         res.status(400).json({
-//             message: `Cannot delete point record with id ${pointrecordId}.`
-//         });
-//     }
+    
+    let pointrecord = await Product.findByPk(pointrecordId);
+    if (!pointrecord) {
+        res.sendStatus(404);
+        return;
+    }
+    console.log(pointrecordId);
 
-// });
+    let num = await Product.destroy({ where: { id: pointrecordId } })
+    if (num == 1) {
+        res.json({
+            message: "point record was deleted successfully."
+        });
+    }
+    else {
+        res.status(400).json({
+            message: `Cannot delete point record with id ${pointrecordId}.`
+        });
+    }
+
+});
 
 
 module.exports = router;
