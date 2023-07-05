@@ -42,8 +42,15 @@ router.post("/register", async (req, res) => {
     let user = await User.findOne({
         where: { email: data.email }
     });
+    let user_phone = await User.findOne({
+        where: { phone: data.phone }
+    });
     if (user) {
         res.status(400).json({ message: "Email already exists." });
+        return;
+    }
+    if (user_phone) {
+        res.status(400).json({ message: "Phone Number already exists." });
         return;
     }
 
@@ -142,10 +149,10 @@ router.get("/getId/:getId", async (req, res) => {
             res.status(400).json({ message: "Not user found" });
             return;
         }
-        
-    
-            res.json(checking);
-        
+
+
+        res.json(checking);
+
 
     } catch (error) {
         res.status(400).json({ message: "Undefined" });

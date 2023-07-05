@@ -96,8 +96,8 @@ function UserPoint() {
 
     return (
         <Box>
-            <Typography variant="h5" sx={{ my: 2 , color:'black'}}>
-                User Point
+            <Typography variant="h5" sx={{ my: 2 , color:'black', fontWeight:'bold'}}>
+                Point History
             </Typography>
 
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -134,7 +134,7 @@ function UserPoint() {
                         ...(button === 'receive' ? { color: '#7DF9FF', backgroundColor: '#088F8F' } : { color: '#7393B3', backgroundColor: '#7DF9FF' })
                     }}
                     onClick={OnClickReceive}>
-                    Receive
+                    Received
                 </Button>
             </Box>
 

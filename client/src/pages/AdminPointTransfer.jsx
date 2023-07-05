@@ -125,8 +125,8 @@ function AdminPoint() {
 
   return (
     <Box>
-      <Typography variant="h5" sx={{ my: 2 }}>
-        Tutorials
+            <Typography variant="h5" sx={{ my: 2 , color:'black', fontWeight:'bold'}}>
+        Point Management
       </Typography>
 
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -163,7 +163,7 @@ function AdminPoint() {
                 <TableRow key={index}>
                   <TableCell>{data.senderName}<IconButton color="primary" onClick={() => handleOpen1(data.sender)}><Visibility /></IconButton></TableCell>
                   <TableCell>{data.sender}</TableCell>
-                  <TableCell>{data.recipientName}</TableCell>
+                  <TableCell>{data.recipientName}<IconButton color="primary" onClick={() => handleOpen1(data.recipient)}><Visibility /></IconButton></TableCell>
                   <TableCell>{data.recipient}</TableCell>
                   <TableCell>{data.transferpoint}</TableCell>
                   <TableCell>{dayjs(data.transferpointdate).format(global.datetimeFormat)}</TableCell>
