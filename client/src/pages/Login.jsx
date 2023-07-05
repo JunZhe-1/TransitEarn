@@ -49,7 +49,7 @@ function Login() {
             flexDirection: 'column',
             alignItems: 'center'
         }}>
-            <Typography variant="h5" sx={{ my: 2 }}>
+            <Typography variant="h4" className = "heading" sx={{ my: 2 }}>
                 Login
             </Typography>
             <Box component="form" sx={{ maxWidth: '500px' }}
@@ -72,7 +72,7 @@ function Login() {
                     error={formik.touched.password && Boolean(formik.errors.password)}
                     helperText={formik.touched.password && formik.errors.password}
                 />
-                <Button fullWidth variant="contained" sx={{ mt: 2 }}
+                <Button fullWidth variant="contained" className="save" sx={{ mt: 2 }}
                     type="submit">
                     Login
                 </Button>

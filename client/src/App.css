@@ -1,8 +1,24 @@
+<<<<<<< Updated upstream
+=======
+body {
+  background-color: #f9f7fa;
+}
+
+>>>>>>> Stashed changes
 .AppBar a {
   color: inherit;
   text-decoration: none;
   margin-right: 16px;
   }
+<<<<<<< Updated upstream
   .AppBar a:hover {
   color: lightblue;
   }
+=======
+
+.AppBar .transitearn {
+  font-size: 30px;
+  letter-spacing: 0.5px;
+}
+
+>>>>>>> Stashed changes
