@@ -46,7 +46,7 @@ function PointEdit() {
     }, []);
 
 
-    
+
     const formik = useFormik({
         initialValues: tutorial,
         enableReinitialize: true,
@@ -65,7 +65,7 @@ function PointEdit() {
     });
 
     //handle submit data
-  
+
 
 
     const handleOpen = (id) => {
@@ -85,25 +85,25 @@ function PointEdit() {
         console.log(info);
         if (!isNaN(formik.values.transferpoint)) {
             http.put(`/point/edit/${id}`, info)
-            .then((res) => {
-                console.log(res.data);
-                num =0;
-                navigate("/adminpoint");
-            })
-            
-            .catch(function (err) {
-                
-                toast.error(`${err.response.data.message}`);
-                setOpen(false);
-            });
+                .then((res) => {
+                    console.log(res.data);
+                    num = 0;
+                    navigate("/adminpoint");
+                })
+
+                .catch(function (err) {
+
+                    toast.error(`${err.response.data.message}`);
+                    setOpen(false);
+                });
         }
 
     };
-   
-   
+
+
     const handleOpen1 = () => {
         setOpen1(true);
-        
+
 
     };
 
@@ -170,29 +170,39 @@ function PointEdit() {
                         readOnly: true, // this only allow a user to read the data only
                     }}
                 />
-                {tutorial.Status === 'yes'?(
-                <TextField
-                    fullWidth margin="normal" autoComplete="off"
-                    label="Point"
-                    name="transferpoint"
-                    value={formik.values.transferpoint}
-                    onChange={formik.handleChange}
-                    error={formik.touched.transferpoint && Boolean(formik.errors.transferpoint)}
-                    helperText={formik.touched.transferpoint && formik.errors.transferpoint}
-                />):null}
-                {tutorial.Status === 'yes'?(
-                <Box sx={{ mt: 2 }}>
-                    <Button variant="contained" type="submit" onSubmit={formik.handleSubmit}>
-                        Update
-                    </Button>
-                    <Button variant="contained" sx={{ ml: 2 }} color="error"
+                {tutorial.Status === 'yes' ? (
+                    <TextField
+                        fullWidth margin="normal" autoComplete="off"
+                        label="Point"
+                        name="transferpoint"
+                        value={formik.values.transferpoint}
+                        onChange={formik.handleChange}
+                        error={formik.touched.transferpoint && Boolean(formik.errors.transferpoint)}
+                        helperText={formik.touched.transferpoint && formik.errors.transferpoint}
+                    />) :
+                    <TextField
+                        fullWidth margin="normal" autoComplete="off"
+                        label="Point"
+                        name="transferpoint"
+                        value={formik.values.transferpoint}
+                        InputProps={{
+                            style: { color: 'grey' },
+                            readOnly: true, // this only allow a user to read the data only
+                        }} />
+                }
+                {tutorial.Status === 'yes' ? (
+                    <Box sx={{ mt: 2 }}>
+                        <Button variant="contained" type="submit" onSubmit={formik.handleSubmit}>
+                            Update
+                        </Button>
+                        <Button variant="contained" sx={{ ml: 2 }} color="error"
+                            onClick={() => handleOpen(tutorial.id)}>
+                            Delete
+                        </Button>
+                    </Box>) : <Button variant="contained" sx={{ ml: 2 }} color="error"
                         onClick={() => handleOpen(tutorial.id)}>
-                        Delete
-                    </Button>
-                </Box>):<Button variant="contained" sx={{ ml: 2 }} color="error"
-                        onClick={() => handleOpen(tutorial.id)}>
-                        Delete
-                    </Button>}
+                    Delete
+                </Button>}
             </Box>
 
 
@@ -217,7 +227,7 @@ function PointEdit() {
                         Cancel
                     </Button>
                     <Button variant="contained" color="error"
-                    onClick={double_confirm}>
+                        onClick={double_confirm}>
                         Confirm
                     </Button>
                 </DialogActions>

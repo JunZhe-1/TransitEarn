@@ -34,7 +34,7 @@ function Login() {
                 .then((res) => {
                     localStorage.setItem("accessToken", res.data.accessToken);
                     setUser(res.data.user);
-                    navigate("/PointTransfer");;
+                    navigate("/homepage");;
                 })
                 .catch(function (err) {
                     toast.error(`${err.response.data.message}`);

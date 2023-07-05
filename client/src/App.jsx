@@ -72,7 +72,7 @@ function App() {
             <Toolbar disableGutters={true}>
               <Link to="/homepage">
                 <Typography variant="h6" component="div">
-                  NYP THE BEST
+                  <b style={{fontWeight:'900', color:'#CBC3E3		'}}>TRANSIT</b><b style={{fontWeight:'900', color:'#F6921E	'}}>EARN</b>
                 </Typography>
               </Link>
 
