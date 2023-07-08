@@ -195,7 +195,7 @@ function EditAccount() {
               variant="contained"
               sx={{ ml: 2 }}
               color="error"
-              className="Delete"
+              className="delete"
               onClick={handleOpen}
             >
               Delete Account
@@ -212,10 +212,10 @@ function EditAccount() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" color="inherit" onClick={handleClose}>
+          <Button color="inherit" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="contained" color="error" onClick={deleteUser}>
+          <Button color="error" onClick={deleteUser}>
             Delete
           </Button>
         </DialogActions>

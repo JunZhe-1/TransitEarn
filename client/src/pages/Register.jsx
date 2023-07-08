@@ -115,7 +115,7 @@ function Register() {
                     error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
                     helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
                 />
-                <Button fullWidth variant="contained" sx={{ mt: 2 }}
+                <Button fullWidth variant="contained" className="save" sx={{ mt: 2 }}
                     type="submit">
                     Register
                 </Button>

@@ -73,7 +73,7 @@ function Login() {
                     error={formik.touched.password && Boolean(formik.errors.password)}
                     helperText={formik.touched.password && formik.errors.password}
                 />
-                <Button fullWidth variant="contained" sx={{ mt: 2 }}
+                <Button fullWidth variant="contained" className="save" sx={{ mt: 2 }}
                     type="submit">
                     Login
                 </Button>

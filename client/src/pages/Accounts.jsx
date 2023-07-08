@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import http from "../http";
 import { Button, InputAdornment, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -129,6 +129,14 @@ function Accounts() {
     setOpenDialog(true);
   };
 
+  const searchInputRef = useRef(null); // Ref to store the reference to the input element
+
+  useEffect(() => {
+    if (searchInputRef.current) {
+      // Focus the input element when the component mounts or when the search query changes
+      searchInputRef.current.focus();
+    }
+  }, [searchQuery]);
 
   return (
     <div>
@@ -136,6 +144,7 @@ function Accounts() {
       <SearchBar
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
+        inputRef={searchInputRef}
         placeholder="Search"
         InputProps={{
           endAdornment: (
@@ -216,7 +225,9 @@ function Accounts() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button color="inherit" onClick={handleClose}>Cancel</Button>
+          <Button color="inherit" onClick={handleClose}>
+            Cancel
+          </Button>
           <Button
             onClick={() => handleDeleteUser(selectedUser.id)}
             color="error"
