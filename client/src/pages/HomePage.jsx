@@ -13,7 +13,7 @@ function HomePage() {
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway" />
 
             </head>
-            <body className="w3-light-grey">
+            <body className="w3-light-grey" style={{paddingRight: '0px', overflow: 'hidden'}}>
 
                 <div className="w3-content" style={{ maxWidth: "1400px" }}>
 
@@ -22,9 +22,7 @@ function HomePage() {
                         <h1><b>TRANSITEARN</b></h1>
                         <p>Welcome to <span > <b style={{ color:'#8C1AFF		'}}>TRANSIT</b><b style={{ color:'#F6921E	'}}>EARN</b></span></p>
                     </header>
-
                     <div className="w3-row">
-
                         <div className="w3-col l8 s12">
                             <div className="w3-card-4 w3-margin w3-white">
                                 <img src="../../image/bus.jpg" alt="Nature" style={{width: "100%"}} />
@@ -145,6 +143,7 @@ function HomePage() {
                 </footer></body>
 
         </html>
+
     );
 
 }

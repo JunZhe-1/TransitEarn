@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Box, Typography, TextField, Button } from '@mui/material';
+import { Box, Typography, TextField, Button ,Stack,Snackbar, Alert} from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -39,7 +39,8 @@ function PointTransfer() {
       http.put(`/user/transfer/${user.phone}`, data)
         .then((res) => {
           console.log(res.data);
-          navigate("/");
+          handleClick();
+          navigate("/point");
 
         })
         .catch(function (err) {
@@ -48,6 +49,21 @@ function PointTransfer() {
 
     }
   });
+
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
 
   // const [open, setOpen] = useState(false);
 
@@ -86,10 +102,22 @@ function PointTransfer() {
             onChange={formik.handleChange}
             error={formik.touched.point && Boolean(formik.errors.point)}
             helperText={formik.touched.point && formik.errors.point}
-          />   <Button fullWidth variant="contained" sx={{ mt: 2 }}
-            type="submit">
-            Login
+          />  
+           <Button fullWidth variant="contained" sx={{ mt: 2 }}
+            type="submit"   > 
+            Transfer
           </Button>
+           {/* <Stack spacing={2} sx={{ width: '100%' }}>
+      <Button variant="outlined" onClick={handleClick}>
+        Open success snackbar
+      </Button> */}
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+  <Alert onClose={handleClose} severity="success" sx={{ width: '100%', fontSize: '1.2rem', fontWeight:'bold' }}>
+    Transfer Successful
+  </Alert>
+</Snackbar>
+ 
+        {/* </Stack> */}
         </Box>
       </div>
       <ToastContainer />

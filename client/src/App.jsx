@@ -87,7 +87,7 @@ function App() {
                       aria-haspopup="true"
                       aria-expanded={open ? 'true' : undefined}
                       onClick={handleClick}
-                      sx={{ color: 'white' }}
+                      sx={{ color: 'white'}}
                     >
                       point management
                     </Button>

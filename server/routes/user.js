@@ -275,7 +275,6 @@ async function update(checking, receiver, point) {
         console.error(error);
         return error;
     }
-
 }
 
 

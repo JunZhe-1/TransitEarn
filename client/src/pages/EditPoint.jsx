@@ -124,7 +124,7 @@ function PointEdit() {
     }
     return (
         <Box>
-            <Typography variant="h5" sx={{ my: 2 }}>
+            <Typography variant="h5" sx={{ my: 2, color:'black', fontWeight:'bold' }}>
                 Edit Point Transaction
             </Typography>
             <Box component="form" onSubmit={formik.handleSubmit}>
