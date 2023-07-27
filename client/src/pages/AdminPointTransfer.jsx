@@ -55,7 +55,6 @@ function AdminPoint() {
 
   const searchsender = () => {
     if (search.trim() !== '') {
-
       http.get(`/point/search?search=${search}`).then((res) => {
         setpointrecord(res.data);
       });

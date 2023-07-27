@@ -172,6 +172,7 @@ router.put("/transfer/:phones", async (req, res) => {
         res.sendStatus(403);
         return;
     }
+
     let userId = checking.id;
     console.log("User ID:", userId);
 
@@ -186,61 +187,67 @@ router.put("/transfer/:phones", async (req, res) => {
         phone: yup.number().required().integer().test('len', 'Phone number must be exactly 8 digits', (val) => val && val.toString().length == 8)
     });
 
-    let receiver = await User.findOne({
-        where: { phone: data.phone }
-    });
 
-    if (!receiver) {
-        res.status(400).json({ message: "Phone number does not exist" });
-        return;
+
+    let receiver;
+    if (data.email) {
+        receiver = await User.findOne({
+            where: { email: data.email }
+        });
+        data.phone = receiver.phone;
     }
-    else if (receiver.phone == checking.phone) {
-        res.status(400).json({ message: "This is your number!" });
-        return;
+    else if (data.phone) {
+        receiver = await User.findOne({
+            where: { phone: data.phone }
+        });
 
-    }
-    else {
-        try {
-            await validationSchema.validate(data,
-                { abortEarly: false, strict: true });
-            if (checking.point >= data.point) {
-                receiver.point = receiver.point + parseInt(data.point);
-
-                let num1 = await User.update({ point: receiver.point }, {
-                    where: { id: receiver.id }
-                });
-                checking.point = checking.point - parseInt(data.point);
-                let num2 = await User.update({ point: checking.point }, {
-                    where: { id: checking.id }
-
-                });
-                await update(checking, receiver, data.point);
-                if (num1 == 1 && num2 == 1) {
-                    res.json({
-                        message: "Tutorial was updated successfully."
-                    });
-
-
-
-                }
-                else {
-                    res.status(400).json({ message: "Undefined" });
-
-                }
-            }
-            else {
-                res.status(400).json({ message: "You don't have enough point!" });
-                return;
-
-            }
-        }
-        catch (err) {
-            console.log("Error:", err);
-            res.status(500).json({ message: " error", error: err });
+        if (!receiver) {
+            res.status(400).json({ message: "Phone number does not exist" });
             return;
         }
 
+        else if (receiver.phone == checking.phone) {
+            res.status(400).json({ message: "This is your number!" });
+            return;
+        }
     }
+
+    try {
+        await validationSchema.validate(data,
+            { abortEarly: false, strict: true });
+        if (checking.point >= data.point) {
+            receiver.point = receiver.point + parseInt(data.point);
+
+            let num1 = await User.update({ point: receiver.point }, {
+                where: { id: receiver.id }
+            });
+            checking.point = checking.point - parseInt(data.point);
+            let num2 = await User.update({ point: checking.point }, {
+                where: { id: checking.id }
+
+            });
+            await update(checking, receiver, data.point);
+            if (num1 == 1 && num2 == 1) {
+                res.json({
+                    message: "Tutorial was updated successfully."
+                });
+            }
+            else {
+                res.status(400).json({ message: "Undefined" });
+            }
+        }
+        else {
+            res.status(400).json({ message: "You don't have enough point!" });
+            return;
+        }
+    }
+    catch (err) {
+        console.log("Error:", err);
+        res.status(500).json({ message: " error", error: err });
+        return;
+    }
+
+
 
 });
 
@@ -265,7 +272,8 @@ async function update(checking, receiver, point) {
             transferpoint: point,
             transferpointdate: transfer_date,
             Status: "yes",
-            userId: checking.id
+            userId: checking.id,
+            Redeemed:'no'
         });
 
 

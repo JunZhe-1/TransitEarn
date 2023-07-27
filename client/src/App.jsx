@@ -17,6 +17,8 @@ import UserContext from '../contexts/UserContext';
 import AddProduct from './pages/AddProduct'
 import ListProduct from './pages/ListProduct';
 import HomePage from './pages/HomePage';
+import DonatePoint from './pages/DonatePoint';
+import DonationData from './pages/DonationData';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -52,7 +54,7 @@ function App() {
   };
 
 
-  
+
   const [anchorEl1, setAnchorEl1] = React.useState(null);
   const open1 = Boolean(anchorEl1);
   const handleClick1 = (event) => {
@@ -62,8 +64,6 @@ function App() {
     setAnchorEl1(null);
   };
 
-
-
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <Router>
@@ -72,22 +72,20 @@ function App() {
             <Toolbar disableGutters={true}>
               <Link to="/homepage">
                 <Typography variant="h6" component="div">
-                  <b style={{fontWeight:'900', color:'#CBC3E3		'}}>TRANSIT</b><b style={{fontWeight:'900', color:'#F6921E	'}}>EARN</b>
+                  <b style={{ fontWeight: '900', color: '#CBC3E3		' }}>TRANSIT</b><b style={{ fontWeight: '900', color: '#F6921E	' }}>EARN</b>
                 </Typography>
               </Link>
-
-
               <Box sx={{ flexGrow: 1 }}></Box>
               {user && user.name !== 'admin' ? (
                 <>
-                  <div >
+                  <div>
                     <Button
                       id="fade-button"
                       aria-controls={open ? 'fade-menu' : undefined}
                       aria-haspopup="true"
                       aria-expanded={open ? 'true' : undefined}
                       onClick={handleClick}
-                      sx={{ color: 'white'}}
+                      sx={{ color: 'white' }}
                     >
                       point management
                     </Button>
@@ -108,7 +106,7 @@ function App() {
                     >
                       <MenuItem onClick={handleClose} ><Link to="/point" ><Typography sx={{ color: 'white' }}>Point Transfer</Typography></Link></MenuItem>
                       <MenuItem onClick={handleClose}><Link to="/userpoint" ><Typography sx={{ color: 'white' }}>Point History</Typography></Link></MenuItem>
-
+                      <MenuItem onClick={handleClose}><Link to="/donate" ><Typography sx={{ color: 'white' }}>Donation</Typography></Link></MenuItem>
                     </Menu>
                   </div>
                   <div >
@@ -177,11 +175,10 @@ function App() {
                       <MenuItem onClick={handleClose} ><Link to="/adminpoint" ><Typography sx={{ color: 'white' }} >Point Transaction</Typography></Link></MenuItem>
                       <MenuItem onClick={handleClose}><Link to="/listproduct" ><Typography sx={{ color: 'white' }} >products</Typography></Link></MenuItem>
                       <MenuItem onClick={handleClose}><Link to="/addproduct" ><Typography sx={{ color: 'white' }} >Add product</Typography></Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link to="/donatedata" ><Typography sx={{ color: 'white' }} >Donation</Typography></Link></MenuItem>
 
                     </Menu>
-
                   </div>
-
                   <div >
                     <Button
                       id="fade-button"
@@ -212,12 +209,6 @@ function App() {
                       <MenuItem onClick={handleClose1}><Typography variant="body2" sx={{ marginTop: '8px', color: 'white' }} onClick={logout} >LOGOUT</Typography></MenuItem>
                     </Menu>
                   </div>
-
-
-
-
-
-
                 </>
               ) : null}
               {!user && (
@@ -244,6 +235,9 @@ function App() {
             <Route path={"/addproduct"} element={<AddProduct />} />
             <Route path={"/listproduct"} element={<ListProduct />} />
             <Route path={"/homepage"} element={<HomePage />} />
+            <Route path={"/donate"} element={<DonatePoint />} />
+            <Route path={"/donatedata"} element={<DonationData />} />
+
 
           </Routes>
         </Container>

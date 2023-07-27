@@ -63,29 +63,249 @@ router.get("/search", async (req, res) => {
     //     }
     // });
 
-    point = point.filter(record=>
-        {
-            if (userId != record.recipient && userName != record.recipientName) {
-               
-                if(record.sender == userId)
-                {
-                    console.log(record.sender);
-                    point = record;
-                    return point;
-                    
-                }
-               
-            }
-            else if  (userId == record.recipient || userName == record.recipientName)
-            {
-                console.log(record.recipient);
+    point = point.filter(record => {
+        if (userId != record.recipient && userName != record.recipientName) {
+
+            if (record.sender == userId) {
+                console.log(record.sender);
                 point = record;
                 return point;
+
             }
-        })
+
+        }
+        else if (userId == record.recipient || userName == record.recipientName) {
+            console.log(record.recipient);
+            point = record;
+            return point;
+        }
+    })
 
 
     res.json(point);
+
+});
+
+
+router.get("/adminget/chart", async (req, res) => {
+
+    let chart_data = {};
+    let ranking_tmp = {};
+    let data = {};
+    try {
+        const list = await PointRecord.findAll({
+            where: {
+                recipientName: "admin"
+            }
+        });
+
+
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMont = currentDate.getMonth() + 1; // because java start from 0
+
+        if (currentMont >= 1 && currentMont <= 12) {
+            for (let month = 0; month <= 11; month++) {
+                const monthName = new Date(0, month).toLocaleString('default', { month: 'short' });
+                chart_data[monthName] = 0;
+            }
+        }
+        console.log(chart_data);
+        // else {
+        //     for (let month = 0; month <= 5; month++) {
+        //         const monthName = new Date(0, month).toLocaleString('default', { month: 'long' });
+        //         chart_data[monthName] = 0;
+        //     }
+        // }
+
+        for (const j of list) {
+            if (j.transferpointdate.getFullYear() === currentYear) {
+                if (currentMont >= 1 && currentMont <= 12) {
+
+                     if (j.transferpointdate.getMonth() === 0 && j.Status === 'yes') {
+                        chart_data['Jan'] += j.transferpoint;
+                    }
+                    else if (j.transferpointdate.getMonth() === 1 && j.Status === 'yes') {
+                        chart_data['Feb'] += j.transferpoint;
+                    }
+                    else if (j.transferpointdate.getMonth() === 2 && j.Status === 'yes') {
+                        chart_data['Mar'] += j.transferpoint;
+                    }
+                    else if (j.transferpointdate.getMonth() === 3 && j.Status === 'yes') {
+                        chart_data['Apr'] += j.transferpoint;
+                    }
+                    else if (j.transferpointdate.getMonth() === 4 && j.Status === 'yes') {
+                        chart_data['May'] += j.transferpoint;
+                    }
+                    else if (j.transferpointdate.getMonth() === 5 && j.Status === 'yes') {
+                        chart_data['Jun'] += j.transferpoint;
+                    }
+
+                    else if (j.transferpointdate.getMonth() === 6 && j.Status === 'yes') {
+                        chart_data['Jul'] += j.transferpoint;
+                    }
+                    else if (j.transferpointdate.getMonth() === 7 && j.Status === 'yes') {
+                        chart_data['Aug'] += j.transferpoint;
+                    }
+                    else if (j.transferpointdate.getMonth() === 8 && j.Status === 'yes') {
+                        chart_data['Sept'] += j.transferpoint;
+                    }
+                    else if (j.transferpointdate.getMonth() === 9 && j.Status === 'yes') {
+                        chart_data['Oct'] += j.transferpoint;
+                    }
+                    else if (j.transferpointdate.getMonth() === 10 && j.Status === 'yes') {
+                        chart_data['Nov'] += j.transferpoint;
+                    }
+                    else if (j.transferpointdate.getMonth() === 11 && j.Status === 'yes') {
+                        chart_data['Dec'] += j.transferpoint;
+                    }
+               
+                   
+                }
+            }
+            if (j.sender in ranking_tmp && j.Status === 'yes') {
+                ranking_tmp[j.sender][j.senderName] += j.transferpoint;
+            }
+            else if (j.Status === 'yes') {
+                ranking_tmp[j.sender] = { [j.senderName]: j.transferpoint };
+            }
+        }
+
+        console.log(chart_data);
+        let redeem_dict = {};
+        redeem_dict['redeemed'] = 0;
+        redeem_dict['non_redeemed'] = 0;
+        redeem_dict['total'] = 0;
+        redeem_dict['refund'] = 0;
+        for (const j of list) {
+            if (j.transferpointdate.getFullYear() === currentYear) {
+
+                if (j.Redeemed === 'yes') {
+                    redeem_dict['redeemed'] += j.transferpoint;
+                    redeem_dict['total'] += j.transferpoint;
+                }
+                else if (j.Redeemed === 'no') {
+                    redeem_dict['non_redeemed'] += j.transferpoint;
+                }
+                 if(j.Status === 'no')
+                {
+                    redeem_dict['refund'] += j.transferpoint;
+                    redeem_dict['total'] -= j.transferpoint
+
+
+                }
+                
+            }
+        } 
+
+        const senderEntries = Object.entries(ranking_tmp);
+        senderEntries.sort((a, b) => b[1][Object.keys(b[1])[0]] - a[1][Object.keys(a[1])[0]]);
+
+        let ranking_data = [];
+
+
+        for (let i = 0; i < Math.min(10, senderEntries.length); i++) { // min(10, sorted/length) it is prevent the sorted sender less than 10 person
+            const [senderID, senderData] = senderEntries[i];
+            ranking_data.push({ senderID, senderData });
+        }
+
+        // for (const item of ranking_data) {
+        //     const senderID = item.senderID;
+        //     const senderData = item.senderData;
+        //     console.log("Sender ID:", senderID);
+        //     console.log("Sender Data:", senderData);
+        //     for (const [items,s] of Object.entries(senderData))
+        //     {
+        //         console.log(items,"d2uihdh2w");
+        //     }
+        // }
+
+        // for (const [j, k] of ranking_data) {
+        //     for (const [a, b] of Object.entries(k)) {
+        //         console.log(b);
+        //     }
+        // }
+
+        // console.log(ranking_data,'fisuiqwuidw')
+        // console.log(chart_data); //checking
+        data["month"] = chart_data;
+        data["ranking"] = ranking_data;
+        data['point'] = redeem_dict;
+        res.json(data);
+        return chart_data;
+    } catch (error) {
+        res.status(500).json({ error: 'error at code 115' });
+    }
+}
+);
+
+
+router.put("/redeemed/:year", async (req, res) => {
+    console.log("work");
+    let year = req.params.year;
+    try {
+        const list = await PointRecord.findAll({
+            where: {
+                recipientName: "admin",
+                Redeemed: 'no',
+                transferpointdate: {
+                    [Sequelize.Op.substring]: year,
+                }
+            }
+        });
+        console.log(list.length);
+
+        if (!list) {
+            res.json(error);
+            return;
+        }
+        else if(list.length ===0)
+        {
+            console.log("enterhere")
+            res.status(500).json({ message: `no points to redeem` });
+            return;
+
+         
+        }
+let changeStatus;
+
+        for (const j of list) {
+             changeStatus = await PointRecord.update({ Redeemed: "yes" },
+                {
+                    where: { id: j.id }
+                });
+
+        }
+        if (changeStatus == 1) {
+            console.log("done");
+            res.json({
+                message: "Redeemed sucessfully"
+            });
+            return;
+        }
+      
+        console.log(changeStatus);
+
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'error at code 115' });
+    }
+
+    // let num = 0;
+    //         for (const j of list)
+    //         {
+    //             if (j.transferpointdate.getFullYear() === year) {
+    //                 if(j.Redeemed === 'no')
+    //                 {
+    //                     num++;
+    //                 }
+
+    //             }}
+
+
+
+
 
 });
 

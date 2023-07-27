@@ -28,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
           Status: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        Redeemed: {
+            type: DataTypes.STRING,
+            allowNull: true
         }
 
 
