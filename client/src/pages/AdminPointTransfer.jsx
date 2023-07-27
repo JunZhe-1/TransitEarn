@@ -50,7 +50,7 @@ function AdminPoint() {
     })
       .catch(function (err) {
         toast.error(`${err.response.data.message}`);
-      });;
+      });
   };
 
   const searchsender = () => {
@@ -103,7 +103,7 @@ function AdminPoint() {
     })
       .catch(function (err) {
         toast.error(`${err.response.data.message}`);
-      });;
+      });
 
   };
 

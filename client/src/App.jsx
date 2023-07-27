@@ -7,6 +7,7 @@ import { AccountCircle, Home } from '@mui/icons-material';
 import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import ProductHomePage from './pages/ProductHomePage';
 import PointTransfer from './pages/PointTransfer';
 import AdminPoint from './pages/AdminPointTransfer';
 import EditProduct from './pages/EditProduct';
@@ -78,7 +79,11 @@ function App() {
               <Box sx={{ flexGrow: 1 }}></Box>
               {user && user.name !== 'admin' ? (
                 <>
-                  <div>
+                  <div >
+                    <Button
+                      onClick={handleClose} ><Link to="/productpage" ><Typography sx={{ color: 'white' }}>Products</Typography></Link>
+                  
+                    </Button>
                     <Button
                       id="fade-button"
                       aria-controls={open ? 'fade-menu' : undefined}
@@ -104,6 +109,7 @@ function App() {
                         },
                       }}
                     >
+                      
                       <MenuItem onClick={handleClose} ><Link to="/point" ><Typography sx={{ color: 'white' }}>Point Transfer</Typography></Link></MenuItem>
                       <MenuItem onClick={handleClose}><Link to="/userpoint" ><Typography sx={{ color: 'white' }}>Point History</Typography></Link></MenuItem>
                       <MenuItem onClick={handleClose}><Link to="/donate" ><Typography sx={{ color: 'white' }}>Donation</Typography></Link></MenuItem>
@@ -238,6 +244,7 @@ function App() {
             <Route path={"/donate"} element={<DonatePoint />} />
             <Route path={"/donatedata"} element={<DonationData />} />
 
+            <Route path={"/productpage"} element={<ProductHomePage />} />
 
           </Routes>
         </Container>
