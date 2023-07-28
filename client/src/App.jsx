@@ -20,6 +20,8 @@ import ListProduct from './pages/ListProduct';
 import HomePage from './pages/HomePage';
 import DonatePoint from './pages/DonatePoint';
 import DonationData from './pages/DonationData';
+import AdminProduct from './pages/AdminProduct';
+import UserProduct from './pages/UserProduct';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -113,6 +115,8 @@ function App() {
                       <MenuItem onClick={handleClose} ><Link to="/point" ><Typography sx={{ color: 'white' }}>Point Transfer</Typography></Link></MenuItem>
                       <MenuItem onClick={handleClose}><Link to="/userpoint" ><Typography sx={{ color: 'white' }}>Point History</Typography></Link></MenuItem>
                       <MenuItem onClick={handleClose}><Link to="/donate" ><Typography sx={{ color: 'white' }}>Donation</Typography></Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link to="/userproduct" ><Typography sx={{ color: 'white' }}>Product Redemption</Typography></Link></MenuItem>
+
                     </Menu>
                   </div>
                   <div >
@@ -182,6 +186,7 @@ function App() {
                       <MenuItem onClick={handleClose}><Link to="/listproduct" ><Typography sx={{ color: 'white' }} >products</Typography></Link></MenuItem>
                       <MenuItem onClick={handleClose}><Link to="/addproduct" ><Typography sx={{ color: 'white' }} >Add product</Typography></Link></MenuItem>
                       <MenuItem onClick={handleClose}><Link to="/donatedata" ><Typography sx={{ color: 'white' }} >Donation</Typography></Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link to="/adminproduct" ><Typography sx={{ color: 'white' }} >redemption Management</Typography></Link></MenuItem>
 
                     </Menu>
                   </div>
@@ -245,6 +250,8 @@ function App() {
             <Route path={"/donatedata"} element={<DonationData />} />
 
             <Route path={"/productpage"} element={<ProductHomePage />} />
+            <Route path={'/adminproduct'} element={<AdminProduct/>}/>
+            <Route path={"/userproduct"} element={<UserProduct />} />
 
           </Routes>
         </Container>

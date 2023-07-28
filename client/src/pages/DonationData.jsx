@@ -19,7 +19,7 @@ function DonationData() {
     const [rankingdata, setranking] = useState([]);
     const [point, setpoint] = useState('');
     const [page, setPage] = useState('');
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
     const [open, setOpen] = useState(false);
     const [open1, setOpen1] = useState(false);
 
@@ -72,19 +72,19 @@ function DonationData() {
 
     const redeem_process = () => {
         http.put(`/point/redeemed/${Year}`)
-        .then((res) => {
-          
-        handleClick1();
-    
-          handleClose();
-          getchartdata();
-         
+            .then((res) => {
 
-        })
-        .catch(function (err) {
-            handleClose1();
-          toast.error(`${err.response.data.message}`);
-        });
+                handleClick1();
+
+                handleClose();
+                getchartdata();
+
+
+            })
+            .catch(function (err) {
+                handleClose1();
+                toast.error(`${err.response.data.message}`);
+            });
 
     };
 
@@ -178,17 +178,31 @@ function DonationData() {
             </Box>
 
             <Box width="45%" mb={2}>
-                <Box style={{border:'black 1px solid'}}>
-                    <div style={{ color: 'black', fontWeight: 'bold', fontSize: '18px' }}>
-                        <h1 style={{ fontSize: '25px', color: 'black', textAlign: 'center' }}>point in {Year}</h1><br />
-                        <p style={{ color: '#EE4B2B' }}>Redeemed: {point['redeemed']} point</p>
-                        <p style={{ color: '#EE4B2B' }}>Refund points: {point['refund']} Point</p>
-                        <p style={{ color: '#50C878' }}>Non-Redeemed: {point['non_redeemed']} Point</p><br />
-                        <p>In Total: {point['total']} point</p>
-                        <Button color="primary" fullWidth variant="contained" sx={{ mt: 2 }}
-                            onClick={handleOpen}>Claim
+                <Box >
+                    <div style={{ color: 'black', fontWeight: 'bold', fontSize: '17px' }}>
 
+                        <h1 style={{ fontSize: '25px', color: 'black', textAlign: 'center' }}>Points in {Year}</h1>
+                        <br />
+                        <div style={{ display: 'flex', fontSize: '16px', marginBottom: '8px' }}>
+                            <div style={{ color: '#EE4B2B', minWidth: '170px' }}>Redeemed points:</div>
+                            <div>{point['redeemed']} points</div>
+                        </div>
+                        <div style={{ display: 'flex', fontSize: '16px', marginBottom: '8px' }}>
+                            <div style={{ color: '#EE4B2B', minWidth: '170px' }}>Refund points:</div>
+                            <div>{point['refund']} points</div>
+                        </div>
+                        <div style={{ display: 'flex', fontSize: '16px', marginBottom: '8px' }}>
+                            <div style={{ color: '#50C878', minWidth: '170px' }}>Redeemable points:</div>
+                            <div>{point['non_redeemed']} points</div>
+                        </div>
+                        <br />
+                        <p>Total redeemed points: {point['total']} points</p>
+                        <p style={{ color: '#50C878' }}>Total redeemable points: {point['non_redeemed']} points</p>
+                        <br />
+                        <Button color="primary" fullWidth variant="contained" sx={{ mt: 2 }} onClick={handleOpen}>
+                            Claim
                         </Button>
+
                     </div>
 
                 </Box>
@@ -226,13 +240,15 @@ function DonationData() {
 
 
             </Box>
-            <Box width="45%"  mb={2} style={{}}>
-                <Paper fullWidth sx={{ width: '100%' ,height:'auto',border:'1px black solid', marginLeft:'70px'}}>
-                    <TableContainer >
+            <Box width="45%" mb={2} style={{}}>
+                
+                <Paper fullWidth sx={{ width: '100%', marginLeft: '70px' }}>
+                    
+                    <TableContainer style={{height:'380px'}}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="center" colSpan={4}>
+                                    <TableCell align="center" colSpan={4} style={{fontSize: '25px',fontWeight:'bold' ,color: 'black', textAlign: 'center'}}>
                                         Organ Donation
                                     </TableCell>
 
@@ -271,6 +287,7 @@ function DonationData() {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    
                     <TablePagination
                         rowsPerPageOptions={[5, 10]}
                         component="div"

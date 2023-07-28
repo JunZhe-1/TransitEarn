@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Box, Typography, Grid, Card, CardContent, IconButton, Button
 } from '@mui/material';
 import { } from '@mui/icons-material';
+import { ToastContainer, toast } from 'react-toastify';
+
 import http from '../http';
+import UserContext from '../../contexts/UserContext';
+
 
 
 function ProductHomePage() {
   const [productList, setProductList] = useState([]);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     // Fetch the product list from the server
@@ -19,23 +24,28 @@ function ProductHomePage() {
     });
   }, []);
 
-  const handleRedeem = (productId) => {
+  const handleRedeem = (ProductId, UserId) => {
     // Perform the redeem API call to the server
     // Update the product quantity after redemption
-    http.post(`/product/redeem/${productId}`)
+
+    const data = {
+      productid:ProductId,
+      userid:UserId
+    }
+    http.post(`/product/redeem/`, data)
       .then((res) => {
         console.log(res.data);
         // Update the product quantity in the product list
         const updatedProductList = productList.map(product => {
-          if (product.id === productId) {
+          if (product.id === ProductId) {
             return { ...product, quantity: product.quantity - 1 };
           }
           return product;
         });
         setProductList(updatedProductList);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(function (err) {
+        toast.error(`${err.response.data.message}`);
       });
   };
 
@@ -72,7 +82,7 @@ function ProductHomePage() {
                     variant="contained"
                     color="primary"
                     disabled={product.quantity === 0}
-                    onClick={() => handleRedeem(product.id)}
+                    onClick={() => handleRedeem(product.id,user.id)}
                   >
                     Redeem
                   </Button>
@@ -82,6 +92,8 @@ function ProductHomePage() {
           </Grid>
         ))}
       </Grid>
+      <ToastContainer />
+
     </Box>
   );
 }

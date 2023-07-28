@@ -20,6 +20,35 @@ router.get("/get", async (req, res) => {
         res.status(500).json({ error: 'error at code 17' });
     }
 });
+router.get("/admin/search", async (req, res) => {
+    let condition = {};
+    let search = req.query.search;
+
+    if (search) {
+        condition[Sequelize.Op.or] = [
+            { sender: { [Sequelize.Op.like]: `%${search}%` } },
+            { senderName: { [Sequelize.Op.like]: `%${search}%` },
+         }
+
+        ];
+    }
+
+    let getall = await PointRecord.findAll({
+        where: condition,
+        order: [['createdAt', 'DESC']]
+    });
+
+    if (!getall) {
+        res.json(error);
+        return;
+    }
+    res.json(getall);
+
+    
+
+
+   
+});
 
 
 router.get("/search", async (req, res) => {
@@ -27,6 +56,7 @@ router.get("/search", async (req, res) => {
     let search = req.query.search;
     let userId = req.query.userId;
     let userName = req.query.username;
+
 
 
 
@@ -122,7 +152,7 @@ router.get("/adminget/chart", async (req, res) => {
             if (j.transferpointdate.getFullYear() === currentYear) {
                 if (currentMont >= 1 && currentMont <= 12) {
 
-                     if (j.transferpointdate.getMonth() === 0 && j.Status === 'yes') {
+                    if (j.transferpointdate.getMonth() === 0 && j.Status === 'yes') {
                         chart_data['Jan'] += j.transferpoint;
                     }
                     else if (j.transferpointdate.getMonth() === 1 && j.Status === 'yes') {
@@ -159,8 +189,8 @@ router.get("/adminget/chart", async (req, res) => {
                     else if (j.transferpointdate.getMonth() === 11 && j.Status === 'yes') {
                         chart_data['Dec'] += j.transferpoint;
                     }
-               
-                   
+
+
                 }
             }
             if (j.sender in ranking_tmp && j.Status === 'yes') {
@@ -187,16 +217,15 @@ router.get("/adminget/chart", async (req, res) => {
                 else if (j.Redeemed === 'no') {
                     redeem_dict['non_redeemed'] += j.transferpoint;
                 }
-                 if(j.Status === 'no')
-                {
+                if (j.Status === 'no') {
                     redeem_dict['refund'] += j.transferpoint;
                     redeem_dict['total'] -= j.transferpoint
 
 
                 }
-                
+
             }
-        } 
+        }
 
         const senderEntries = Object.entries(ranking_tmp);
         senderEntries.sort((a, b) => b[1][Object.keys(b[1])[0]] - a[1][Object.keys(a[1])[0]]);
@@ -259,18 +288,17 @@ router.put("/redeemed/:year", async (req, res) => {
             res.json(error);
             return;
         }
-        else if(list.length ===0)
-        {
+        else if (list.length === 0) {
             console.log("enterhere")
             res.status(500).json({ message: `no points to redeem` });
             return;
 
-         
+
         }
-let changeStatus;
+        let changeStatus;
 
         for (const j of list) {
-             changeStatus = await PointRecord.update({ Redeemed: "yes" },
+            changeStatus = await PointRecord.update({ Redeemed: "yes" },
                 {
                     where: { id: j.id }
                 });
@@ -283,7 +311,7 @@ let changeStatus;
             });
             return;
         }
-      
+
         console.log(changeStatus);
 
 
