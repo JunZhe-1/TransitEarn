@@ -35,10 +35,19 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
     let condition = {};
     let search = req.query.search;
-    if (search) {
+    let cardno = req.query.cardNo;
+    
+    if (search || cardno) {
+        if (search) {
         condition[Sequelize.Op.or] = [
             { cardNo: { [Sequelize.Op.like]: `%${search}%` } }
         ];
+    }
+    if (cardno) {
+        condition[Sequelize.Op.or].push({
+            cardNo: { [Sequelize.Op.like]: `%${cardno}%` }
+        });
+    }
     }
 
     let list = await Topupinfo.findAll({
@@ -59,3 +68,32 @@ router.get("/:cardNo", async (req, res) => {
     });
 
 module.exports = router;
+
+router.put('/:cardNo', async (req,res)=>{
+
+    let cardNo = req.params.cardNo;
+    let topup = await Topupinfo.findByPk(cardNo);
+    if (!topup) {
+        res.sendStatus(404);
+        return;}
+
+    let newbalance = parseFloat(req.body.newbalance)
+    let num = await Topupinfo.update(
+        { balance: newbalance },
+        {
+          where: { cardNo: cardNo },
+          returning: true, 
+        }
+      );
+    if (num == 1) {
+        res.json({
+            message: "creditcard was updated successfully."
+        });
+    }
+    else {
+        res.status(400).json({
+            message: `Cannot update creditcard with card number ${cardNo}.`
+        });
+    }
+
+});

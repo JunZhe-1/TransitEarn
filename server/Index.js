@@ -9,7 +9,11 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
+<<<<<<< Updated upstream
     res.send("This is server");
+=======
+    res.send("This is bank");
+>>>>>>> Stashed changes
 });
 
 const topupRoute = require("./routes/topupinfo")
