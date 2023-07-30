@@ -1,39 +1,19 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-<<<<<<< Updated upstream
-import { Box, Typography, Grid, Card, CardContent, Input, IconButton, Button } from '@mui/material';
-import { AccountCircle, AccessTime, Search, Clear, Edit } from '@mui/icons-material';
-=======
 import { Box, Typography, Grid, Card, CardContent, Input, IconButton, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { AccountCircle, AccessTime, Search, Clear } from '@mui/icons-material';
->>>>>>> Stashed changes
 import http from '../http';
 import dayjs from 'dayjs';
 import global from '../global';
 import UserContext from '../contexts/UserContext';
 
-<<<<<<< Updated upstream
-
-
-function Ezlink() {
-  const {user} = useContext(UserContext);
-=======
 function Ezlink() {
   const { user } = useContext(UserContext);
->>>>>>> Stashed changes
   const [ezlinkList, setEzlinkList] = useState([]);
   const [search, setSearch] = useState('');
+  const [dataFetched, setDataFetched] = useState(false);
   var filteredEzlinkList = ezlinkList;
   var userid = null;
-<<<<<<< Updated upstream
-  if(user){
-    console.log(user.name);
-    console.log(user.id);
-    userid = user.id;
-    }
-  filteredEzlinkList = ezlinkList.filter((ezlink) => ezlink.userId === userid);
-  
-=======
   if (user) {
     // console.log(user.name);
      
@@ -73,7 +53,6 @@ function Ezlink() {
       return;
     }
     let newbalance = parseFloat(response2.data.balance) - 5;
-    console.log('hi')
     http.put(`/topup/${cardNo}`, { newbalance: parseFloat(newbalance) })
       .then((res) => {
         console.log(res.data);
@@ -93,55 +72,56 @@ function Ezlink() {
   
 
 
->>>>>>> Stashed changes
   const onSearchChange = (e) => {
     setSearch(e.target.value);
   };
 
-  const getEzlink = () => {
-    http.get('/ezlink').then((res) => {
+
+  const getEzlink = async () => {
+    try {
+      const res = await http.get('/ezlink');
       setEzlinkList(res.data);
-    });
+      setDataFetched(true); 
+    } catch (error) {
+      
+    }
   };
 
   const searchEzlink = () => {
     http.get(`/ezlink/?search=${search}`).then((res) => {
-<<<<<<< Updated upstream
-      setEzlinkList(res.data);
-    });
-  };
-
-  useEffect(() => {
-    getEzlink();
-  }, []);
-
-  const onSearchKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      searchEzlink();
-=======
       const sortedData = res.data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
       setEzlinkList(sortedData);
     });
   };
  
   useEffect(() => {
-    getEzlink();
+    if (!dataFetched) {
+      // Call getEzlink only if data fetching is not done yet
+      getEzlink();
+    }
+    
+      const filteredEzlinkList = ezlinkList.filter((ezlink) => ezlink.userId === userid);
+      const uniqueEzlinkList = [];
+      filteredEzlinkList.forEach((ezlink) => {
+        const canExists = uniqueEzlinkList.some((item) => item.CAN === ezlink.CAN);
+        if (!canExists) {
+          uniqueEzlinkList.push(ezlink);
+        }
+      });
+  
+      const topuplist = uniqueEzlinkList.filter((ezlink) => ezlink.balance < 5 && ezlink.service === 'true');
+      autotopup(topuplist); 
 
-  }, []);
 
-  useEffect(() => {
-    autotopup(topuplist); 
-    console.log(ezlinkList)
-    console.log(topuplist);
-  }, []);
+  }, [ezlinkList,dataFetched]);
+  
 
 
   const onSearchKeyDown = (e) => {
     if (e.key === 'Enter') {
       searchEzlink(); 
->>>>>>> Stashed changes
     }
-  };
+  }; 
 
   const onClickSearch = () => {
     searchEzlink();
@@ -152,14 +132,6 @@ function Ezlink() {
     getEzlink();
   };
 
-<<<<<<< Updated upstream
-  const accessToken = localStorage.getItem('accessToken');
-
-
-  let userName = null;
-  let userId = null;
-=======
->>>>>>> Stashed changes
 
 
   return (
@@ -177,47 +149,6 @@ function Ezlink() {
           <Clear />
         </IconButton>
         <Box sx={{ flexGrow: 1 }} />
-<<<<<<< Updated upstream
-        <Link to="/AddEzlink" style={{ textDecoration: 'none' }}>
-          <Button variant="contained">Add</Button>
-        </Link>
-      </Box>
-
-      <Grid container spacing={2}>
-        {Array.isArray(filteredEzlinkList) && filteredEzlinkList.length > 0 ? (
-          filteredEzlinkList.map((ezlink, i) => (
-            
-            <Grid item xs={12} md={6} lg={4} key={ezlink.id}>
-              <Card>
-                <CardContent>
-                  <Box sx={{ display: 'flex', mb: 1 }}>
-                    <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                      CAN: {ezlink.CAN}
-                    </Typography>
-                    <Link to={`/ezlink/${ezlink.id}`}>
-                      <IconButton color="primary" sx={{ padding: '4px' }}>
-                        <Edit />
-                      </IconButton>
-                    </Link>
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }} color="text.secondary">
-                    <AccountCircle sx={{ mr: 1 }} />
-                    <Typography>{userName || 'No user'}</Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }} color="text.secondary">
-                    <AccessTime sx={{ mr: 1 }} />
-                    <Typography>{dayjs(ezlink.createdAt).format(global.datetimeFormat)}</Typography>
-                  </Box>
-                  <Typography sx={{ whiteSpace: 'pre-wrap' }}>Credit card No.: {ezlink.cardNo.slice(0, 4)}********{ezlink.cardNo.slice(12)}</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))
-        ) : (
-          <Typography variant="body1">No Ezlinks found.</Typography>
-        )}
-      </Grid>
-=======
       </Box>
       {user && (
         <Link to="/AddEzlink" style={{ textDecoration: 'none', display: 'left' }}>
@@ -318,13 +249,8 @@ function Ezlink() {
       </Grid>
 
 
->>>>>>> Stashed changes
     </Box>
   );
 }
 
-<<<<<<< Updated upstream
 export default Ezlink;
-=======
-export default Ezlink;
->>>>>>> Stashed changes
