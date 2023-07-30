@@ -94,11 +94,16 @@ function Ezlink() {
     });
   };
  
+useEffect(()=>{
+  if (!dataFetched) {
+    // Call getEzlink only if data fetching is not done yet
+    getEzlink();
+  }
+
+})
+
   useEffect(() => {
-    if (!dataFetched) {
-      // Call getEzlink only if data fetching is not done yet
-      getEzlink();
-    }
+    
     
       const filteredEzlinkList = ezlinkList.filter((ezlink) => ezlink.userId === userid);
       const uniqueEzlinkList = [];
@@ -111,9 +116,9 @@ function Ezlink() {
   
       const topuplist = uniqueEzlinkList.filter((ezlink) => ezlink.balance < 5 && ezlink.service === 'true');
       autotopup(topuplist); 
+      console.log(topuplist)
 
-
-  }, [ezlinkList,dataFetched]);
+  }, [topuplist]);
   
 
 
