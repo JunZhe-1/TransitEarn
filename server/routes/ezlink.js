@@ -30,14 +30,9 @@ router.get("/", async (req, res) => {
     let condition = {};
     let search = req.query.search;
     let can = req.query.CAN;
-<<<<<<< Updated upstream
-
-    if (search || can) {
-=======
     let cardno = req.query.cardNo;
 
     if (search || can || cardno) {
->>>>>>> Stashed changes
         condition[Sequelize.Op.or] = [];
 
         if (search) {
@@ -48,12 +43,9 @@ router.get("/", async (req, res) => {
             condition[Sequelize.Op.or].push({
                 CAN: { [Sequelize.Op.like]: `%${search}%` }
             });
-<<<<<<< Updated upstream
-=======
             condition[Sequelize.Op.or].push({
                 userId: { [Sequelize.Op.like]: `%${search}%` }
             });
->>>>>>> Stashed changes
         }
 
         if (can) {
@@ -61,13 +53,6 @@ router.get("/", async (req, res) => {
                 CAN: { [Sequelize.Op.like]: `%${can}%` }
             });
         }
-<<<<<<< Updated upstream
-    }
-
-    let list = await Ezlink.findAll({
-        where: condition,
-        order: [['createdAt', 'DESC']]
-=======
         if (cardno) {
             condition[Sequelize.Op.or].push({
                 cardNo: { [Sequelize.Op.like]: `%${cardno}%` }
@@ -79,7 +64,6 @@ router.get("/", async (req, res) => {
     let list = await Ezlink.findAll({
         where: condition,
         order: [['updatedAt', 'DESC'], ['createdAt', 'DESC']] // First sort by 'updatedAt' and then by 'createdAt'
->>>>>>> Stashed changes
     });
 
     res.json(list);
@@ -87,24 +71,16 @@ router.get("/", async (req, res) => {
 
 
 
-<<<<<<< Updated upstream
-router.get("/:id", async (req, res) => {
-    let id = req.params.id;
-    let ezlink = await Topupinfo.findByPk(id);
-=======
 
 router.get("/:id", async (req, res) => {
     let id = req.params.id;
     let ezlink = await Ezlink.findByPk(id);
->>>>>>> Stashed changes
     if (!ezlink) {
         res.sendStatus(404);
         return;}
     res.json(ezlink);
     });
 
-<<<<<<< Updated upstream
-=======
 
     router.delete("/:id", validateToken, async (req, res) => {
         let id = req.params.id;
@@ -167,5 +143,4 @@ router.get("/:id", async (req, res) => {
     });
 
 
->>>>>>> Stashed changes
 module.exports = router;

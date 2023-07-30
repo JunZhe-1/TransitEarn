@@ -8,8 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DOUBLE,
         allowNull: true,
         
-<<<<<<< Updated upstream
-=======
+
     },
     topupamount:{
         type: DataTypes.DOUBLE,
@@ -20,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     {
         type: DataTypes.STRING,
         allowNull: true,
->>>>>>> Stashed changes
+
     }
 
     },

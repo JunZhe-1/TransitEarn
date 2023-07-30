@@ -9,6 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
+    res.send("This is server");
 });
 
 const topupRoute = require("./routes/topupinfo")
