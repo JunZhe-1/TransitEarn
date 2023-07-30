@@ -8,8 +8,6 @@ import Ezlink from './pages/Ezlink';
 import AddEzlink from './pages/AddEzlink';
 import http from './http';
 import UserContext from './contexts/UserContext';
-<<<<<<< Updated upstream
-=======
 import UseExistEzlink from './pages/UseExistsEzlink';
 import EzlinkAdmin from './pages/EzlinkAdmin';
 import { AccountCircle, Home } from '@mui/icons-material';
@@ -18,7 +16,6 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import DirectionsBusFilledIcon from '@mui/icons-material/DirectionsBusFilled';
->>>>>>> Stashed changes
 
 function App() {
   const [user, setUser] = useState(null);
@@ -29,10 +26,6 @@ function App() {
       http.get('/user/auth').then((res) => {
         setUser(res.data.user);
       });
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
     }
   }, []);
 
@@ -47,32 +40,6 @@ function App() {
         <AppBar position="static" className="AppBar">
           <Container>
             <Toolbar disableGutters={true}>
-<<<<<<< Updated upstream
-              <Link to="/">
-                <Typography variant="h6" component="div">
-                  Learning
-                </Typography>
-              </Link>
-              <Box sx={{ flexGrow: 1 }}></Box>
-              {user && (
-                <>
-                  <Link to="/ezlink" ><Typography>Ezlink</Typography></Link>
-                  <Typography>{user.name}</Typography>
-                  <Typography>
-                    <Button onClick={logout}>Logout</Button></Typography>
-                </>
-              )}
-              {!user && (
-                <>
-                  <Link to="/register" ><Typography>Register</Typography></Link>
-                  <Link to="/login" ><Typography>Login</Typography></Link>
-                </>
-              )}
-            </Toolbar>
-          </Container>
-        </AppBar>
-
-=======
 
               <Link to='/'>
                 <IconButton color="inherit"  >
@@ -123,7 +90,6 @@ function App() {
           </Container>
         </AppBar>
 
->>>>>>> Stashed changes
         <Container>
           <Routes>
             <Route path={"/"} element={<Ezlink accessToken={localStorage.getItem("accessToken")} />} />
@@ -131,11 +97,8 @@ function App() {
             <Route path={"/login"} element={<Login />} />
             <Route path={"/ezlink"} element={<Ezlink accessToken={localStorage.getItem("accessToken")} />} />
             <Route path={"/addezlink"} element={<AddEzlink />} />
-<<<<<<< Updated upstream
-=======
             <Route path={"/useezlink/:id"} element={<UseExistEzlink />} />
             <Route path={"/ezlinkadmin"} element={<EzlinkAdmin />} />
->>>>>>> Stashed changes
           </Routes>
         </Container>
       </Router>
