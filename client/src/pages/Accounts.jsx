@@ -89,7 +89,7 @@ function Accounts() {
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "purple",
+      backgroundColor: "#8C1AFF",
       color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
@@ -106,6 +106,10 @@ function Accounts() {
       border: 0,
     },
   }));
+
+  const tableContainerStyle = {
+    marginBottom: '80px'
+  };
 
   const handleSearch = () => {
     fetchUsers();
@@ -137,9 +141,11 @@ function Accounts() {
       searchInputRef.current.focus();
     }
   }, [searchQuery]);
+  
 
   return (
     <div>
+      <br></br>
       <h1>Accounts</h1>
       <SearchBar
         value={searchQuery}
@@ -156,7 +162,7 @@ function Accounts() {
           ),
         }}
       />
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} style={tableContainerStyle}>
         <Table>
           <TableHead>
             <TableRow>

@@ -11,4 +11,11 @@ body {
   letter-spacing: 0.5px;
 }
 
-
+.logo {
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  /* Adjust the negative margin value as needed */
+}

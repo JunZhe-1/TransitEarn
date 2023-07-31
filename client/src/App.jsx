@@ -45,7 +45,7 @@ theme = createTheme(theme, {
       styleOverrides: {
         root: {
           "&.save": {
-            backgroundColor: "purple",
+            backgroundColor: "#8C1AFF",
             textTransform: "none",
             letterSpacing: 2,
             "&:hover": {
@@ -58,7 +58,7 @@ theme = createTheme(theme, {
           },
           "&.appbarbutton": {
             backgroundColor: "transparent",
-            color: "purple",
+            color: "#8C1AFF",
             "&:hover": {
               backgroundColor: "transparent",
               color: "black",
@@ -70,7 +70,7 @@ theme = createTheme(theme, {
     MuiTypography: {
       styleOverrides: {
         root: {
-          color: "purple",
+          color: "#8C1AFF",
           fontWeight: 500,
           margin: 10,
           textTransform: "none",
@@ -80,7 +80,7 @@ theme = createTheme(theme, {
           "&.transitearn": {
             fontWeight: "bold",
             "& .purple": {
-              color: "purple",
+              color: "#8C1AFF",
             },
             "& .orange": {
               color: "orange",
@@ -124,6 +124,7 @@ function App() {
                     component="div"
                     className="transitearn"
                   >
+                    <img src="/Logo.svg" alt="Logo" className='logo'/>
                     <span className="purple">Transit</span>
                     <span className="orange">Earn</span>
                   </Typography>
@@ -133,7 +134,12 @@ function App() {
                   <>
                     <Typography>{user.name}</Typography>
                     <Link to={`/editaccount/${user.id}`}>
-                      <Button className="appbarbutton" variant="contained" disableElevation size="small">
+                      <Button
+                        className="appbarbutton"
+                        variant="contained"
+                        disableElevation
+                        size="small"
+                      >
                         <AccountCircleIcon></AccountCircleIcon>
                       </Button>
                     </Link>

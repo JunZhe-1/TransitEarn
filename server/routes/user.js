@@ -106,6 +106,91 @@ router.post("/login", async (req, res) => {
     });
 });
 
+// Forgot Password - Send Reset Email
+router.post('/forgot-password', async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const resetToken = crypto.randomBytes(20).toString('hex');
+    const resetTokenExpiry = Date.now() + 3600000; // 1 hour
+
+    // Store the reset token and expiry in the user record
+    user.resetToken = resetToken;
+    user.resetTokenExpiry = resetTokenExpiry;
+    await user.save();
+
+    // Send password reset email
+    const transporter = nodemailer.createTransport({
+      service: "sendgrid",
+      auth: {
+        api_key:
+          "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",
+      },
+    });
+
+    const mailOptions = {
+      from: 'your_email@example.com',
+      to: email,
+      subject: 'Password Reset',
+      html: `<p>You have requested a password reset. Click the following link to reset your password:</p>
+        <a href="${process.env.CLIENT_URL}/reset-password/${resetToken}">Reset Password</a>`,
+    };
+
+    transporter.sendMail(mailOptions, (error) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({ message: 'Failed to send reset email' });
+      }
+
+      res.json({ message: 'Reset email sent' });
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Password Reset - Update Password
+router.post('/reset-password/:resetToken', async (req, res) => {
+  const { resetToken } = req.params;
+  const { password } = req.body;
+
+  try {
+    const user = await User.findOne({
+      where: {
+        resetToken,
+        resetTokenExpiry: { $gt: Date.now() },
+      },
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid or expired reset token' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Update the user's password
+    user.password = hashedPassword;
+    user.resetToken = null;
+    user.resetTokenExpiry = null;
+    await user.save();
+
+    res.json({ message: 'Password reset successful' });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+module.exports = router;
+
 router.get("/auth", validateToken, (req, res) => {
     let userInfo = {
         id: req.user.id,
