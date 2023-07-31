@@ -22,7 +22,7 @@ const pointRoute = require('./routes/pointrecord');
 app.use("/point", pointRoute);
 const productroute = require('./routes/product');
 app.use("/product", productroute);
-const productrecord = require('./models/PointRecord');
+const productrecord = require('./routes/pointrecord');
 app.use("productrecord", productrecord);
 const fileRoute = require('./routes/file');
 app.use("/file", fileRoute);

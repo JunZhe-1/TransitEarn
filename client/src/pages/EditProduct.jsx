@@ -12,20 +12,24 @@ function EditProduct() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [imageFile, setImageFile] = useState(null);
+    const [imageFile1, setImageFile1] = useState(null);
+
     const [product, setProduct] = useState({
         productName: "",
         image: "",
         category: "",
         quantity: "",
-        prizePoint: ""
+        prizePoint: "",
+        ARpic:""
     });
 
     useEffect(() => {
         http.get(`/product/get/${id}`).then((res) => {
             setProduct(res.data);
-            console.log("hi");
             console.log(res.data.image);
             setImageFile(res.data.image);
+            setImageFile1(res.data.ARpic);
+
 
 
         });
@@ -47,9 +51,11 @@ function EditProduct() {
 
         }),
         onSubmit: (data) => {
-            console.log(imageFile);
             if (imageFile) {
                 data.image = imageFile;
+            }
+            if (imageFile1) {
+                data.ARpic = imageFile1;
             }
             data.productName = data.productName.trim();
             data.category = data.category.trim();
@@ -107,6 +113,31 @@ function EditProduct() {
                 });
         }
     };
+
+    const onFileChange1 = (e) => {
+        let file = e.target.files[0];
+        console.log(e.target.files)
+        if (file) {
+            if (file.size > 1024000 * 1024000) {
+                toast.error('Maximum file size is 1MB');
+                return;
+            }
+            let formData = new FormData();
+            formData.append('file', file);
+            http.post('/file/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then((res) => {
+                    const testing = res.data.filename;
+                    setImageFile1(testing);
+                    
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+        }};
 
     return (
         <Box sx={{
@@ -180,6 +211,27 @@ function EditProduct() {
                         endAdornment: (
                             <InputAdornment position="end">
                                 {imageFile && <Typography variant="body2">Previous image: {imageFile}</Typography>}
+                            </InputAdornment>
+                        ),
+                    }}
+                    error={formik.touched.image && Boolean(formik.errors.image)}
+                    helperText={formik.touched.image && formik.errors.image}
+                />
+
+<TextField
+                    fullWidth
+                    margin="dense"
+                    autoComplete="off"
+                    type="file"
+                    label=""
+                    name="image"
+                    inputProps={{}}
+                    onChange={onFileChange1}
+
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                {imageFile1 && <Typography variant="body2">Previous AR : {imageFile1}</Typography>}
                             </InputAdornment>
                         ),
                     }}

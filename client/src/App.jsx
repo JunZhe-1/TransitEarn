@@ -22,6 +22,9 @@ import DonatePoint from './pages/DonatePoint';
 import DonationData from './pages/DonationData';
 import AdminProduct from './pages/AdminProduct';
 import UserProduct from './pages/UserProduct';
+// import GLBViewer from './GLBViewer'; // Replace with the path to your GLBViewer component
+// import Testing from './pages/test';
+
 
 function App() {
   const [user, setUser] = useState(null);
@@ -252,6 +255,10 @@ function App() {
             <Route path={"/productpage"} element={<ProductHomePage />} />
             <Route path={'/adminproduct'} element={<AdminProduct/>}/>
             <Route path={"/userproduct"} element={<UserProduct />} />
+        
+          {/* <div className="App">
+      <GLBViewer />
+    </div> */}
 
           </Routes>
         </Container>

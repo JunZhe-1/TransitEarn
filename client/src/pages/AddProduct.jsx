@@ -19,6 +19,7 @@ function AddProduct() {
     };
 
 const [imageFile, setImageFile] = useState(null);
+const [imageFile1, setImageFile1] = useState(null);
     const formik = useFormik({
         initialValues: {
             productName: "",
@@ -26,7 +27,8 @@ const [imageFile, setImageFile] = useState(null);
             category: "option1",
             quantity: "",
             prizePoint: "",
-            status: "True"
+            status: "True",
+            ARpic:""
 
         },
         validationSchema: yup.object().shape({
@@ -47,10 +49,14 @@ const [imageFile, setImageFile] = useState(null);
             if (imageFile) {
                 data.image = imageFile;
             }
+            if (imageFile1) {
+                data.ARpic = imageFile1;
+            }
             data.productName = data.productName.trim();
             data.category = data.category.trim();
             data.quantity = parseInt(data.quantity);
             data.prizePoint = parseInt(data.prizePoint);
+            
             
             http.post("/product/register", data)
                 .then((res) => {
@@ -86,6 +92,31 @@ const [imageFile, setImageFile] = useState(null);
                     console.log(error.response);
                 });
         }};
+
+        const onFileChange1 = (e) => {
+            let file = e.target.files[0];
+            console.log(e.target.files)
+            if (file) {
+                if (file.size > 1024000 * 1024000) {
+                    toast.error('Maximum file size is 1MB');
+                    return;
+                }
+                let formData = new FormData();
+                formData.append('file', file);
+                http.post('/file/upload', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                    .then((res) => {
+                        const testing = res.data.filename;
+                        setImageFile1(testing);
+                        
+                    })
+                    .catch(function (error) {
+                        console.log(error.response);
+                    });
+            }};
     return (
         <Box sx={{
             marginTop: 8,
@@ -152,6 +183,15 @@ const [imageFile, setImageFile] = useState(null);
                     label=""
                     name="image"
                     onChange={onFileChange}
+                />
+                   <TextField
+                    fullWidth
+                    margin="dense"
+                    autoComplete="off"
+                    type="file"
+                    label=""
+                    name="arpic"
+                    onChange={onFileChange1}
                 />
                
 

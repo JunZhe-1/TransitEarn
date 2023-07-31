@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         status:{
             type: DataTypes.STRING,
             allowNull:false
+        },
+        ARpic:{
+            type: DataTypes.STRING,
+            allowNull:true
         }
 
     });
