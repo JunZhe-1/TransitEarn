@@ -14,8 +14,10 @@ function Register() {
         initialValues: {
             name: "",
             email: "",
+            phone: "",
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
+            point: 0
         },
         validationSchema: yup.object().shape({
             name: yup.string().trim()
@@ -27,6 +29,9 @@ function Register() {
                 .email('Enter a valid email')
                 .max(50, 'Email must be at most 50 characters')
                 .required('Email is required'),
+            phone: yup.string().trim()
+                .matches(/[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/g, 'Invalid phone number')
+                .required('Phone number is required'),
             password: yup.string().trim()
                 .min(8, 'Password must be at least 8 characters')
                 .max(50, 'Password must be at most 50 characters')
@@ -38,11 +43,14 @@ function Register() {
         onSubmit: (data) => {
             data.name = data.name.trim();
             data.email = data.email.trim().toLowerCase();
+            data.phone = data.phone.trim();
             data.password = data.password.trim();
+            data.point = 0;
+            
             http.post("/user/register", data)
                 .then((res) => {
                     console.log(res.data);
-                    navigate("/Login");
+                    navigate("/login");
                 })
                 .catch(function (err) {
                     toast.error(`${err.response.data.message}`);
@@ -82,6 +90,15 @@ function Register() {
                 />
                 <TextField
                     fullWidth margin="normal" autoComplete="off"
+                    label="Phone Number"
+                    name="phone"
+                    value={formik.values.phone}
+                    onChange={formik.handleChange}
+                    error={formik.touched.phone && Boolean(formik.errors.phone)}
+                    helperText={formik.touched.phone && formik.errors.phone}
+                />
+                <TextField
+                    fullWidth margin="normal" autoComplete="off"
                     label="Password"
                     name="password" type="password"
                     value={formik.values.password}
@@ -98,7 +115,7 @@ function Register() {
                     error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
                     helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
                 />
-                <Button fullWidth variant="contained" sx={{ mt: 2 }}
+                <Button fullWidth variant="contained" className="save" sx={{ mt: 2 }}
                     type="submit">
                     Register
                 </Button>

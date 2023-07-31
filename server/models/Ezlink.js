@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DOUBLE,
         allowNull: true,
         
-
     },
     topupamount:{
         type: DataTypes.DOUBLE,
@@ -19,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
     {
         type: DataTypes.STRING,
         allowNull: true,
-
     }
 
     },
