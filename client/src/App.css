@@ -6,3 +6,8 @@
   .AppBar a:hover {
   color: lightblue;
   }
+
+  *{
+    margin: 0;
+    padding: 0;
+  }

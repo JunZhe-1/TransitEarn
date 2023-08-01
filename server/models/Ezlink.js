@@ -2,22 +2,12 @@ module.exports = (sequelize, DataTypes) => {
     const Ezlink = sequelize.define("Ezlink", {
     CAN: {
         type: DataTypes.STRING,
-        allowNull: false,
-        primaryKey:true,
-
+        allowNull: false
     },
-
-
-    },
-{primaryKey:'CAN'}
-    );
-
-    Ezlink.associate = (models) => {
-        Ezlink.belongsTo(models.Topupinfo, {
-            foreignKey: "cardNo",
-            as: 'bankcard'
-        });
-    };
-
+    userID: {
+    type: DataTypes.STRING,
+    allowNull: false
+    }
+    });
     return Ezlink;
     }
