@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import http from "../http";
 import { Box, Typography, TextField, Button } from "@mui/material";
-import {Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
@@ -18,13 +18,16 @@ function EditAccount() {
     password: "",
     confirmPassword: "",
     point: 0,
+    address: ""
+
   });
 
   useEffect(() => {
     http
       .get(`/user/${id}`)
       .then((res) => {
-        setUser(res.data.user);
+        setUser(res.data);
+        console.log(res.data);
       })
       .catch((error) => {
         console.error(error);
@@ -67,11 +70,17 @@ function EditAccount() {
         .trim()
         .required("Confirm password is required")
         .oneOf([yup.ref("password"), null], "Passwords must match"),
+      address: yup.string().trim()
+        .min(3, 'Address must be at least 3 characters')
+        .max(50, 'Address must be at most 50 characters')
+        .required('Address is required'),
     }),
     onSubmit: (data) => {
       data.name = data.name.trim();
       data.email = data.email.trim().toLowerCase();
-      data.phone = data.phone.trim();
+      data.phone = parseInt(data.phone.trim());
+      data.address = data.address.trim().toLowerCase();
+
       data.password = data.password.trim();
       http
         .put(`/user/${id}`, data)
@@ -185,6 +194,19 @@ function EditAccount() {
           helperText={
             formik.touched.confirmPassword && formik.errors.confirmPassword
           }
+        />
+         <TextField
+          fullWidth
+          margin="normal"
+          autoComplete="off"
+          label="Address"
+          name="address"
+          value={formik.values.address}
+          onChange={formik.handleChange}
+          error={
+            formik.touched.address && Boolean(formik.errors.address)
+          }
+          helperText={formik.touched.address && formik.errors.address}
         />
         <Box sx={{ mt: 2 }}>
           <Button variant="contained" type="submit" className="save">

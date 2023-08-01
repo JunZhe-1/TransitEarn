@@ -192,9 +192,9 @@ function EditProduct() {
                 >
                     <InputLabel id="category-label">Category</InputLabel>
 
-                    <MenuItem value="option1">Option 1</MenuItem>
-                    <MenuItem value="option2">Option 2</MenuItem>
-                    <MenuItem value="option3">Option 3</MenuItem>
+                    <MenuItem value="Footwear">Footwear</MenuItem>
+                    <MenuItem value="Clothes">Clothes</MenuItem>
+                    <MenuItem value="Keychains">Keychains</MenuItem>
                 </Select>
 
                 <TextField

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import { Box, Typography, TextField, Button, Select, MenuItem, IconButton } from '@mui/material';
-import { MonetizationOn, Settings, Delete, ToggleOn, ToggleOff, Search, Clear, Edit, ProductionQuantityLimits } from '@mui/icons-material';
+import { Box, Typography, TextField, Button, Select, MenuItem, IconButton, InputLabel } from '@mui/material';
+import { MonetizationOn, Settings, Delete, ToggleOn, ToggleOff, Search, Clear , Edit, ProductionQuantityLimits } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import http from '../http';
@@ -23,8 +23,8 @@ const [imageFile1, setImageFile1] = useState(null);
     const formik = useFormik({
         initialValues: {
             productName: "",
-            image: "",
-            category: "option1",
+            image: "image",
+            category: "Footwear",
             quantity: "",
             prizePoint: "",
             status: "True",
@@ -161,18 +161,26 @@ const [imageFile1, setImageFile1] = useState(null);
                     helperText={formik.touched.prizePoint && formik.errors.prizePoint}
                     sx={{ marginBottom: 3 }} />
 
+
+<InputLabel shrink htmlFor="category">
+          Category
+        </InputLabel>
+
                 <Select
                     sx={{ marginBottom: 2 }}
                     fullWidth margin="dense"
                     label="Category"
                     name="category"
+                    InputLabelProps={{ shrink: true }}
                     value={formik.values.category}
                     onChange={formik.handleChange}
+                    
+
                     error={formik.touched.category && Boolean(formik.errors.category)}
                 >
-                    <MenuItem value="option1">Footwear</MenuItem>
-                    <MenuItem value="option2">Clothes</MenuItem>
-                    <MenuItem value="option3">Keychains</MenuItem>
+                    <MenuItem value="Footwear">Footwear</MenuItem>
+                    <MenuItem value="Clothes">Clothes</MenuItem>
+                    <MenuItem value="Keychains">Keychains</MenuItem>
                 </Select>
 
                 <TextField
@@ -180,8 +188,9 @@ const [imageFile1, setImageFile1] = useState(null);
                     margin="dense"
                     autoComplete="off"
                     type="file"
-                    label=""
+                    label="Image"
                     name="image"
+                    InputLabelProps={{ shrink: true }}
                     onChange={onFileChange}
                 />
                    <TextField
@@ -189,7 +198,8 @@ const [imageFile1, setImageFile1] = useState(null);
                     margin="dense"
                     autoComplete="off"
                     type="file"
-                    label=""
+                    label="3D object"
+                    InputLabelProps={{ shrink: true }}
                     name="arpic"
                     onChange={onFileChange1}
                 />

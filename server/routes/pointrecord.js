@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { User, PointRecord, Sequelize } = require('../models');
+const { User, PointRecord, ProductRecord, Sequelize } = require('../models');
 const yup = require("yup");
 const { sign } = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/auth');
@@ -27,8 +27,9 @@ router.get("/admin/search", async (req, res) => {
     if (search) {
         condition[Sequelize.Op.or] = [
             { sender: { [Sequelize.Op.like]: `%${search}%` } },
-            { senderName: { [Sequelize.Op.like]: `%${search}%` },
-         }
+            {
+                senderName: { [Sequelize.Op.like]: `%${search}%` },
+            }
 
         ];
     }
@@ -44,10 +45,10 @@ router.get("/admin/search", async (req, res) => {
     }
     res.json(getall);
 
-    
 
 
-   
+
+
 });
 
 
@@ -121,6 +122,7 @@ router.get("/adminget/chart", async (req, res) => {
 
     let chart_data = {};
     let ranking_tmp = {};
+    let product_tmp = {};
     let data = {};
     try {
         const list = await PointRecord.findAll({
@@ -129,6 +131,7 @@ router.get("/adminget/chart", async (req, res) => {
             }
         });
 
+        const product = await ProductRecord.findAll();
 
         const currentDate = new Date();
         const currentYear = currentDate.getFullYear();
@@ -140,7 +143,6 @@ router.get("/adminget/chart", async (req, res) => {
                 chart_data[monthName] = 0;
             }
         }
-        console.log(chart_data);
         // else {
         //     for (let month = 0; month <= 5; month++) {
         //         const monthName = new Date(0, month).toLocaleString('default', { month: 'long' });
@@ -200,8 +202,21 @@ router.get("/adminget/chart", async (req, res) => {
                 ranking_tmp[j.sender] = { [j.senderName]: j.transferpoint };
             }
         }
+        for (const p of product) {
 
-        console.log(chart_data);
+
+            if (p.redeemdate.getFullYear() === currentYear) {
+                if (p.productname in product_tmp) {
+
+                    product_tmp[p.productname] += 1;
+                }
+                else {
+                    product_tmp[p.productname] = 1;
+                }
+            }
+        }
+        console.log(product_tmp);
+
         let redeem_dict = {};
         redeem_dict['redeemed'] = 0;
         redeem_dict['non_redeemed'] = 0;
@@ -230,13 +245,26 @@ router.get("/adminget/chart", async (req, res) => {
         const senderEntries = Object.entries(ranking_tmp);
         senderEntries.sort((a, b) => b[1][Object.keys(b[1])[0]] - a[1][Object.keys(a[1])[0]]);
 
+        // const filter_product = Object.entries(product_tmp);
+        // filter_product.sort((a, b) => b[1][Object.keys(b[1])[0]] - a[1][Object.keys(a[1])[0]]);
+
         let ranking_data = [];
+        // let ranking_data_product = [];
+
 
 
         for (let i = 0; i < Math.min(10, senderEntries.length); i++) { // min(10, sorted/length) it is prevent the sorted sender less than 10 person
             const [senderID, senderData] = senderEntries[i];
             ranking_data.push({ senderID, senderData });
         }
+
+        // for (let i = 0; i < Math.min(10, filter_product.length); i++) { // min(10, sorted/length) it is prevent the sorted sender less than 10 person
+        //     const [productID, ProductData] = filter_product[i];
+        //     // const productname = Object.keys(ProductData);
+        //     // const productvalue = ProductData[productname];
+        //     // console.log(productname, productvalue,"ewuihweu");
+        //     ranking_data_product.push({ productID, ProductData });
+        // }
 
         // for (const item of ranking_data) {
         //     const senderID = item.senderID;
@@ -260,6 +288,7 @@ router.get("/adminget/chart", async (req, res) => {
         data["month"] = chart_data;
         data["ranking"] = ranking_data;
         data['point'] = redeem_dict;
+        data['product'] = product_tmp;
         res.json(data);
         return chart_data;
     } catch (error) {

@@ -40,7 +40,7 @@ router.post("/register", async (req, res) => {
     {
         check1 = data.ARpic.split('.');
     }
-    if (check[1] === "png" || check[1] === "jpg") {
+    if (check[1] === "png" || check[1] === "jpg" ||check[1] === "jpeg") {
         if (check1[1] === "glb" || check1 == null)
         {
 
@@ -128,7 +128,7 @@ router.put("/updateProduct/:id", async (req, res) => {
         {
             check1 = data.ARpic.split('.');
         }
-        if (check[1] === "png" || check[1] === "jpg") {
+        if (check[1] === "png" || check[1] === "jpg" || check[1] ==="jpeg") {
             if (check1[1] === "glb" || check1 == null)
             {
     
@@ -156,6 +156,7 @@ router.put("/updateProduct/:id", async (req, res) => {
         }
         else{
             res.status(400).json({ message: "only accept glb file" });
+
         }
         }
         else {
@@ -399,7 +400,7 @@ async function redeem_record(product, user) {
 
 
     // // get the name and phone but rename it to prevent crash.
-    let { id: userid, name: user_name, phone: user_phone } = user;
+    let { id: userid, name: user_name, phone: user_phone, address: user_address } = user;
     let { id: productid, productName: productname, prizePoint: points, category: cat } = product
     console.log(user_name, productname);
 
@@ -417,9 +418,10 @@ async function redeem_record(product, user) {
             productname: productname,
             productCat: cat,
             usedpoint: points,
-            Status: "no",
+            address: user_address,
             userId: userid,
             redeemdate: transfer_date
+
         });
 
 

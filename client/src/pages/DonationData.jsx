@@ -17,9 +17,10 @@ function DonationData() {
     const navigate = useNavigate();
     const [chartdata, setchart] = useState([]);
     const [rankingdata, setranking] = useState([]);
+    const [productrankingdata, setproduct] = useState([]);
     const [point, setpoint] = useState('');
     const [page, setPage] = useState('');
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(4);
     const [open, setOpen] = useState(false);
     const [open1, setOpen1] = useState(false);
 
@@ -35,7 +36,8 @@ function DonationData() {
             setchart(res.data["month"]);
             setranking(res.data["ranking"]);
             setpoint(res.data['point']);
-
+            setproduct(res.data['product']);
+          
         })
             .catch(function (err) {
                 toast.error(`${err.response.data.message}`);
@@ -57,7 +59,15 @@ function DonationData() {
     if (formattedData.length === 0) {
         return <div>No data available</div>; // Render a message if there is no data
     }
-    // console.log(rankingdata);
+
+    const formattedData1 = Object.keys(productrankingdata).map((product) => ({ //month will represent the key
+        name: product,
+        value: productrankingdata[product],
+    }));
+
+    if (formattedData1.length === 0) {
+        return <div>No data available</div>; // Render a message if there is no data
+    }
 
 
 
@@ -107,13 +117,13 @@ function DonationData() {
 
 
     const columns = [
-        { id: 'no', label: 'No', minWidth: 10 },
-        { id: 'code', label: 'Name', minWidth: 100 },
-        { id: 'name', label: 'contact number', minWidth: 150 },
+        { id: 'no', label: 'No', minWidth: 15 },
+        { id: 'code', label: 'Name', minWidth: 15 },
+        { id: 'name', label: 'contact number', minWidth: 15 },
         {
             id: 'population',
             label: 'Total Point',
-            minWidth: 150,
+            minWidth: 10,
             align: 'right',
             format: (value) => value.toLocaleString('en-US'),
         },
@@ -154,7 +164,7 @@ function DonationData() {
             {/* First Row */}
             <Box width="45%" mb={2}>
                 <Box
-                    width={750}
+                    width={600}
                     height={450}>
                     <h1 style={{ fontSize: '25px', color: 'black', textAlign: 'center', marginBottom: '-80px' }}>Organ Donation in {Year}</h1>
                     <BarChart
@@ -215,14 +225,14 @@ function DonationData() {
             <Box width="45%" mb={2}>
 
                 <Box
-                    width={750}
+                    width={600}
                     height={400}>
                     <h1 style={{ fontSize: '25px', color: 'black', textAlign: 'center', marginBottom: '-80px' }}>{Year}</h1>
                     <BarChart
                         xAxis={[
                             {
                                 id: 'barCategories',
-                                data: formattedData.map((data) => data.month), // Convert the keys to a comma-separated string
+                                data: formattedData1.map((data) => data.name), // Convert the keys to a comma-separated string
                                 scaleType: 'band',
                             },
                         ]}
@@ -249,7 +259,7 @@ function DonationData() {
                             <TableHead>
                                 <TableRow>
                                     <TableCell align="center" colSpan={4} style={{fontSize: '25px',fontWeight:'bold' ,color: 'black', textAlign: 'center'}}>
-                                        Organ Donation
+                                        Donation Ranking
                                     </TableCell>
 
                                 </TableRow>
@@ -258,7 +268,7 @@ function DonationData() {
                                         <TableCell
                                             key={column.id}
                                             align={column.align}
-                                            style={{ top: 57, minWidth: column.minWidth }}
+                                            style={{ top: 20, minWidth: column.minWidth, fontWeight:'bold' }}
                                         >
                                             {column.label}
                                         </TableCell>
@@ -289,7 +299,7 @@ function DonationData() {
                     </TableContainer>
                     
                     <TablePagination
-                        rowsPerPageOptions={[5, 10]}
+                        rowsPerPageOptions={[5  , 10]}
                         component="div"
                         count={rows.length}
                         rowsPerPage={rowsPerPage}

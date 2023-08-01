@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Box, Typography, TextField, Button, Stack, Snackbar, Alert } from '@mui/material';
+import { Box, Typography, TextField, Button, Stack, Snackbar, Alert, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions  } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -13,13 +13,15 @@ function DonatePoint() {
     // const { id } = useParams();
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
+    const [openDialog, setOpenDialog] = useState(false);
+
+    
 
 
-
-    const formik = useFormik({
+      const formik = useFormik({
         initialValues: {
-            email: "admin@gmail.com",
-            point: ""
+          email: "admin@gmail.com",
+          point: ""
         },
 
 
@@ -31,19 +33,8 @@ function DonatePoint() {
                 .required('points cannot be empty')
         }),
         onSubmit: (data) => {
-            data.email = data.email.trim();
-            data.phone = parseInt(data.phone);
-            http.put(`/user/transfer/${user.phone}`, data)
-                .then((res) => {
-                    console.log(res.data);
-                    handleClick();
-                    navigate("/point");
-
-                })
-                .catch(function (err) {
-                    toast.error(`${err.response.data.message}`);
-                });
-
+            setOpenDialog(true); 
+           
         }
     });
 
@@ -61,6 +52,57 @@ function DonatePoint() {
         setOpen(false);
     };
 
+    const handleOpenDialog = () => {
+        formik.submitForm();
+        if (formik.isValid) {
+          setname(formik.values.name);
+          console.log(formik.values.name);
+          setOpenDialog(true);
+        }
+      };
+    
+      const handleCloseDialog = () => {
+        setOpenDialog(false);
+      };
+    
+      const handledonate = () => {
+
+
+
+      
+        // http.put(`/user/transfer/${user.phone}`, data)
+        //     .then((res) => {
+        //         console.log(res.data);
+        //         handleClick();
+        //         navigate("/point");
+
+        //     })
+        //     .catch(function (err) {
+        //         toast.error(`${err.response.data.message}`);
+        //     });
+
+
+
+        const data = {
+
+            email : formik.values.email,
+            point : parseInt(formik.values.point),
+            phone : null
+         
+        };
+        http.put(`/user/transfer/${user.phone}`, data)
+          .then((res) => {
+            console.log(res.data);
+            setOpenDialog(false);
+            handleClick();
+            formik.resetForm(); // Reset form values after successful transfer
+
+          })
+          .catch(function (err) {
+            setOpenDialog(false);
+            toast.error(`${err.response.data.message}`);
+          });
+      };
 
     return (
         <div style={{ display: 'grid', gridTemplateColumns: '50% 50%', width: '100%', backgroundColor: '#f0f0f0' }}>
@@ -89,10 +131,9 @@ function DonatePoint() {
                         error={formik.touched.point && Boolean(formik.errors.point)}
                         helperText={formik.touched.point && formik.errors.point}
                     />
-                    <Button fullWidth variant="contained" sx={{ mt: 2 }}
-                        type="submit"   >
-                        Donate
-                    </Button>
+                       <Button fullWidth variant="contained" sx={{ mt: 2 }} onClick={handleOpenDialog}>
+            Transfer
+          </Button>
 
                     {/* <Stack spacing={2} sx={{ width: '100%' }}>
       <Button variant="outlined" onClick={handleClick}>
@@ -107,6 +148,24 @@ function DonatePoint() {
                     {/* </Stack> */}
                 </Box>
             </div>
+            <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}>
+          Confirmation
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to transfer to {name} points?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="inherit" onClick={handleCloseDialog}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="error" onClick={handledonate}>
+            Transfer
+          </Button>
+        </DialogActions>
+      </Dialog>
             <ToastContainer />
         </div>
     );

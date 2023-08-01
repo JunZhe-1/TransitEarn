@@ -97,7 +97,7 @@ function UserPoint() {
 
     return (
         <Box>
-            <Typography variant="h5" sx={{ my: 2 , color:'black', fontWeight:'bold'}}>
+            <Typography variant="h5" sx={{ my: 2, color: 'black', fontWeight: 'bold' }}>
                 Point History
             </Typography>
 
@@ -123,17 +123,17 @@ function UserPoint() {
                 >
                     All
                 </Button>
-                <Button variant="contained"style={{
-                        marginRight: '10px',
-                        ...(button === 'sent' ? { color: '#7DF9FF', backgroundColor: '#088F8F' } : { color: '#7393B3', backgroundColor: '#7DF9FF' })
-                    }}
+                <Button variant="contained" style={{
+                    marginRight: '10px',
+                    ...(button === 'sent' ? { color: '#7DF9FF', backgroundColor: '#088F8F' } : { color: '#7393B3', backgroundColor: '#7DF9FF' })
+                }}
                     onClick={OnClickSent}>
                     Sent
                 </Button>
                 <Button variant="contained" style={{
-                        marginRight: '10px',
-                        ...(button === 'receive' ? { color: '#7DF9FF', backgroundColor: '#088F8F' } : { color: '#7393B3', backgroundColor: '#7DF9FF' })
-                    }}
+                    marginRight: '10px',
+                    ...(button === 'receive' ? { color: '#7DF9FF', backgroundColor: '#088F8F' } : { color: '#7393B3', backgroundColor: '#7DF9FF' })
+                }}
                     onClick={OnClickReceive}>
                     Received
                 </Button>
@@ -157,26 +157,28 @@ function UserPoint() {
                         </TableHead>
 
                         <TableBody>
-                            {pointrecordlist.map((data, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{data.senderName}</TableCell>
-                                    <TableCell>{data.sender}</TableCell>
-                                    <TableCell>{data.recipientName}</TableCell>
-                                    <TableCell>{data.recipient}</TableCell>
+                            {pointrecordlist
+                                .sort((a, b) => new Date(b.transferpointdate) - new Date(a.transferpointdate)) // Sort by transferpointdate in descending order (latest to earliest)
+                                .map((data, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{data.senderName}</TableCell>
+                                        <TableCell>{data.sender}</TableCell>
+                                        <TableCell>{data.recipientName}</TableCell>
+                                        <TableCell>{data.recipient}</TableCell>
 
 
-                                    {data.sender === user.phone ? <TableCell sx={{ color: '#ff6666', fontWeight: 'bold' }}>{data.transferpoint}</TableCell> : <TableCell sx={{ color: '#00cc66', fontWeight: 'bold' }}>{data.transferpoint}</TableCell>}
+                                        {data.sender == user.phone ? <TableCell sx={{ color: '#ff6666', fontWeight: 'bold' }}>{data.transferpoint}</TableCell> : <TableCell sx={{ color: '#00cc66', fontWeight: 'bold' }}>{data.transferpoint}</TableCell>}
 
-                                    <TableCell>{dayjs(data.transferpointdate).format(global.datetimeFormat)}</TableCell>
-                                    <TableCell>
-                                        {data.Status === 'yes' ? (
-                                            <IconButton color="primary">
-                                                -
-                                            </IconButton>) : null}
+                                        <TableCell>{dayjs(data.transferpointdate).format(global.datetimeFormat)}</TableCell>
+                                        {/* <TableCell>
+                                            {data.Status === 'yes' ? (
+                                                <IconButton color="primary">
+                                                    -
+                                                </IconButton>) : null}
 
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                                        </TableCell> */}
+                                    </TableRow>
+                                ))}
                         </TableBody>
                     </Table>
                 </TableContainer>

@@ -17,7 +17,8 @@ function Register() {
             phone: "",
             password: "",
             confirmPassword: "",
-            point: 0
+            point: 0,
+            address: ""
         },
         validationSchema: yup.object().shape({
             name: yup.string().trim()
@@ -38,15 +39,20 @@ function Register() {
                 .required('Password is required'),
             confirmPassword: yup.string().trim()
                 .required('Confirm password is required')
-                .oneOf([yup.ref('password'), null], 'Passwords must match')
+                .oneOf([yup.ref('password'), null], 'Passwords must match'),
+            address: yup.string().trim()
+            .min(3, 'Address must be at least 3 characters')
+            .max(50, 'Address must be at most 50 characters')
+            .required('Address is rrequired'),
         }),
         onSubmit: (data) => {
             data.name = data.name.trim();
             data.email = data.email.trim().toLowerCase();
-            data.phone = data.phone.trim();
+            data.phone = parseInt(data.phone.trim());
             data.password = data.password.trim();
+            data.address = data.address.trim().toLowerCase();
             data.point = 0;
-            
+
             http.post("/user/register", data)
                 .then((res) => {
                     console.log(res.data);
@@ -114,6 +120,15 @@ function Register() {
                     onChange={formik.handleChange}
                     error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
                     helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                />
+                 <TextField
+                    fullWidth margin="normal" autoComplete="off"
+                    label="Address"
+                    name="address"
+                    value={formik.values.address}
+                    onChange={formik.handleChange}
+                    error={formik.touched.address && Boolean(formik.errors.address)}
+                    helperText={formik.touched.address && formik.errors.address}
                 />
                 <Button fullWidth variant="contained" className="save" sx={{ mt: 2 }}
                     type="submit">

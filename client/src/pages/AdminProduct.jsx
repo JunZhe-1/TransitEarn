@@ -85,12 +85,12 @@ function AdminProduct() {
         const days = new Date().getDay();
         const filter_sent = oriproductrecordlist.filter((data) => {
             const redeemDate = new Date(data.redeemdate);
-            return redeemDate.getFullYear() ===Year && Month === redeemDate.getMonth() && days === redeemDate.getDay();
+            return redeemDate.getFullYear() === Year && Month === redeemDate.getMonth() && days === redeemDate.getDay();
 
-          
-        });       
+
+        });
         console.log(filter_sent);
-         setproductlist(filter_sent);
+        setproductlist(filter_sent);
     }
 
     // const OnClickReceive = () => {
@@ -149,29 +149,35 @@ function AdminProduct() {
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow style={{ backgroundColor: "#ff0000" }}>
-                                <TableCell>No</TableCell>
-                                <TableCell>User Name</TableCell>
-                                <TableCell>User Phone</TableCell>
-                                <TableCell>Product Name</TableCell>
-                                {/* <TableCell>Product Cat meow</TableCell> */}
-                                <TableCell>Product Points</TableCell>
-                                <TableCell>Redeemed Date</TableCell>
+                              
+                                    <TableCell><b>No</b></TableCell>
+                                    <TableCell><b>User Name</b></TableCell>
+                                    <TableCell><b>User Phone</b></TableCell>
+                                    <TableCell><b>Product Name</b></TableCell>
+                                    {/* <TableCell><b>Product Cat meow</b></TableCell> */}
+                                    <TableCell><b>Product Points</b></TableCell>
+                                    <TableCell><b>Redeemed Date</b></TableCell>
+                                    <TableCell><b>Address</b></TableCell>
+                               
 
                             </TableRow>
                         </TableHead>
 
                         <TableBody>
-                            {productlist.map((data, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{data.id}</TableCell>
-                                    <TableCell>{data.username}</TableCell>
-                                    <TableCell>{data.userphone}</TableCell>
-                                    <TableCell>{data.productname}</TableCell>
-                                    {/* <TableCell>{data.productCat}</TableCell> */}
-                                    <TableCell>{data.usedpoint}</TableCell>
-                                    <TableCell>{dayjs(data.redeemdate).format(global.datetimeFormat)}</TableCell>
+                            {productlist
+                                .sort((a, b) => new Date(b.redeemdate) - new Date(a.redeemdate)) // Sort by transferpointdate in descending order (latest to earliest)
+                                .map((data, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{data.id}</TableCell>
+                                        <TableCell>{data.username}</TableCell>
+                                        <TableCell>{data.userphone}</TableCell>
+                                        <TableCell>{data.productname}</TableCell>
+                                        {/* <TableCell>{data.productCat}</TableCell> */}
+                                        <TableCell>{data.usedpoint}</TableCell>
+                                        <TableCell>{dayjs(data.redeemdate).format(global.datetimeFormat)}</TableCell>
+                                        <TableCell>{data.address}</TableCell>
 
-                                    {/* {data.sender === user.phone ? <TableCell sx={{ color: '#ff6666', fontWeight: 'bold' }}>{data.transferpoint}</TableCell> : <TableCell sx={{ color: '#00cc66', fontWeight: 'bold' }}>{data.transferpoint}</TableCell>}
+                                        {/* {data.sender === user.phone ? <TableCell sx={{ color: '#ff6666', fontWeight: 'bold' }}>{data.transferpoint}</TableCell> : <TableCell sx={{ color: '#00cc66', fontWeight: 'bold' }}>{data.transferpoint}</TableCell>}
 
                                     <TableCell>{dayjs(data.transferpointdate).format(global.datetimeFormat)}</TableCell>
                                     <TableCell>
@@ -181,8 +187,8 @@ function AdminProduct() {
                                             </IconButton>) : null}
 
                                     </TableCell> */}
-                                </TableRow>
-                            ))}
+                                    </TableRow>
+                                ))}
                         </TableBody>
                     </Table>
                 </TableContainer>

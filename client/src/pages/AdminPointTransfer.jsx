@@ -124,7 +124,7 @@ function AdminPoint() {
 
   return (
     <Box>
-            <Typography variant="h5" sx={{ my: 2 , color:'black', fontWeight:'bold'}}>
+      <Typography variant="h5" sx={{ my: 2, color: 'black', fontWeight: 'bold' }}>
         Point Management
       </Typography>
 
@@ -148,8 +148,10 @@ function AdminPoint() {
             <TableHead>
               <TableRow>
                 <TableCell>Sender Name</TableCell>
+                <TableCell></TableCell>
                 <TableCell>Sender No</TableCell>
                 <TableCell>Recipient Name</TableCell>
+                <TableCell></TableCell>
                 <TableCell>Recipient No</TableCell>
                 <TableCell>Points</TableCell>
                 <TableCell>Transfer Date</TableCell>
@@ -158,34 +160,37 @@ function AdminPoint() {
             </TableHead>
 
             <TableBody>
-              {pointList.map((data, index) => (
-                <TableRow key={index}>
-                  <TableCell>{data.senderName}<IconButton color="primary" onClick={() => handleOpen1(data.sender)}><Visibility /></IconButton></TableCell>
-                  <TableCell>{data.sender}</TableCell>
-                  <TableCell>{data.recipientName}<IconButton color="primary" onClick={() => handleOpen1(data.recipient)}><Visibility /></IconButton></TableCell>
-                  <TableCell>{data.recipient}</TableCell>
-                  <TableCell>{data.transferpoint}</TableCell>
-                  <TableCell>{dayjs(data.transferpointdate).format(global.datetimeFormat)}</TableCell>
-                  <TableCell>
-                    {data.Status === 'yes' ? (
-                      <IconButton color="primary"
-                        onClick={() => handleOpen(data.id)}>
-                        <Clear />
-                      </IconButton>) : <IconButton color="primary"><Block /></IconButton>}
-                  </TableCell>
+              {/* {pointList.map((data, index) => ( */}
+              {pointList
+                .sort((a, b) => new Date(b.transferpointdate) - new Date(a.transferpointdate)) // Sort by transferpointdate in descending order (latest to earliest)
+                .map((data, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{data.senderName}</TableCell><TableCell><IconButton color="primary" onClick={() => handleOpen1(data.sender)}><Visibility /></IconButton></TableCell>
+                    <TableCell>{data.sender}</TableCell>
+                    <TableCell>{data.recipientName}</TableCell><TableCell><IconButton color="primary" onClick={() => handleOpen1(data.recipient)}><Visibility /></IconButton></TableCell>
+                    <TableCell>{data.recipient}</TableCell>
+                    <TableCell>{data.transferpoint}</TableCell>
+                    <TableCell>{dayjs(data.transferpointdate).format(global.datetimeFormat)}</TableCell>
+                    <TableCell>
+                      {data.Status === 'yes' ? (
+                        <IconButton color="primary"
+                          onClick={() => handleOpen(data.id)}>
+                          <Clear />
+                        </IconButton>) : <IconButton color="primary"><Block /></IconButton>}
+                    </TableCell>
 
-                  <TableCell>
-                    {data.Status === 'yes' ? (
-                      <Link to={`/pointedit/${data.id}`} >
-                        <IconButton color="primary" >
-                          <Settings />
-                        </IconButton>
-                      </Link>) : <Link to={`/pointedit/${data.id}`} ><IconButton color="primary"><Visibility /></IconButton></Link>}
-                  </TableCell>
+                    <TableCell>
+                      {data.Status === 'yes' ? (
+                        <Link to={`/pointedit/${data.id}`} >
+                          <IconButton color="primary" >
+                            <Settings />
+                          </IconButton>
+                        </Link>) : <Link to={`/pointedit/${data.id}`} ><IconButton color="primary"><Visibility /></IconButton></Link>}
+                    </TableCell>
 
 
-                </TableRow>
-              ))}
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
@@ -211,47 +216,47 @@ function AdminPoint() {
         </DialogActions>
       </Dialog>
 
-      
-     
+
+
       <Dialog open={open1} onClose={handleClose1} >
-      <Box sx={{ backgroundColor:'#E3DFDF'}}>
+        <Box sx={{ backgroundColor: '#E3DFDF' }}>
           <DialogTitle style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '25px' }} >
             Sender Information
           </DialogTitle>
-          <DialogContent sx={{ padding:'50px'}}>
+          <DialogContent sx={{ padding: '50px' }}>
 
-          
-                      
-              <Table sx={{height:'100px', width:'300px'}}>
-                <TableHead sx={{border:'2px solid black', borderRadius:'20px'}}>
-              <TableRow>
-                <TableCell  rowSpan={4}><AccountCircle sx={{ fontSize: '100px', margin:'0px', padding:'0px'}} /></TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell></TableCell>
-                <TableCell sx={{borderBottom:'none',fontSize:'25px', fontWeight:'bold'}}>{senderinfo.name}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell></TableCell>
-                <TableCell sx={{borderBottom:'none' }}>{senderinfo.email}</TableCell>
-              </TableRow>
-              <TableRow>
-              <TableCell></TableCell>
-                <TableCell sx={{borderBottom:'none' }}>{senderinfo.point} points</TableCell>
-              </TableRow></TableHead>
+
+
+            <Table sx={{ height: '100px', width: '300px' }}>
+              <TableHead sx={{ border: '2px solid black', borderRadius: '20px' }}>
+                <TableRow>
+                  <TableCell rowSpan={4}><AccountCircle sx={{ fontSize: '100px', margin: '0px', padding: '0px' }} /></TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell sx={{ borderBottom: 'none', fontSize: '25px', fontWeight: 'bold' }}>{senderinfo.name}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell sx={{ borderBottom: 'none' }}>{senderinfo.email}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell sx={{ borderBottom: 'none' }}>{senderinfo.point} points</TableCell>
+                </TableRow></TableHead>
 
               <TableBody sx={{}}>
-              <TableRow>
-                <TableCell colSpan={3} sx={{borderBottom:'none'}}><b>Phone:&nbsp; </b>{senderinfo.phone}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell colSpan={3} sx={{borderBottom:'none'  }}><b>Address:&nbsp; </b>yung an road, block 361 #12-107</TableCell>
-              </TableRow>
+                <TableRow>
+                  <TableCell colSpan={3} sx={{ borderBottom: 'none' }}><b>Phone:&nbsp; </b>{senderinfo.phone}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={3} sx={{ borderBottom: 'none' }}><b>Address:&nbsp; </b>{senderinfo.address}</TableCell>
+                </TableRow>
               </TableBody>
-              
-             
-            
-         
+
+
+
+
             </Table>
 
           </DialogContent>
