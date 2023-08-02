@@ -160,9 +160,9 @@ function DonationData() {
     return (
 
 
-        <Box display="flex" flexWrap="wrap" justifyContent="space-between">
+        <Box display="flex" flexWrap="wrap" justifyContent="space-between" width='130%' marginLeft='-210px'>
             {/* First Row */}
-            <Box width="45%" mb={2}>
+            <Box width="45%" mb={2} marginLeft='10px'>
                 <Box
                     width={600}
                     height={450}>
@@ -222,7 +222,7 @@ function DonationData() {
             </Box>
 
             {/* Second Row */}
-            <Box width="45%" mb={2}>
+            <Box width="45%" mb={2}marginLeft='10px'>
 
                 <Box
                     width={600}
@@ -238,7 +238,7 @@ function DonationData() {
                         ]}
                         series={[
                             {
-                                data: formattedData.map((data) => data.value),
+                                data: formattedData1.map((data) => data.value),
                             },
                         ]}
                         title="Donation Data Chart" // Add the title here

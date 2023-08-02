@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
           address: {
             type: DataTypes.STRING,
             allowNull: false,
-          },
+          }, 
     });
 
     User.associate = (models) => {

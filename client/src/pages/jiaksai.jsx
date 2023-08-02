@@ -29,7 +29,7 @@ const Model = ({ gltfPath, scale }) => {
   const modelRef = useRef();
 
   // Basic rotation speed
-  const rotationSpeed = 5;
+  const rotationSpeed = 0.02;
 
   useFrame(() => {
     if (modelRef.current) {

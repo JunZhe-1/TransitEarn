@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
-import { Box, Typography, TextField, Button, Select, MenuItem, InputLabel, InputAdornment } from '@mui/material';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { Box, Typography,TextField, Button, Select, MenuItem, InputAdornment,InputLabel,Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions  } from '@mui/material';
+
 import http from '../http';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -147,7 +147,7 @@ function EditProduct() {
             alignItems: 'center'
         }}>
             <Typography variant="h5" sx={{ my: 2, color: 'black', marginTop: 0 }}>
-                Add Product
+                EDIT Product
             </Typography>
             <Box component="form" sx={{ maxWidth: '500px' }}
                 onSubmit={formik.handleSubmit}>
@@ -181,16 +181,20 @@ function EditProduct() {
                     helperText={formik.touched.prizePoint && formik.errors.prizePoint}
                     sx={{ marginBottom: 3 }} />
 
+<InputLabel shrink htmlFor="category">
+          Category
+        </InputLabel>
                 <Select
                     sx={{ marginBottom: 2 }}
                     fullWidth margin="dense"
                     label="Category"
                     name="category"
                     value={formik.values.category}
+                    InputLabelProps={{ shrink: true }}
                     onChange={formik.handleChange}
                     error={formik.touched.category && Boolean(formik.errors.category)}
                 >
-                    <InputLabel id="category-label">Category</InputLabel>
+                    {/* <InputLabel id="category-label">Category</InputLabel> */}
 
                     <MenuItem value="Footwear">Footwear</MenuItem>
                     <MenuItem value="Clothes">Clothes</MenuItem>
@@ -202,7 +206,8 @@ function EditProduct() {
                     margin="dense"
                     autoComplete="off"
                     type="file"
-                    label=""
+                    label="Image"
+                    InputLabelProps={{ shrink: true }}
                     name="image"
                     inputProps={{}}
                     onChange={onFileChange}
@@ -223,9 +228,10 @@ function EditProduct() {
                     margin="dense"
                     autoComplete="off"
                     type="file"
-                    label=""
-                    name="image"
+                    label="3D Object"
+                    name="ARpic"
                     inputProps={{}}
+                    InputLabelProps={{ shrink: true }}
                     onChange={onFileChange1}
 
                     InputProps={{

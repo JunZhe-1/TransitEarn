@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import http from "../http";
-import { Box, Typography, TextField, Button } from "@mui/material";
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
+import { Box, Typography, TextField, Button, Select, MenuItem, InputLabel, InputAdornment } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
@@ -52,13 +52,11 @@ function EditAccount() {
         .max(50, "Email must be at most 50 characters")
         .required("Email is required"),
       phone: yup
-        .string()
-        .trim()
-        .matches(
-          /[6|8|9]\d{7}|\+65[6|8|9]\d{7}|\+65\s[6|8|9]\d{7}/g,
-          "Invalid phone number"
-        )
-        .required("Phone number is required"),
+      .number()
+      .required()
+      .integer()
+      .test('len', 'Phone number must be exactly 8 digits', 
+      (val) => val && val.toString().length == 8),
       password: yup
         .string()
         .trim()
@@ -76,9 +74,10 @@ function EditAccount() {
         .required('Address is required'),
     }),
     onSubmit: (data) => {
+      console.log("hio");
       data.name = data.name.trim();
       data.email = data.email.trim().toLowerCase();
-      data.phone = parseInt(data.phone.trim());
+      data.phone = data.phone;
       data.address = data.address.trim().toLowerCase();
 
       data.password = data.password.trim();

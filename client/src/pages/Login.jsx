@@ -60,7 +60,7 @@ function Login() {
       .post("/user/login", data)
       .then((res) => {
         localStorage.setItem("accessToken", res.data.accessToken);
-        setUser(res.data.user);
+        setUser(res.data);
         navigate("/");
         window.location.reload();
       })

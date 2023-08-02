@@ -175,6 +175,119 @@ function App() {
                 <Box sx={{ flexGrow: 1 }}></Box>
                 {user && (
                   <>
+                    {!isAdmin && (
+                      <div >
+                        <Link to={`/ezlink`}>
+                          <Button
+                            className="appbarbutton"
+                            variant="contained"
+                            disableElevation
+                            size="small"
+                          >
+                            <CreditCardIcon></CreditCardIcon>
+                          </Button>
+                        </Link>,
+                        <Button
+                          onClick={handleClose} ><Link to="/productpage" ><Typography sx={{ color: '#8C1AFF' }}>Products</Typography></Link>
+
+                        </Button>
+                        <Button
+                          id="fade-button"
+                          aria-controls={open ? 'fade-menu' : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={open ? 'true' : undefined}
+                          onClick={handleClick}
+                          sx={{ color: '#8C1AFF' }}
+                        >
+                          point management
+                        </Button>
+                        <Menu
+                          id="fade-menu"
+                          MenuListProps={{
+                            'aria-labelledby': 'fade-button',
+                          }}
+                          anchorEl={anchorEl}
+                          open={open}
+                          onClose={handleClose}
+                          TransitionComponent={Fade}
+                          PaperProps={{
+                            sx: {
+                              backgroundColor: '#8C1AFF',
+                            },
+                          }}
+                        >
+
+                          <MenuItem onClick={handleClose} ><Link to="/point" ><Typography sx={{ color: 'white' }}>Point Transfer</Typography></Link></MenuItem>
+                          <MenuItem onClick={handleClose}><Link to="/userpoint" ><Typography sx={{ color: 'white' }}>Point History</Typography></Link></MenuItem>
+                          <MenuItem onClick={handleClose}><Link to="/donate" ><Typography sx={{ color: 'white' }}>Donation</Typography></Link></MenuItem>
+                          <MenuItem onClick={handleClose}><Link to="/userproduct" ><Typography sx={{ color: 'white' }}>Product Redemption</Typography></Link></MenuItem>
+
+                        </Menu>
+                      </div>
+
+
+                    )}
+
+
+
+                    {isAdmin && (
+                      <div >
+                        <Link to="/accounts">
+                          <Button
+                            variant="contained"
+                            disableElevation
+                            size="small"
+                            className="appbarbutton"
+                          >
+                            <BuildIcon></BuildIcon>
+                          </Button>
+                        </Link>,
+
+                        <Link to="/ezlinkadmin">
+                          <Button
+                            variant="contained"
+                            disableElevation
+                            size="small"
+                            className="appbarbutton"
+                          >
+                            <SettingsIcon></SettingsIcon>
+                          </Button>
+                        </Link>,
+                        <Button
+                          id="fade-button"
+                          aria-controls={open ? 'fade-menu' : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={open ? 'true' : undefined}
+                          onClick={handleClick}
+                          sx={{ color: '#8C1AFF' }}
+                        >
+                          MANAGEMENT
+                        </Button>
+                        <Menu
+                          id="fade-menu"
+                          MenuListProps={{
+                            'aria-labelledby': 'fade-button',
+                          }}
+                          anchorEl={anchorEl}
+                          open={open}
+                          onClose={handleClose}
+                          TransitionComponent={Fade}
+                          PaperProps={{
+                            sx: {
+                              backgroundColor: '#8C1AFF;    ',
+                            },
+                          }}
+                        >
+                          <MenuItem onClick={handleClose} ><Link to="/adminpoint" ><Typography sx={{ color: 'white' }} >Point Transaction</Typography></Link></MenuItem>
+                          <MenuItem onClick={handleClose}><Link to="/listproduct" ><Typography sx={{ color: 'white' }} >products</Typography></Link></MenuItem>
+                          <MenuItem onClick={handleClose}><Link to="/addproduct" ><Typography sx={{ color: 'white' }} >Add product</Typography></Link></MenuItem>
+                          <MenuItem onClick={handleClose}><Link to="/donatedata" ><Typography sx={{ color: 'white' }} >Donation</Typography></Link></MenuItem>
+                          <MenuItem onClick={handleClose}><Link to="/adminproduct" ><Typography sx={{ color: 'white' }} >redemption Management</Typography></Link></MenuItem>
+
+                        </Menu>
+                      </div>
+
+                    )}
                     <Typography>{user.name}</Typography>
                     <Link to={`/editaccount/${user.id}`}>
                       <Button
@@ -187,117 +300,7 @@ function App() {
                       </Button>
                     </Link>
 
-                    <Link to={`/ezlink`}>
-                      <Button
-                        className="appbarbutton"
-                        variant="contained"
-                        disableElevation
-                        size="small"
-                      >
-                        <CreditCardIcon></CreditCardIcon>
-                      </Button>
-                    </Link>
 
-                    <div >
-                    <Button
-                      onClick={handleClose} ><Link to="/productpage" ><Typography sx={{ color: 'white' }}>Products</Typography></Link>
-                  
-                    </Button>
-                    <Button
-                      id="fade-button"
-                      aria-controls={open ? 'fade-menu' : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open ? 'true' : undefined}
-                      onClick={handleClick}
-                      sx={{ color: 'white' }}
-                    >
-                      point management
-                    </Button>
-                    <Menu
-                      id="fade-menu"
-                      MenuListProps={{
-                        'aria-labelledby': 'fade-button',
-                      }}
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={handleClose}
-                      TransitionComponent={Fade}
-                      PaperProps={{
-                        sx: {
-                          backgroundColor: '#0096FF    ',
-                        },
-                      }}
-                    >
-                      
-                      <MenuItem onClick={handleClose} ><Link to="/point" ><Typography sx={{ color: 'white' }}>Point Transfer</Typography></Link></MenuItem>
-                      <MenuItem onClick={handleClose}><Link to="/userpoint" ><Typography sx={{ color: 'white' }}>Point History</Typography></Link></MenuItem>
-                      <MenuItem onClick={handleClose}><Link to="/donate" ><Typography sx={{ color: 'white' }}>Donation</Typography></Link></MenuItem>
-                      <MenuItem onClick={handleClose}><Link to="/userproduct" ><Typography sx={{ color: 'white' }}>Product Redemption</Typography></Link></MenuItem>
-
-                    </Menu>
-                  </div>
-                    
-                    {isAdmin && (
-                      <Link to="/accounts">
-                        <Button
-                          variant="contained"
-                          disableElevation
-                          size="small"
-                          className="appbarbutton"
-                        >
-                          <BuildIcon></BuildIcon>
-                        </Button>
-                      </Link>,
-
-                       <Link to="/ezlinkadmin">
-                      <Button
-                        variant="contained"
-                        disableElevation
-                        size="small"
-                        className="appbarbutton"
-                      >
-                        <SettingsIcon></SettingsIcon>
-                      </Button>
-                    </Link>,
-
-                    <div >
-                    <Button
-                      id="fade-button"
-                      aria-controls={open ? 'fade-menu' : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open ? 'true' : undefined}
-                      onClick={handleClick}
-                      sx={{ color: '#8C1AFF' }}
-                    >
-                      MANAGEMENT
-                    </Button>
-                    <Menu
-                      id="fade-menu"
-                      MenuListProps={{
-                        'aria-labelledby': 'fade-button',
-                      }}
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={handleClose}
-                      TransitionComponent={Fade}
-                      PaperProps={{
-                        sx: {
-                          backgroundColor: '#8C1AFF;    ',
-                        },
-                      }}
-                    >
-                      <MenuItem onClick={handleClose} ><Link to="/adminpoint" ><Typography sx={{ color: 'white' }} >Point Transaction</Typography></Link></MenuItem>
-                      <MenuItem onClick={handleClose}><Link to="/listproduct" ><Typography sx={{ color: 'white' }} >products</Typography></Link></MenuItem>
-                      <MenuItem onClick={handleClose}><Link to="/addproduct" ><Typography sx={{ color: 'white' }} >Add product</Typography></Link></MenuItem>
-                      <MenuItem onClick={handleClose}><Link to="/donatedata" ><Typography sx={{ color: 'white' }} >Donation</Typography></Link></MenuItem>
-                      <MenuItem onClick={handleClose}><Link to="/adminproduct" ><Typography sx={{ color: 'white' }} >redemption Management</Typography></Link></MenuItem>
-
-                    </Menu>
-                  </div>
-
-                    )}
-
-                   
 
                     <Button
                       variant="contained"
@@ -327,7 +330,7 @@ function App() {
 
           <Container>
             <Routes>
-            <Route path={"/"} element={<HomePage />} />
+              <Route path={"/"} element={<HomePage />} />
               <Route path={"/accounts"} element={<Accounts />} />
               <Route path={"/editaccount/:id"} element={<EditAccount />} />
               <Route path={"/editadmin/:id"} element={<EditAdmin />} />

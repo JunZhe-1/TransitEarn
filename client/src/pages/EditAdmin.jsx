@@ -22,13 +22,14 @@ function EditAdmin() {
     email: "",
     phone: "",
     point: 0,
+    address:""
   });
 
   useEffect(() => {
     http
       .get(`/user/${id}`)
       .then((res) => {
-        setUser(res.data.user);
+        setUser(res.data);
       })
       .catch((error) => {
         console.error(error);
@@ -64,6 +65,10 @@ function EditAdmin() {
         .number()
         .max(99999999, "Points cant exceed 99999999")
         .required("Points is required"),
+        address: yup.string().trim()
+        .min(3, 'Address must be at least 3 characters')
+        .max(50, 'Address must be at most 50 characters')
+        .required('Address is required'),
     }),
     onSubmit: (data) => {
       data.name = data.name.trim();
@@ -168,6 +173,19 @@ function EditAdmin() {
           onChange={formik.handleChange}
           error={formik.touched.point && Boolean(formik.errors.point)}
           helperText={formik.touched.point && formik.errors.point}
+        />
+         <TextField
+          fullWidth
+          margin="normal"
+          autoComplete="off"
+          label="Address"
+          name="address"
+          value={formik.values.address}
+          onChange={formik.handleChange}
+          error={
+            formik.touched.address && Boolean(formik.errors.address)
+          }
+          helperText={formik.touched.address && formik.errors.address}
         />
         <Box sx={{ mt: 2 }}>
           <Button variant="contained" type="submit" color="primary" className="save">
