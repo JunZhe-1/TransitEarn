@@ -166,7 +166,7 @@ function DonationData() {
                 <Box
                     width={600}
                     height={450}>
-                    <h1 style={{ fontSize: '25px', color: 'black', textAlign: 'center', marginBottom: '-80px' }}>Organ Donation in {Year}</h1>
+                    <h1 style={{ fontSize: '25px', color: 'black', textAlign: 'center', marginBottom: '-80px' }}>Point Donation in {Year}</h1>
                     <BarChart
                         xAxis={[
                             {
