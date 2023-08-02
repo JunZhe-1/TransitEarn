@@ -36,6 +36,7 @@ import DonatePoint from './pages/DonatePoint';
 import DonationData from './pages/DonationData';
 import AdminProduct from './pages/AdminProduct';
 import UserProduct from './pages/UserProduct';
+import Spend from './pages/Spend';
 import http from "./http";
 import UserContext from './contexts/UserContext';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -188,9 +189,34 @@ function App() {
                           </Button>
                         </Link>,
                         <Button
-                          onClick={handleClose} ><Link to="/productpage" ><Typography sx={{ color: '#8C1AFF' }}>Products</Typography></Link>
-
+                          id="fade-button"
+                          aria-controls={open1 ? 'fade-menu' : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={open1 ? 'true' : undefined}
+                          onClick={handleClick1}
+                          sx={{ color: '#8C1AFF' }}
+                        >
+                          Products
                         </Button>
+                        <Menu
+                          id="fade-menu"
+                          MenuListProps={{
+                            'aria-labelledby': 'fade-button',
+                          }}
+                          anchorEl={anchorEl1}
+                          open={open1}
+                          onClose={handleClose1}
+                          TransitionComponent={Fade}
+                          PaperProps={{
+                            sx: {
+                              backgroundColor: '#8C1AFF',
+                            },
+                          }}
+                        >
+                          <MenuItem onClick={handleClose1}><Link to="/productpage" ><Typography sx={{ color: 'white' }}>Product Home Page</Typography></Link></MenuItem>
+                          <MenuItem onClick={handleClose1}><Link to="/userproduct" ><Typography sx={{ color: 'white' }}>Product Redemption</Typography></Link></MenuItem>
+
+                        </Menu>,
                         <Button
                           id="fade-button"
                           aria-controls={open ? 'fade-menu' : undefined}
@@ -199,7 +225,7 @@ function App() {
                           onClick={handleClick}
                           sx={{ color: '#8C1AFF' }}
                         >
-                          point management
+                          Points
                         </Button>
                         <Menu
                           id="fade-menu"
@@ -220,7 +246,7 @@ function App() {
                           <MenuItem onClick={handleClose} ><Link to="/point" ><Typography sx={{ color: 'white' }}>Point Transfer</Typography></Link></MenuItem>
                           <MenuItem onClick={handleClose}><Link to="/userpoint" ><Typography sx={{ color: 'white' }}>Point History</Typography></Link></MenuItem>
                           <MenuItem onClick={handleClose}><Link to="/donate" ><Typography sx={{ color: 'white' }}>Donation</Typography></Link></MenuItem>
-                          <MenuItem onClick={handleClose}><Link to="/userproduct" ><Typography sx={{ color: 'white' }}>Product Redemption</Typography></Link></MenuItem>
+                  
 
                         </Menu>
                       </div>
@@ -255,13 +281,45 @@ function App() {
                         </Link>,
                         <Button
                           id="fade-button"
+                          aria-controls={open1 ? 'fade-menu' : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={open1 ? 'true' : undefined}
+                          onClick={handleClick1}
+                          sx={{ color: '#8C1AFF' }}
+                        >
+                          Products
+                        </Button>
+                        <Menu
+                          id="fade-menu"
+                          MenuListProps={{
+                            'aria-labelledby': 'fade-button',
+                          }}
+                          anchorEl={anchorEl1}
+                          open={open1}
+                          onClose={handleClose1}
+                          TransitionComponent={Fade}
+                          PaperProps={{
+                            sx: {
+                              backgroundColor: '#8C1AFF;    ',
+                            },
+                          }}
+                        >
+                          
+                          <MenuItem onClick={handleClose1}><Link to="/listproduct" ><Typography sx={{ color: 'white' }} >products</Typography></Link></MenuItem>
+                          <MenuItem onClick={handleClose1}><Link to="/addproduct" ><Typography sx={{ color: 'white' }} >Add product</Typography></Link></MenuItem>
+                          <MenuItem onClick={handleClose1}><Link to="/adminproduct" ><Typography sx={{ color: 'white' }} >redemption Management</Typography></Link></MenuItem>
+
+                        </Menu>,
+
+                        <Button
+                          id="fade-button"
                           aria-controls={open ? 'fade-menu' : undefined}
                           aria-haspopup="true"
                           aria-expanded={open ? 'true' : undefined}
                           onClick={handleClick}
                           sx={{ color: '#8C1AFF' }}
                         >
-                          MANAGEMENT
+                          Points
                         </Button>
                         <Menu
                           id="fade-menu"
@@ -279,12 +337,11 @@ function App() {
                           }}
                         >
                           <MenuItem onClick={handleClose} ><Link to="/adminpoint" ><Typography sx={{ color: 'white' }} >Point Transaction</Typography></Link></MenuItem>
-                          <MenuItem onClick={handleClose}><Link to="/listproduct" ><Typography sx={{ color: 'white' }} >products</Typography></Link></MenuItem>
-                          <MenuItem onClick={handleClose}><Link to="/addproduct" ><Typography sx={{ color: 'white' }} >Add product</Typography></Link></MenuItem>
                           <MenuItem onClick={handleClose}><Link to="/donatedata" ><Typography sx={{ color: 'white' }} >Donation</Typography></Link></MenuItem>
-                          <MenuItem onClick={handleClose}><Link to="/adminproduct" ><Typography sx={{ color: 'white' }} >redemption Management</Typography></Link></MenuItem>
-
+                          
                         </Menu>
+
+
                       </div>
 
                     )}
@@ -353,6 +410,7 @@ function App() {
               <Route path={"/productpage"} element={<ProductHomePage />} />
               <Route path={'/adminproduct'} element={<AdminProduct />} />
               <Route path={"/userproduct"} element={<UserProduct />} />
+              <Route path={"/spend"} element={<Spend />} />
             </Routes>
           </Container>
         </Router>

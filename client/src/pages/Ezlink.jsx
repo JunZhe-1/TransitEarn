@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Typography, Grid, Card, CardContent, Input, IconButton, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import { AccountCircle, AccessTime, Search, Clear } from '@mui/icons-material';
+import { AccountCircle, AccessTime, Search, Clear, HlsTwoTone } from '@mui/icons-material';
 import http from '../http';
 import dayjs from 'dayjs';
 import global from '../global';
@@ -140,6 +140,7 @@ useEffect(()=>{
 
 
   return (
+    
     <Box>
       <Typography variant="h5" sx={{ my: 2 }}>
         Ezlink
@@ -222,7 +223,7 @@ useEffect(()=>{
                   <TableCell align="center">CAN</TableCell>
                   <TableCell align="center">Credit Card No.</TableCell>
                   <TableCell align="center">Balance ($)</TableCell>
-                  <TableCell align="center">Top-up amount ($)</TableCell>
+                  <TableCell align="center">Transaction amount ($)</TableCell>
                   <TableCell align="center">Top-up Time</TableCell>
                   <TableCell align="center">Auto service (ON)</TableCell>
                 </TableRow>
