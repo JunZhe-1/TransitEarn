@@ -13,6 +13,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BuildIcon from "@mui/icons-material/Build";
 import CreditCardIcon from '@mui/icons-material/CreditCard';
+import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -186,6 +187,16 @@ function App() {
                             size="small"
                           >
                             <CreditCardIcon></CreditCardIcon>
+                          </Button>
+                        </Link>,
+                        <Link to={`/spend`}>
+                          <Button
+                            className="appbarbutton"
+                            variant="contained"
+                            disableElevation
+                            size="small"
+                          >
+                            <CreditScoreIcon></CreditScoreIcon>
                           </Button>
                         </Link>,
                         <Button

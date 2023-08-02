@@ -63,7 +63,7 @@ router.get("/", async (req, res) => {
     // Add the order condition for 'updatedAt' in descending order
     let list = await Ezlink.findAll({
         where: condition,
-        order: [['updatedAt', 'DESC'], ['createdAt', 'DESC']] // First sort by 'updatedAt' and then by 'createdAt'
+        order: [['id', 'DESC'], ['createdAt', 'DESC']] // First sort by 'updatedAt' and then by 'createdAt'
     });
 
     res.json(list);

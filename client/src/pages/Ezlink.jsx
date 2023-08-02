@@ -118,7 +118,7 @@ useEffect(()=>{
       autotopup(topuplist); 
       console.log(topuplist)
 
-  }, [topuplist]);
+  }, [dataFetched]);
   
 
 

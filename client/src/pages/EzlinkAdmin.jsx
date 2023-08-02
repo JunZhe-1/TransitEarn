@@ -134,7 +134,7 @@ function EzlinkAdmin() {
                             </TableHead>
                             <TableBody>
                                 {Array.isArray(ezlinkList) && ezlinkList.length > 0 ? (
-                                    ezlinkList.map((ezlink, index) => (
+                                    ezlinkList .filter(ezlink => ezlink.topupamount > 0).map((ezlink, index) => (
                                         <TableRow key={ezlink.id}>
                                             <TableCell>{ezlink.id}</TableCell>
                                             <TableCell>{ezlink.userId}</TableCell>
