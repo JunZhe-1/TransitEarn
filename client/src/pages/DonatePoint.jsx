@@ -112,7 +112,7 @@ function DonatePoint() {
             }}></div>
 
             <div style={{ color: 'black', textAlign: 'center' }}>
-                <h1><Point></Point> Donation</h1>
+                <h1>Point Donation</h1>
                 <Box component="form"
                     onSubmit={formik.handleSubmit}>
                     <TextField
