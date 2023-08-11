@@ -25,6 +25,7 @@
     "sequelize": "^6.28.0",
     "stripe": "^12.11.0",
     "three": "^0.155.0",
+    "validator": "^13.11.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {

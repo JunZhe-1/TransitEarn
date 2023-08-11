@@ -14,7 +14,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull : false
     },
-
+    cardType:{
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    ExpMonth:{
+        type: DataTypes.STRING,
+        allowNull: false
+    }
     },
 
 {primaryKey: 'cardNo'}

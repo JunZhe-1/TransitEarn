@@ -29,13 +29,26 @@ module.exports = (sequelize, DataTypes) => {
             as: 'bankcard'
         });
     };
-
+    Ezlink.associate = (models) => {
+        Ezlink.belongsTo(models.Topupinfo, {
+            foreignKey: "cardType",
+            as: 'cardtype'
+        });
+    };
+    Ezlink.associate = (models)=>{
+        Ezlink.belongsTo(models.Topupinfo,{
+            foreignKey: 'ExpMonth',
+            as: 'validUrsntil'
+        })
+    }
     Ezlink.associate = (models) => {
         Ezlink.belongsTo(models.User, {
             foreignKey: "userId",
             as: 'user'
         });
     };
+
+
 
     return Ezlink;
     }

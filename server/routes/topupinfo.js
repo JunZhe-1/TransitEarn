@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
             return !cardExists; 
           }),
         balance: yup.number().positive().required(),
-        cvv: yup.string().required().min(3).max(3).matches(/^\d+$/, 'Integers only')
+        cvv: yup.string().required().min(3).max(3).matches(/^\d+$/, 'Integers only'),
     });
 
     try {
@@ -28,8 +28,9 @@ router.post("/", async (req, res) => {
     data.cardNo = data.cardNo.trim();
     data.balance = data.balance;
     data.cvv = data.cvv.trim();
+    data.cardType = data.cardType
     let result = await Topupinfo.create(data);
-
+    
     res.json(result);
 });
 router.get("/", async (req, res) => {
