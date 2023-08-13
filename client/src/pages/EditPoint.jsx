@@ -237,7 +237,7 @@ function PointEdit() {
 
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>
-                    Delete Tutorial
+                    Delete Transaction
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>

@@ -5,7 +5,7 @@ import {
     Paper, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Snackbar, Alert
     , Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, styled, tableCellClasses, TablePagination
 } from '@mui/material';
-import { BarChart } from '@mui/x-charts';
+import { BarChart,LineChart } from '@mui/x-charts';
 
 import { ToastContainer, toast } from 'react-toastify';
 import { AccountCircle, AccessTime, Search, Settings, Clear, Visibility, Edit, Delete, Block } from '@mui/icons-material';
@@ -23,12 +23,14 @@ function DonationData() {
     const [rowsPerPage, setRowsPerPage] = useState(4);
     const [open, setOpen] = useState(false);
     const [open1, setOpen1] = useState(false);
+    const [linedata ,setlinedata] = useState([]);
 
 
 
 
     useEffect(() => {
         getchartdata();
+        getlinechart();
     }, []);
 
     const getchartdata = () => {
@@ -44,6 +46,15 @@ function DonationData() {
             });;
     };
 
+    const getlinechart =()=>{
+        http.get('/point/topupdata/chart').then((res)=>{
+            setlinedata(res.data)
+        }
+        ).catch(function (err) {
+            toast.error(`${err.response.data.message}`);
+        });;
+    };
+
     const Year = new Date().getFullYear();
 
     // console.log(Object.keys(chartdata));
@@ -51,9 +62,9 @@ function DonationData() {
 
 
 
-    const formattedData = Object.keys(chartdata).map((month) => ({ //month will represent the key
+    const formattedData = Object.keys(linedata).map((month) => ({ //month will represent the key
         month: month,
-        value: chartdata[month],
+        value: linedata[month],
     }));
 
     if (formattedData.length === 0) {
@@ -166,8 +177,8 @@ function DonationData() {
                 <Box
                     width={600}
                     height={450}>
-                    <h1 style={{ fontSize: '25px', color: 'black', textAlign: 'center', marginBottom: '-80px' }}>Point Donation in {Year}</h1>
-                    <BarChart
+                    <h1 style={{ fontSize: '25px', color: 'black', textAlign: 'center', marginBottom: '-80px' }}>Ezlink Spending {Year}</h1>
+                    <LineChart
                         xAxis={[
                             {
                                 id: 'barCategories',
@@ -183,33 +194,63 @@ function DonationData() {
                         title="Donation Data Chart" // Add the title here
 
                     >
-                    </BarChart>
+                    </LineChart>
                 </Box>
             </Box>
 
+            <Box width="45%" mb={2}marginLeft='10px'>
+
+<Box
+    width={600}
+    height={400}>
+    <h1 style={{ fontSize: '25px', color: 'black', textAlign: 'center', marginBottom: '-80px' }}>Popular Product</h1>
+    <BarChart
+        xAxis={[
+            {
+                id: 'barCategories',
+                data: formattedData1.map((data) => data.name), // Convert the keys to a comma-separated string
+                scaleType: 'band',
+            },
+        ]}
+        series={[
+            {
+                data: formattedData1.map((data) => data.value),
+            },
+        ]}
+        title="Donation Data Chart" // Add the title here
+
+    >
+    </BarChart>
+</Box>
+
+
+
+</Box>
+
+            {/* Second Row */}
             <Box width="45%" mb={2}>
                 <Box >
                     <div style={{ color: 'black', fontWeight: 'bold', fontSize: '17px' }}>
 
                         <h1 style={{ fontSize: '25px', color: 'black', textAlign: 'center' }}>Points in {Year}</h1>
                         <br />
-                        <div style={{ display: 'flex', fontSize: '16px', marginBottom: '8px' }}>
+                        <div style={{ display: 'flex', fontSize: '16px', marginBottom: '8px',marginLeft:'50px' }}>
                             <div style={{ color: '#EE4B2B', minWidth: '170px' }}>Redeemed points:</div>
                             <div>{point['redeemed']} points</div>
                         </div>
-                        <div style={{ display: 'flex', fontSize: '16px', marginBottom: '8px' }}>
-                            <div style={{ color: '#EE4B2B', minWidth: '170px' }}>Refund points:</div>
+                        <div style={{ display: 'flex', fontSize: '16px', marginBottom: '8px' ,marginLeft:'50px'}}>
+                            <div style={{ color: '#EE4B2B', minWidth: '170px' }}>Refunded points:</div>
                             <div>{point['refund']} points</div>
                         </div>
-                        <div style={{ display: 'flex', fontSize: '16px', marginBottom: '8px' }}>
+                        <div style={{ display: 'flex', fontSize: '16px', marginBottom: '8px' ,marginLeft:'50px'}}>
                             <div style={{ color: '#50C878', minWidth: '170px' }}>Redeemable points:</div>
                             <div>{point['non_redeemed']} points</div>
                         </div>
                         <br />
-                        <p>Total redeemed points: {point['total']} points</p>
-                        <p style={{ color: '#50C878' }}>Total redeemable points: {point['non_redeemed']} points</p>
+                        <p style={{marginLeft:'50px'}}>Total redeemed points: {point['total']} points</p>
+                        <p style={{ color: '#50C878',marginLeft:'50px' }}>Total redeemable points: {point['non_redeemed']} points</p>
                         <br />
-                        <Button color="primary" fullWidth variant="contained" sx={{ mt: 2 }} onClick={handleOpen}>
+                        <Button color="primary" fullWidth variant="contained" sx={{ mt: 2 }} onClick={handleOpen}style={{marginLeft:'50px'}}>
                             Claim
                         </Button>
 
@@ -221,35 +262,6 @@ function DonationData() {
 
             </Box>
 
-            {/* Second Row */}
-            <Box width="45%" mb={2}marginLeft='10px'>
-
-                <Box
-                    width={600}
-                    height={400}>
-                    <h1 style={{ fontSize: '25px', color: 'black', textAlign: 'center', marginBottom: '-80px' }}>{Year}</h1>
-                    <BarChart
-                        xAxis={[
-                            {
-                                id: 'barCategories',
-                                data: formattedData1.map((data) => data.name), // Convert the keys to a comma-separated string
-                                scaleType: 'band',
-                            },
-                        ]}
-                        series={[
-                            {
-                                data: formattedData1.map((data) => data.value),
-                            },
-                        ]}
-                        title="Donation Data Chart" // Add the title here
-
-                    >
-                    </BarChart>
-                </Box>
-
-
-
-            </Box>
             <Box width="45%" mb={2} style={{}}>
                 
                 <Paper fullWidth sx={{ width: '100%', marginLeft: '70px' }}>

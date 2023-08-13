@@ -85,7 +85,7 @@ function ListProduct() {
   return (
     <Box>
       <Typography variant="h5" sx={{ my: 2 }}>
-        Tutorials
+        Product
       </Typography>
 
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -151,11 +151,11 @@ function ListProduct() {
       </Paper>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-          Delete Tutorial
+          Delete Product
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete this tutorial?
+            Are you sure you want to delete this product?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

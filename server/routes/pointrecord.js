@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { User, PointRecord, ProductRecord, Sequelize } = require('../models');
+const { User, PointRecord, ProductRecord, Sequelize,Ezlink } = require('../models');
 const yup = require("yup");
 const { sign } = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/auth');
@@ -297,6 +297,101 @@ router.get("/adminget/chart", async (req, res) => {
 }
 );
 
+
+router.get("/topupdata/chart", async (req, res) =>{
+    let chart_data={};
+    try{
+        list = await Ezlink.findAll({where: {
+            topupamount :  {
+                [Sequelize.Op.lt]: 0
+            }
+        }})
+        currentDate = new Date();
+        currentMonth = currentDate.getMonth();
+        currentYear = currentDate.getFullYear();
+        if (currentMonth >= 1 && currentMonth <= 12) {
+            for (let month = 0; month <= 11; month++) {
+                const monthName = new Date(0, month).toLocaleString('default', { month: 'short' });
+                chart_data[monthName] = 0;
+            }
+        }
+        for(const j of list){
+            if(j.createdAt.getFullYear() === currentYear){
+                switch(j.createdAt.getMonth()){
+                    case 0:
+                        
+                            chart_data['Jan'] -= j.topupamount;
+
+                        break;
+                    case 1:
+                        
+                            chart_data['Feb'] -= j.topupamount;
+
+                        break;
+                    case 2:
+                        
+                            chart_data['Mar'] -= j.topupamount;
+
+                        break;
+                    case 3:
+                       
+                            chart_data['Apr'] -= j.topupamount;
+
+                        break;
+                    case 4:
+                      
+                            chart_data['May'] -= j.topupamount;
+
+                        break;
+                    case 5:
+                       
+                            chart_data['Jun'] -= j.topupamount;
+
+                        break;
+                    case 6:
+                      
+                            chart_data['Jul'] -= j.topupamount;
+  
+                        break;
+                    case 7:
+                     
+                            chart_data['Aug'] -= j.topupamount;
+
+                        break;
+                    case 8:
+                       
+                            chart_data['Sept'] -= j.topupamount;
+
+                        break;
+                    case 9:
+                      
+                            chart_data['Oct'] -= j.topupamount;
+
+                        break;
+                    case 10:
+                       
+                            chart_data['Nov'] -= j.topupamount;
+                  
+                        break;
+                    case 11:
+                      
+                            chart_data['Dec'] -= j.topupamount;
+                    
+                        break;
+                    default:
+                        // Handle other cases if needed
+                }
+            }
+
+        }
+    console.log(chart_data);
+    res.json(chart_data);
+    }
+    catch(error){
+        res.status(500).json({ error: 'error at code 392' });
+        console.log(error);
+    }
+})
 
 router.put("/redeemed/:year", async (req, res) => {
     console.log("work");

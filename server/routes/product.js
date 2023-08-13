@@ -136,14 +136,28 @@ router.put("/updateProduct/:id", async (req, res) => {
             return;
         }
         let check = data.image.split('.');
-        let check1 = null;
-        if (data.ARpic)
+    let check1 = null;
+    if (data.ARpic)
+    {
+        let testing = data.ARpic.split('.');
+        if (testing[1] === "glb")
         {
-            check1 = data.ARpic.split('.');
+            check1 = "yes";
         }
-        if (check[1] === "png" || check[1] === "jpg" || check[1] ==="jpeg") {
-            if (check1[1] === "glb" || check1 == null)
-            {
+       
+    
+        
+    }
+    else if (!data.ARpic)
+    {
+        check1 = "no";
+    }
+  
+
+    if (check[1] === "png" || check[1] === "jpg" ||check[1] === "jpeg") {
+        if (check1 =="yes" || check1=="no")
+        {
+
     
             
       
@@ -156,7 +170,7 @@ router.put("/updateProduct/:id", async (req, res) => {
             data.prizePoint = parseInt(data.prizePoint);
             data.ARpic = data.ARpic.trim();
 
-            if (data.productName != product.productName || data.image != product.image || data.prizePoint != product.prizePoint|| data.category != product.category) {
+            if (product.quantity != data.quantity || data.productName != product.productName || data.image != product.image || data.prizePoint != product.prizePoint|| data.category != product.category) {
                 let result = await Product.update(data, {
                     where: { id: data.id } // Set the where condition using the primary key
                 });

@@ -310,7 +310,7 @@ function UseExistEzlink() {
 
           <TextField
             fullWidth margin="normal" autoComplete="off"
-            label="CarCreit card number"
+            label="Creit card number"
             name="cardNo"
             value={formik.values.cardNo}
             onChange={formik.handleChange}

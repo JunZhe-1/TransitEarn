@@ -147,7 +147,7 @@ function EditProduct() {
             alignItems: 'center'
         }}>
             <Typography variant="h5" sx={{ my: 2, color: 'black', marginTop: 0 }}>
-                EDIT Product
+                Edit Product
             </Typography>
             <Box component="form" sx={{ maxWidth: '500px' }}
                 onSubmit={formik.handleSubmit}>
@@ -258,11 +258,11 @@ function EditProduct() {
 
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>
-                    Delete Tutorial
+                    Delete Product
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Are you sure you want to delete this tutorial?
+                        Are you sure you want to delete this product?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

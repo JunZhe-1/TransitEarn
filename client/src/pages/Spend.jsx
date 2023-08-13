@@ -100,7 +100,7 @@ function Spend() {
     return (
         <Box>
             <Typography variant="h5" sx={{ my: 2 }}>
-                Spend money in Ezkink
+                Demo taking transport
             </Typography>
             <Box component="form" onSubmit={formik.handleSubmit}>
                 <TextField

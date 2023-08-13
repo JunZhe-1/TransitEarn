@@ -1,4 +1,3 @@
-
 function HomePage() {
     const imageUrl = '../../image/';
 
@@ -25,18 +24,17 @@ function HomePage() {
                     <div className="w3-row">
                         <div className="w3-col l8 s12">
                             <div className="w3-card-4 w3-margin w3-white">
-                                <img src="../../image/bus.jpg" alt="Nature" style={{width: "100%"}} />
+                                <img src="../../image/sgbus.jpg" alt="Nature" style={{width: "100%"}} />
                                 {/* <video controls autoPlay loop style={{ width: "100%" }}>
                                     <source src="../../image/kid.mp4" type="video/mp4" />
                                     Your browser does not support the video tag.
                                 </video> */}
                                 <div className="w3-container">
-                                    <h3><b>TITLE HEADING</b></h3>
-                                    <h5>Title description, <span className="w3-opacity">April 7, 2014</span></h5>
+                                    <h3><b>Ride Green, Earn Points, Redeem Rewards!</b></h3>
+                                    {/* <h5>Title description, <span className="w3-opacity">April 7, 2014</span></h5> */}
                                 </div>
                                 <div className="w3-container">
-                                    <p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies mi non congue ullam corper. Praesent tincidunt sed
-                                        tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
+                                    <p>Are you ready to make a positive impact on the environment while getting rewarded for your sustainable choices? TransitEarn is the innovative app that not only reduces your carbon footprint but also lets you earn exciting rewards through our unique point system. By choosing public transportation, you're not just commuting – you're contributing to a greener planet and unlocking a world of fantastic products.</p>
                                     <div className="w3-row">
                                         <div className="w3-col m8 s12">
                                             <p><button className="w3-button w3-padding-large w3-white w3-border"><b>READ MORE »</b></button></p>
@@ -50,14 +48,13 @@ function HomePage() {
                             <hr />
 
                             <div className="w3-card-4 w3-margin w3-white">
-                                <img src="../../image/bus.jpg" alt="Norway" style={{ width: "100%" }} />
+                                <img src="../../image/family.png" alt="Norway" style={{ width: "100%" }} />
                                 <div className="w3-container">
-                                    <h3><b>BLOG ENTRY</b></h3>
-                                    <h5>Title description, <span className="w3-opacity">April 2, 2014</span></h5>
+                                    <h3><b>Earn Points on the Go</b></h3>
+                                    
                                 </div>
                                 <div className="w3-container">
-                                    <p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies mi non congue ullam corper. Praesent tincidunt sed
-                                        tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
+                                    <p>Every time you use public transport, you accumulate points effortlessly. The more you ride, the more points you earn, and the closer you get to amazing rewards.</p>
                                     <div className="w3-row">
                                         <div className="w3-col m8 s12">
                                             <p><button className="w3-button w3-padding-large w3-white w3-border"><b>READ MORE »</b></button></p>
@@ -72,16 +69,16 @@ function HomePage() {
 
                         <div className="w3-col l4">
                             <div className="w3-card w3-margin w3-margin-top">
-                                <img src="../../image/bus.jpg" style={{ width: "100%" }} />
+                                <img src="../../image/handsome.png" style={{ width: "100%",height:'350px' }} />
                                 <div className="w3-container w3-white">
-                                    <h4><b>My Name</b></h4>
-                                    <p>Wong Kee Hern, The one who want to boom NYP after graduation. I have a heart of love and a interest of bullying animals. I want to share my world with you.</p>
+                                    <h4><b>Simplify your commute</b></h4>
+                                    <p> pay effortlessly with your credit/debit card. Say goodbye to cash and hello to convenient, secure, and swift journeys. Top up now for a frictionless travel experience!</p>
                                 </div>
                             </div>
                             <hr />
                             <div className="w3-card w3-margin">
                                 <div className="w3-container w3-padding">
-                                    <h4>Popular Posts</h4>
+                                    <h4>Popular Bus-Stop</h4>
                                 </div>
                                 <ul className="w3-ul w3-hoverable w3-white">
                                     <li className="w3-padding-16">

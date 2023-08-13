@@ -42,6 +42,7 @@ import http from "./http";
 import UserContext from './contexts/UserContext';
 import SettingsIcon from '@mui/icons-material/Settings';
 
+
 import {
   createTheme,
   responsiveFontSizes,
@@ -199,6 +200,7 @@ function App() {
                             <CreditScoreIcon></CreditScoreIcon>
                           </Button>
                         </Link>,
+
                         <Button
                           id="fade-button"
                           aria-controls={open1 ? 'fade-menu' : undefined}
@@ -256,7 +258,7 @@ function App() {
 
                           <MenuItem onClick={handleClose} ><Link to="/point" ><Typography sx={{ color: 'white' }}>Point Transfer</Typography></Link></MenuItem>
                           <MenuItem onClick={handleClose}><Link to="/userpoint" ><Typography sx={{ color: 'white' }}>Point History</Typography></Link></MenuItem>
-                          <MenuItem onClick={handleClose}><Link to="/donate" ><Typography sx={{ color: 'white' }}>Donation</Typography></Link></MenuItem>
+                          <MenuItem onClick={handleClose}><Link to="/donate" ><Typography sx={{ color: 'white' }}>Data Analasys</Typography></Link></MenuItem>
                   
 
                         </Menu>
@@ -279,7 +281,6 @@ function App() {
                             <BuildIcon></BuildIcon>
                           </Button>
                         </Link>,
-
                         <Link to="/ezlinkadmin">
                           <Button
                             variant="contained"
@@ -348,7 +349,7 @@ function App() {
                           }}
                         >
                           <MenuItem onClick={handleClose} ><Link to="/adminpoint" ><Typography sx={{ color: 'white' }} >Point Transaction</Typography></Link></MenuItem>
-                          <MenuItem onClick={handleClose}><Link to="/donatedata" ><Typography sx={{ color: 'white' }} >Donation</Typography></Link></MenuItem>
+                          <MenuItem onClick={handleClose}><Link to="/donatedata" ><Typography sx={{ color: 'white' }} >Data Analasys</Typography></Link></MenuItem>
                           
                         </Menu>
 
