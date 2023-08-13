@@ -10,7 +10,7 @@ import UserContext from '../contexts/UserContext';
 function Spend() {
     const { user } = useContext(UserContext);
     let userId = null;
-    userId = user.id
+    userId = user.id;
 
     const navigate = useNavigate();
 
@@ -58,6 +58,7 @@ function Spend() {
 
         }),
         onSubmit: async (data) => {
+            let point = data.topupamount;
             try {
                 console.log(data.CAN);
                 const response = await http.get(`/ezlink/?CAN=${data.CAN}`);
@@ -66,6 +67,7 @@ function Spend() {
                 data.balance = latest.balance - data.topupamount;
                 data.service = latest.service;
                 data.userId = userId;
+                
                 data.topupamount = 0-data.topupamount;
 
             } catch (error) {
@@ -76,10 +78,19 @@ function Spend() {
             const updatedData = {
                 ...data,
             };
+            console.log('User ID:', user.id);
+            console.log('Add Point:', parseInt(point));
+            http.put(`/user/Spending/${user.id}`,{addpoint:parseInt(point)})      
+            .then((res) => {
+                console.log(res.data);
+              })      .catch((err) => {
+                console.error('Error updating point:', err);
+                // Handle error if needed
+              });
             http.post("/ezlink", updatedData)
                 .then((res) => {
                     console.log(res.data);
-                    navigate('/Ezlink');
+                    navigate('/ezlink')
                 })
 
         }

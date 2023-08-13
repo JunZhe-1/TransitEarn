@@ -216,8 +216,35 @@ router.get("/getId/:getId", async (req, res) => {
 
 })
 
+router.put('/Spending/:id', async (req,res)=>{  
+console.log('hi');
+let id = req.params.id;
+console.log(id);
+let addpoint = req.body.addpoint
+if(id != null){
+  let consumer = await User.findOne({where:{id:id}})
+  if(! consumer){        
+    res.sendStatus(403);
+    return;}
+    let point = parseInt(consumer.point)+parseInt(addpoint);
+    let num = await User.update(
+      {point: point},
+      {
+        where: { id: id },
+    }
+    );
 
-
+    if (num == 1) {
+      res.json({
+        message: "point was updated successfully."
+    });
+    }
+    else{res.status(400).json({
+      message: `Cannot update user with id ${id}.`
+  });
+}
+}
+});
 
 router.put("/transfer/:phones", async (req, res) => {
     let phones = req.params.phones;
@@ -435,7 +462,8 @@ router.get('/', async (req, res) => {
       // Remove password from the data object
       delete data.password;
     }
-  
+    await update_user(data, userId);
+    await update_product(data, userId);
     let num = await User.update(data, {
       where: { id: userId },
     });
@@ -449,6 +477,9 @@ router.get('/', async (req, res) => {
       });
     }
   }); 
+
+
+
 
 // Forgot Password - Send Reset Email
 router.post('/forgot-password', async (req, res) => {
@@ -533,4 +564,51 @@ router.post('/forgot-password', async (req, res) => {
     }
   });
 
+  async function update_user(information, userid) {
+    let data = await User.findByPk(userid);
+    let sender_records = await PointRecord.findAll({ where: { userId: userid } });
+    let recipient_records = await PointRecord.findAll({ where: { recipient: data.phone } });
+
+    if (sender_records) {
+        for (let sender_record of sender_records) {
+            await sender_record.update({ sender: information.phone ,
+              senderName:information.name});
+        }
+        for (let recipient_record of recipient_records) {
+          await recipient_record.update({ recipient: information.phone ,
+            recipientName:information.name});
+      }
+
+        console.log("update record succesfull");
+    } else {
+        console.log("User or sender records not found.");
+    } 
+
+
+
+
+  }
+  async function update_product(information, userid) {
+    let data = await User.findByPk(userid);
+    let user_records = await ProductRecord.findAll({ where: { userId: userid } });
+
+
+    if (user_records) {
+        for (let user_record of user_records) {
+            await user_record.update({ userphone: information.phone ,
+              username:information.name,
+              address: information.address
+            });
+        }
+
+
+        console.log("update record succesfull");
+    } else {
+        console.log("User or sender records not found.");
+    } 
+
+
+
+
+  }
 module.exports = router;

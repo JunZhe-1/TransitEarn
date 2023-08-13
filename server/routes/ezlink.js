@@ -120,7 +120,6 @@ router.get("/:id", async (req, res) => {
             { balance: newbalance },
             {
               where: { id: id },
-              returning: true, 
             }
           );
           if (num == 1) {

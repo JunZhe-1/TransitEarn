@@ -49,7 +49,7 @@ function Ezlink() {
     http.post("/ezlink", updatedData)
     const response2 = await http.get(`/topup/${cardNo}`);
     if (5 > response2.data.balance) {
-      alert('Your ezlink card '+ topuplist[i].CAN +' has not enough balance, and your credit card '+ cardNo.slice(0, 4)+'********'+cardNo.slice(12)+' has not enough balance to topup too.')
+      alert('Your ezlink card '+ topuplist[i].CAN +' has not enough balance, and your credit card '+ '********'+cardNo.slice(12)+' has not enough balance to topup too.')
       return;
     }
     let newbalance = parseFloat(response2.data.balance) - 5;
@@ -201,7 +201,7 @@ useEffect(()=>{
                           <Typography>{dayjs(ezlink.createdAt).format(global.datetimeFormat)}</Typography>
                         </Box>
                         <Typography sx={{ whiteSpace: 'pre-wrap' }}>
-                          Credit card No.: {ezlink.cardNo.slice(0, 4)}********{ezlink.cardNo.slice(12)}
+                          Credit card No.: ************{ezlink.cardNo.slice(12)}
                         </Typography>
                       </CardContent>
                     </Card>
@@ -234,7 +234,7 @@ useEffect(()=>{
                     <TableRow key={ezlink.id}>
                       <TableCell align="center">{ezlink.id}</TableCell>
                       <TableCell align="center">{ezlink.CAN}</TableCell>
-                      <TableCell align="center">{ezlink.cardNo.slice(0, 4)}********{ezlink.cardNo.slice(12)}</TableCell>
+                      <TableCell align="center">************{ezlink.cardNo.slice(12)}</TableCell>
                       <TableCell align="center">{ezlink.balance.toFixed(2)}</TableCell>
                       <TableCell align="center">{ezlink.topupamount.toFixed(2)}</TableCell>
                       <TableCell align="center">{new Date(ezlink.createdAt).toString().split('T')[0]}</TableCell>

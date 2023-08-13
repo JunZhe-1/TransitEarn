@@ -139,7 +139,7 @@ function EzlinkAdmin() {
                                             <TableCell>{ezlink.id}</TableCell>
                                             <TableCell>{ezlink.userId}</TableCell>
                                             <TableCell>{ezlink.CAN}</TableCell>
-                                            <TableCell>{ezlink.cardNo.slice(0, 4)}********{ezlink.cardNo.slice(12)}</TableCell>
+                                            <TableCell>************{ezlink.cardNo.slice(12)}</TableCell>
                                             <TableCell>{ezlink.balance.toFixed(2)}</TableCell>
                                             <TableCell>{ezlink.topupamount.toFixed(2)}</TableCell>
                                             <TableCell>{new Date(ezlink.createdAt).toString().split('T')[0]}</TableCell>

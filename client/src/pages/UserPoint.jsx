@@ -157,29 +157,29 @@ function UserPoint() {
                         </TableHead>
 
                         <TableBody>
-                            {pointrecordlist
-                                .sort((a, b) => new Date(b.transferpointdate) - new Date(a.transferpointdate)) // Sort by transferpointdate in descending order (latest to earliest)
-                                .map((data, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{data.senderName}</TableCell>
-                                        <TableCell>{data.sender}</TableCell>
-                                        <TableCell>{data.recipientName}</TableCell>
-                                        <TableCell>{data.recipient}</TableCell>
+    {pointrecordlist
+        .sort((a, b) => new Date(b.transferpointdate) - new Date(a.transferpointdate))
+        .map((data, index) => {
+            const recipientName = data.recipientName.toLowerCase() === 'admin' ? 'Donation' : data.recipientName;
 
+            return (
+                <TableRow key={index}>
+                    <TableCell>{data.senderName}</TableCell>
+                    <TableCell>{data.sender}</TableCell>
+                    <TableCell>{recipientName}</TableCell>
+                    <TableCell>{data.recipient}</TableCell>
 
-                                        {data.sender == user.phone ? <TableCell sx={{ color: '#ff6666', fontWeight: 'bold' }}>{data.transferpoint}</TableCell> : <TableCell sx={{ color: '#00cc66', fontWeight: 'bold' }}>{data.transferpoint}</TableCell>}
+                    {data.sender === user.phone ? (
+                        <TableCell sx={{ color: '#ff6666', fontWeight: 'bold' }}>{data.transferpoint}</TableCell>
+                    ) : (
+                        <TableCell sx={{ color: '#00cc66', fontWeight: 'bold' }}>{data.transferpoint}</TableCell>
+                    )}
 
-                                        <TableCell>{dayjs(data.transferpointdate).format(global.datetimeFormat)}</TableCell>
-                                        {/* <TableCell>
-                                            {data.Status === 'yes' ? (
-                                                <IconButton color="primary">
-                                                    -
-                                                </IconButton>) : null}
-
-                                        </TableCell> */}
-                                    </TableRow>
-                                ))}
-                        </TableBody>
+                    <TableCell>{dayjs(data.transferpointdate).format(global.datetimeFormat)}</TableCell>
+                </TableRow>
+            );
+        })}
+</TableBody>
                     </Table>
                 </TableContainer>
             </Paper><ToastContainer /> </Box>
